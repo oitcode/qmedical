@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'OMedical',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>OMedical</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'OMedical',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -241,6 +241,7 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
+        /*
         [
             'text'        => 'pages',
             'url'         => 'admin/pages',
@@ -248,6 +249,40 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
+        */
+
+
+        /*----------------------------------------------------------------------
+         * Added by o_developer
+        /*----------------------------------------------------------------------
+         */
+
+        ['header' => 'MAIN'],
+        [
+            'text' => 'Patient',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
+        [
+            'text' => 'Agent',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-hospital-symbol',
+        ],
+
+        [
+            'text' => 'Expense',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-rupee-sign',
+        ],
+
+        [
+            'text' => 'Report',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-chart-line',
+        ],
+
+
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
@@ -259,6 +294,19 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        [
+            'text' => 'Logout',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-sign-out-alt',
+        ],
+
+
+        /*---------------------------------------------------------------------
+         * DONT NEED THIS
+         *---------------------------------------------------------------------
+         */
+
+        /*
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
@@ -297,6 +345,15 @@ return [
                 ],
             ],
         ],
+        */
+
+
+        /*---------------------------------------------------------------------
+         * DONT NEED THIS
+         *---------------------------------------------------------------------
+         */
+
+        /*
         ['header' => 'labels'],
         [
             'text'       => 'important',
@@ -313,6 +370,7 @@ return [
             'icon_color' => 'cyan',
             'url'        => '#',
         ],
+        */
     ],
 
     /*
