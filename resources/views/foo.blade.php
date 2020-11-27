@@ -1,19 +1,15 @@
-@extends('adminlte::page')
-
-@section('title', 'Dashboard')
-
-@section('content_header')
-    <h1>Dashboard</h1>
-@stop
-
-@section('content')
-    <p>Welcome to this beautiful admin panel.</p>
-@stop
-
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-    <script> console.log('Hi!'); </script>
-@stop
+<html>
+  <head>
+    @livewireStyles
+  </head>
+  <body>
+          <h2>Laravel Livewire CRUD - ItSolutionStuff.com</h2>
+             @if (session()->has('message'))
+                 <div class="alert alert-success">
+                     {{ session('message') }}
+                 </div>
+             @endif
+             @livewire('patient')
+    @livewireScripts
+  </body>
+</html>
