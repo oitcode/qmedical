@@ -188,7 +188,7 @@ return [
 
     'use_route_url' => false,
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/dashboard',
 
     'logout_url' => 'logout',
 
@@ -259,20 +259,26 @@ return [
 
         ['header' => 'MAIN'],
         [
+            'text' => 'Medical Test',
+            'url'  => '/medicaltest/create',
+            'icon' => 'fas fa-fw fa-plus',
+        ],
+
+        [
             'text' => 'Patient',
-            'url'  => 'admin/settings',
+            'url'  => '/patient',
             'icon' => 'fas fa-fw fa-user',
         ],
 
         [
             'text' => 'Agent',
-            'url'  => 'admin/settings',
+            'url'  => '/agent',
             'icon' => 'fas fa-fw fa-hospital-symbol',
         ],
 
         [
             'text' => 'Expense',
-            'url'  => 'admin/settings',
+            'url'  => '/expense',
             'icon' => 'fas fa-fw fa-rupee-sign',
         ],
 

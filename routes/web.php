@@ -27,3 +27,16 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('/foo', function () {
     return view('foo');
 });
+
+/* Patient */
+Route::get('/patient', 'PatientController@index')->name('patient');
+
+/* Agent */
+Route::get('/agent', 'AgentController@index')->name('agent');
+
+/* Medical Test */
+Route::get('/medicaltest/create', 'MedicalTestController@create')->name('medicalTestCreate');
+
+/* Expense */
+Route::get('/expense', 'ExpenseController@index')->name('expense');
+
