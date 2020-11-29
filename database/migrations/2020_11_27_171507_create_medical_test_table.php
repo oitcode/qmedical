@@ -30,9 +30,18 @@ class CreateMedicalTestTable extends Migration
             $table->foreign('agent_id', 'fk_medical_test_agent')
                 ->references('agent_id')->on('agent');
 
+            /*
+             * Foreign key to medical_test_type table.
+             */
+            $table->unsignedBigInteger('medical_test_type_id');
+            $table->foreign('medical_test_type_id', 'fk_medical_test_medical_test_type')
+                ->references('medical_test_type_id')->on('medical_test_type');
+
             $table->date('date');
+            $table->string('status');
             $table->string('doctor_name', 255)->nullable();
             $table->string('result', 255)->nullable();
+            $table->string('result_remark', 255)->nullable();
 
             $table->timestamps();
             $table->string('comment', 255)->nullable();

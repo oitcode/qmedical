@@ -34,8 +34,13 @@ Route::get('/patient', 'PatientController@index')->name('patient');
 /* Agent */
 Route::get('/agent', 'AgentController@index')->name('agent');
 
+/* Medical Test Type */
+Route::get('/medicaltesttype', 'MedicalTestTypeController@index')->name('medicalTestType');
+
 /* Medical Test */
+Route::get('/medicaltest', 'MedicalTestController@index')->name('medicalTestIndex');
 Route::get('/medicaltest/create', 'MedicalTestController@create')->name('medicalTestCreate');
+Route::get('/medicaltest/{id}/edit', 'MedicalTestController@edit')->name('medicalTestEdit');
 
 /* Expense */
 Route::get('/expense', 'ExpenseController@index')->name('expense');

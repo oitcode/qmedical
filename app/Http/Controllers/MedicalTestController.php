@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\MedicalTest;
+
 class MedicalTestController extends Controller
 {
     /**
@@ -24,5 +26,18 @@ class MedicalTestController extends Controller
     public function create()
     {
         return view('medical-test-create');
+    }
+
+    public function index()
+    {
+        return view('medical-test');
+    }
+
+    public function edit($id)
+    {
+        $medicalTest = MedicalTest::findOrFail($id);
+
+        return view('medical-test-edit')
+            ->with('medicalTest', $medicalTest);
     }
 }

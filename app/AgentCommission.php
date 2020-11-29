@@ -4,26 +4,25 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class AgentCommission extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'patient';
+    protected $table = 'agent_commission';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'patient_id';
+    protected $primaryKey = 'agent_commission_id';
 
     protected $fillable = [
-        'name', 'sex', 'dob',
+         'amount', 'payment_status', 'medical_test_bill_id', 'comment',
     ];
-
 
     /*-------------------------------------------------------------------------
      * Relationships
@@ -31,13 +30,12 @@ class Patient extends Model
      *
      */
 
-
     /*
-     * medical_test table
+     * medical_test table.
      *
      */
-    public function medicalTets()
+    public function medicalTestBill()
     {
-        return $this->hasMany('App\MedicalTest', 'patient_id', 'patient_id');
+        return $this->belongsTo('App\MedicalTestBill', 'medical_test_bill_id', 'medical_test_bill_id');
     }
 }

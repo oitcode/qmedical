@@ -258,10 +258,22 @@ return [
          */
 
         ['header' => 'MAIN'],
+
         [
-            'text' => 'Medical Test',
-            'url'  => '/medicaltest/create',
-            'icon' => 'fas fa-fw fa-plus',
+            'text'    => 'Medical Test',
+            'icon'    => 'fas fa-fw fa-clipboard',
+            'submenu' => [
+                [
+                    'text' => 'Create',
+                    'url'  => '/medicaltest/create',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'List',
+                    'url'  => '/medicaltest',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+            ],
         ],
 
         [
@@ -306,52 +318,6 @@ return [
             'icon' => 'fas fa-fw fa-sign-out-alt',
         ],
 
-
-        /*---------------------------------------------------------------------
-         * DONT NEED THIS
-         *---------------------------------------------------------------------
-         */
-
-        /*
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        */
 
 
         /*---------------------------------------------------------------------

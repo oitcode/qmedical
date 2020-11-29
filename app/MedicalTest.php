@@ -23,4 +23,37 @@ class MedicalTest extends Model
     // protected $fillable = [
     //      'date', 'name', 'amount', 'comment',
     // ];
+
+    /*-------------------------------------------------------------------------
+     * Relationships
+     *-------------------------------------------------------------------------
+     *
+     */
+
+    /*
+     * medical_test_type table.
+     *
+     */
+    public function medicalTestType()
+    {
+        return $this->belongsTo('App\MedicalTestType', 'medical_test_type_id', 'medical_test_type_id');
+    }
+
+    /*
+     * patient table.
+     *
+     */
+    public function patient()
+    {
+        return $this->belongsTo('App\Patient', 'patient_id', 'patient_id');
+    }
+
+    /*
+     * medical_test_type table.
+     *
+     */
+    public function medicalTestBill()
+    {
+        return $this->hasOne('App\MedicalTestBill', 'medical_test_id', 'medical_test_id');
+    }
 }

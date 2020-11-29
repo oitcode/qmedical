@@ -17,15 +17,9 @@
         </div>
 
         <div class="form-group">
-            <label for="date">Date:</label>
-            <input type="text" class="form-control" id="" wire:model="date" placeholder="date">
-            @error('date') <span class="text-danger">{{ $message }}</span>@enderror
-        </div>
-
-        <div class="form-group">
-            <label for="name">Amount:</label>
-            <input type="text" class="form-control" id="" placeholder="Amount" wire:model="amount">
-            @error('amount') <span class="text-danger">{{ $message }}</span>@enderror
+            <label for="name">Rate:</label>
+            <input type="text" class="form-control" id="" placeholder="Rate" wire:model="rate">
+            @error('rate') <span class="text-danger">{{ $message }}</span>@enderror
         </div>
 
         <div class="form-group">
@@ -46,22 +40,22 @@
             <tr class="bg-primary text-white">
                 <th>No.</th>
                 <th>Name</th>
-                <th>Sex</th>
-                <th>Contact Number</th>
+                <th>Rate</th>
+                <th>Comment</th>
                 <th>Action</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach($patients as $patient)
+            @foreach($medicalTestTypes as $medicalTestType)
             <tr>
-                <td>{{ $patient->patient_id }}</td>
-                <td>{{ $patient->name }}</td>
-                <td>{{ $patient->sex }}</td>
-                <td>{{ $patient->contact_number }}</td>
+                <td>{{ $medicalTestType->medical_test_type_id }}</td>
+                <td>{{ $medicalTestType->name }}</td>
+                <td>{{ $medicalTestType->rate }}</td>
+                <td>{{ $medicalTestType->comment }}</td>
                 <td>
-                <button {{-- wire:click="edit({{ $expense->expense_id }})" --}} class="btn btn-primary btn-sm">Edit</button>
-                <button {{-- wire:click="delete({{ $expense->expense_id }})" --}} class="btn btn-danger btn-sm">Delete</button>
+                <button wire:click="edit({{ $medicalTestType->medical_test_type_id }})" class="btn btn-primary btn-sm">Edit</button>
+                <button wire:click="delete({{ $medicalTestType->medical_test_type_id }})" class="btn btn-danger btn-sm">Delete</button>
                 </td>
             </tr>
             @endforeach

@@ -4,26 +4,25 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class MedicalTestType extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'patient';
+    protected $table = 'medical_test_type';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'patient_id';
+    protected $primaryKey = 'medical_test_type_id';
 
     protected $fillable = [
-        'name', 'sex', 'dob',
+         'name', 'rate', 'comment',
     ];
-
 
     /*-------------------------------------------------------------------------
      * Relationships
@@ -31,13 +30,12 @@ class Patient extends Model
      *
      */
 
-
     /*
-     * medical_test table
+     * medical_test table.
      *
      */
-    public function medicalTets()
+    public function medicalTests()
     {
-        return $this->hasMany('App\MedicalTest', 'patient_id', 'patient_id');
+        return $this->hasMany('App\MedicalTest', 'medical_test_type_id', 'medical_test_type_id');
     }
 }

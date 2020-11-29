@@ -31,11 +31,24 @@
 
           <div class="col-md-2">
             <label for="">Status</label>
-            <select class="custom-select" disabled>
-              <option>---</option>
-                <option value="" selected>Waiting</option>
-                <option value="">Completed</option>
+            <select class="custom-select" wire:model="medicalTestStatus">
+                <option>Waiting</option>
+                <option>Completed</option>
             </select>
+          </div>
+
+          <div class="col-md-2">
+            <label for="">Result</label>
+            <select class="custom-select" wire:model="medicalTestResult">
+                <option>---</option>
+                <option>Pass</option>
+                <option>Fail</option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+             <label for="">Remark</label>
+             <input type="text" class="form-control" id="" placeholder="Remark" wire:model="medicalTestResultRemark">
           </div>
 
 
@@ -228,7 +241,7 @@
         </div>
         <!-- /.row -->
 
-        <button wire:click.prevent="store()" class="btn btn-success">Save</button>
+        <button wire:click.prevent="update()" class="btn btn-success">Save</button>
     </form>
 
 </div>
