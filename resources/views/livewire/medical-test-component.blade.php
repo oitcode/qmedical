@@ -6,6 +6,10 @@
       <th>Patient</th>
       <th>Type</th>
       <th>Status</th>
+      <th>Price</th>
+      <th>Payment</th>
+      <th>Agent Commission</th>
+      <th>Agent Commission Status</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -18,11 +22,39 @@
       <td>
         <a href="">{{ $medicalTest->patient->name }}</a>
       </td>
-      <td>{{ $medicalTest->test_type }}</td>
+      <td>{{ $medicalTest->medicalTestType->name }}</td>
       <td>{{ $medicalTest->status }}</td>
+      <td>{{ $medicalTest->price }}</td>
       <td>
-      <button class="btn btn-primary btn-sm">
-      <a href="{{ route('medicalTestEdit', $medicalTest->medical_test_id) }}">Edit</a></button>
+        @if ($medicalTest->payment_status === 'Paid')
+          <span class="text-success">
+            {{ $medicalTest->payment_status }}
+          </span>
+        @else
+          <span class="text-danger">
+            {{ $medicalTest->payment_status }}
+          </span>
+        @endif
+      </td>
+      <td>{{ $medicalTest->agent_commission }}</td>
+      <td>
+        @if ($medicalTest->agent_commission_status === 'Paid')
+          <span class="text-success">
+            {{ $medicalTest->agent_commission_status }}
+          </span>
+        @else
+          <span class="text-danger">
+            {{ $medicalTest->agent_commission_status }}
+          </span>
+        @endif
+      </td>
+      <td>
+      
+        <a href="{{ route('medicalTestEdit', $medicalTest->medical_test_id) }}">
+          <button class="btn btn-primary btn-sm">
+            Edit
+          </button>
+        </a>
       <button {{-- wire:click="delete({{ $expense->expense_id }})" --}} class="btn btn-danger btn-sm">Delete</button>
       </td>
     </tr>

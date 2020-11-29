@@ -31,12 +31,29 @@
 
           <div class="col-md-2">
             <label for="">Status</label>
-            <select class="custom-select" disabled>
+            <select class="custom-select" @if (!$editMode) disabled @endif wire:model="medicalTestStatus">
               <option>---</option>
-                <option value="" selected>Waiting</option>
-                <option value="">Completed</option>
+                <option @if (!$editMode) selected @endif>Waiting</option>
+                <option>Completed</option>
             </select>
           </div>
+
+          @if ($editMode)
+            <div class="col-md-2">
+              <label for="">Result</label>
+              <select class="custom-select" wire:model="result">
+                <option>---</option>
+                  <option selected>Pass</option>
+                  <option>Fail</option>
+              </select>
+            </div>
+
+            <div class="col-md-2">
+              <label for="">Remark</label>
+                  <input type="text" class="form-control" id="" placeholder="Remarks" wire:model="resultRemark">
+              </select>
+            </div>
+          @endif
 
 
         </div>

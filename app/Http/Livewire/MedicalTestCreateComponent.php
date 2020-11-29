@@ -42,6 +42,8 @@ class MedicalTestCreateComponent extends Component
     public $agentCommission;
     public $agentCommissionStatus;
 
+    public $result;
+    public $resultRemark;
 
     public $medicalTestTypes = null;
 
@@ -80,8 +82,8 @@ class MedicalTestCreateComponent extends Component
         $this->medicalTestDate = $this->medicalTest->date;
         $this->medicalTestTypeId = $this->medicalTest->medical_test_type_id;
         $this->medicalTestStatus = $this->medicalTest->status;
-        $this->medicalTestResult = $this->medicalTest->result;
-        $this->medicalTestResultRemark = $this->medicalTest->result_remark;
+        $this->result = $this->medicalTest->result;
+        $this->resultRemark = $this->medicalTest->result_remark;
 
         $this->selectedAgentId = $this->medicalTest->agent_id;
         $this->selectedAgent = Agent::findOrFail($this->selectedAgentId);
@@ -186,6 +188,9 @@ class MedicalTestCreateComponent extends Component
 
         $medicalTest->agent_commission = $this->agentCommission;
         $medicalTest->agent_commission_status = $this->agentCommissionStatus;
+
+        $medicalTest->result = $this->result;
+        $medicalTest->result_remark = $this->resultRemark;
 
         $medicalTest->save();
 
