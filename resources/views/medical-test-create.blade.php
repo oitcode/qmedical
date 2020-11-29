@@ -12,5 +12,9 @@
           {{ session('message') }}
       </div>
   @endif
-  @livewire('medical-test-create-component')
+  @isset($edit)
+    @livewire('medical-test-create-component', ['medicalTest' => $medicalTest, 'editMode' => true])
+  @else
+    @livewire('medical-test-create-component')
+  @endisset
 @stop

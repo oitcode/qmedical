@@ -72,6 +72,14 @@
   </div>
   <!-- /.row -->
 
+  <div class="row">
+    <div class="col-md-6">
+      @livewire('medical-test-pending-list-component')
+    </div>
+    <div class="col-md-6">
+    </div>
+  </div>
+
 @stop
 
 @section('css')

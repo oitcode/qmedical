@@ -147,52 +147,6 @@
 
           <!-- right column -->
           <div class="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Agent</h3>
-              </div>
-              <!-- /.card-header -->
-            <!-- general form elements -->
-
-              <div class="card-body">
-                <select class="custom-select" wire:model="selectedAgentId" wire:change="selectAgent">
-                  <option>---</option>
-                  @if(count($agents) > 0)
-                    @foreach($agents as $agent)
-                      <option value="{{ $agent->agent_id }}">{{ $agent->name }}</option>
-                    @endforeach
-                  @endif
-                </select>
-
-                @if($selectedAgent)
-                      <div class="card bg-light my-3 py-3">
-                        <div class="card-body pt-0">
-                          <div class="row">
-                            <div class="col-7">
-                              <h2 class="lead"><b>{{ $selectedAgent->name }}</b></h2>
-                              <ul class="ml-4 mb-0 fa-ul text-muted">
-                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> {{ $selectedAgent->address }} </li>
-                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> {{ $selectedAgent->contact_number }}</li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-footer">
-                          <div class="text-right">
-                            <a href="#" class="btn btn-sm btn-danger" wire:click="undoAgentSelection">
-                              <i class="fas fa-user"></i> Change
-                            </a>
-                            <a href="#" class="btn btn-sm btn-primary">
-                              <i class="fas fa-user"></i> View Profile
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                @endif
-              </div>
-              <!-- /.card-header -->
-            </div>
-            <!-- /.card -->
 
 
             <!-- Billing -->
@@ -200,24 +154,60 @@
               <div class="card-header">
                 <h3 class="card-title">Billing</h3>
               </div>
-              <!-- /.card-header -->
 
               <div class="card-body">
+
+                <!-- Billing -->
                 <div class="form-group form-inline">
                   <label for="Price" class="mr-3">Price</label>
-                  <input type="text" class="form-control" id="" placeholder="Price" wire:model="medicalTestBillPrice">
+                  <input type="text" class="form-control" id="" placeholder="Price" wire:model="price">
                 </div>
 
                 <div class="form-group form-inline">
                   <label for="paymentStatus" class="mr-3">Payment Status</label>
-                  <select class="custom-select" wire:model="medicalTestBillPaymentStatus">
+                  <select class="custom-select" wire:model="paymentStatus">
                     <option>---</option>
-                      <option>Waiting</option>
+                      <option>Pending</option>
                       <option>Paid</option>
                   </select>
                 </div>
+
+                <!-- Agent -->
+                <hr />
+                <h3 class="h5 mb-4">Agent</h3>
+
+                  <select class="custom-select mb-4" wire:model="selectedAgentId" wire:change="selectAgent">
+                    <option>---</option>
+                    @if(count($agents) > 0)
+                      @foreach($agents as $agent)
+                        <option value="{{ $agent->agent_id }}">{{ $agent->name }}</option>
+                      @endforeach
+                    @endif
+                  </select>
+
+                  @if($selectedAgent)
+                    <div class="mb-3">
+                    <h2 class="lead"><b>{{ $selectedAgent->name }}</b></h2>
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> {{ $selectedAgent->contact_number }}</li>
+                      </ul>
+                    </div>
+                  @endif
+                <div class="form-group form-inline">
+                  <label for="Price" class="mr-3">Amount</label>
+                  <input type="text" class="form-control" id="" placeholder="Amount" wire:model="agentCommission">
+                </div>
+
+                <div class="form-group form-inline">
+                  <label for="paymentStatus" class="mr-3">Payment Status</label>
+                  <select class="custom-select" wire:model="agentCommissionStatus">
+                    <option>---</option>
+                      <option>Pending</option>
+                      <option>Paid</option>
+                  </select>
+                </div>
+
               </div>
-              <!-- /.card-header -->
             </div>
             <!-- /.card -->
             <!-- Billing -->
@@ -228,7 +218,11 @@
         </div>
         <!-- /.row -->
 
-        <button wire:click.prevent="store()" class="btn btn-success">Save</button>
+        @if($editMode)
+          <button wire:click.prevent="update()" class="btn btn-success">Update</button>
+        @else
+          <button wire:click.prevent="store()" class="btn btn-success">Save</button>
+        @endif
     </form>
 
 </div>

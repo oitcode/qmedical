@@ -18,26 +18,22 @@ class MedicalTestController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function create()
-    {
-        return view('medical-test-create');
-    }
-
     public function index()
     {
         return view('medical-test');
+    }
+
+    public function create()
+    {
+        return view('medical-test-create');
     }
 
     public function edit($id)
     {
         $medicalTest = MedicalTest::findOrFail($id);
 
-        return view('medical-test-edit')
-            ->with('medicalTest', $medicalTest);
+        return view('medical-test-create')
+            ->with('medicalTest', $medicalTest)
+            ->with('edit', true);
     }
 }

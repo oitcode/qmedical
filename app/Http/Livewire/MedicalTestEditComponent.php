@@ -8,7 +8,7 @@ use App\Patient;
 use App\Agent;
 use App\MedicalTest;
 use App\MedicalTestType;
-use App\MedicalTestBill;
+//use App\MedicalTestBill;
 
 class MedicalTestEditComponent extends Component
 {
@@ -37,8 +37,11 @@ class MedicalTestEditComponent extends Component
     public $medicalTestResult;
     public $medicalTestResultRemark;
 
-    public $medicalTestBillPrice;
-    public $medicalTestBillPaymentStatus;
+    public $price;
+    public $paymentStatus;
+
+    public $agentCommission;
+    public $agentCommissionStatus;
 
     public $medicalTestTypes = null;
 
@@ -69,9 +72,11 @@ class MedicalTestEditComponent extends Component
 
         $this->selectedAgentId = $this->medicalTest->agent_id;
 
-        $medicalTestBill = $this->medicalTest->medicalTestBill;
-        $this->medicalTestBillPrice = $medicalTestBill->amount;
-        $this->medicalTestBillPaymentStatus = $medicalTestBill->payment_status;
+        $this->price = $this->medicalTest->price;
+        $this->paymentStatus = $this->medicalTest->payment_status;
+
+        $this->agentCommission = $this->medicalTest->agentCommission;
+        $this->agentCommissionStatus = $this->medicalTest->agentCommissionStatus;
     }
 
     public function render()
@@ -124,16 +129,15 @@ class MedicalTestEditComponent extends Component
         $medicalTest->patient_id = $patient->patient_id;
         //$medicalTest->agent_id = $this->selectedAgent->agent_id;
 
+
+
+        $medicalTest->price = $this->price;
+        $medicalTest->payment_status = $this->paymentStatus;
+
+        $medicalTest->agentCommission = $this->agentCommission;
+        $medicalTest->agentCommissionStatus = $this->agentCommissionStatus;
+
         $medicalTest->save();
-
-
-        $medicalTestBill = $this->medicalTest->MedicalTestBill;
-
-        $medicalTestBill->medical_test_id = $medicalTest->medical_test_id;
-        $medicalTestBill->amount = $this->medicalTestBillPrice;
-        $medicalTestBill->payment_status = $this->medicalTestBillPaymentStatus;
-
-        $medicalTestBill->save();
 
         session()->flash('message', 'Medical Test Updated Successfully.');
     }

@@ -47,7 +47,7 @@
 
                 <div class="form-group">
                     <label for="contact_number">Contact Number:</label>
-                    <input type="contact_number" class="form-control" id="email" wire:model.defer="contactNumber" placeholder="Contact number">
+                    <input type="text" class="form-control" id="" wire:model.defer="contact_number" placeholder="Contact number">
                     @error('contact_number') <span class="text-danger">{{ $message }}</span>@enderror
                 </div>
 

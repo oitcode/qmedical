@@ -14,7 +14,7 @@ class AgentComponent extends Component
     public $name = '';
     public $sex = '';
     public $email = '';
-    public $contactNumber = '';
+    public $contact_number = '';
     public $comment = '';
 
     public function render()
@@ -30,7 +30,7 @@ class AgentComponent extends Component
             'name' => 'required',
             'sex' => 'required',
             'email' => 'nullable',
-            'contactNumber' => 'nullable',
+            'contact_number' => 'nullable',
             'comment' => 'nullable',
         ]);
 

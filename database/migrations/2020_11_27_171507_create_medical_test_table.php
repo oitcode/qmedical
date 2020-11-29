@@ -26,7 +26,7 @@ class CreateMedicalTestTable extends Migration
             /*
              * Foreign key to agent table.
              */
-            $table->unsignedBigInteger('agent_id');
+            $table->unsignedBigInteger('agent_id')->nullable();
             $table->foreign('agent_id', 'fk_medical_test_agent')
                 ->references('agent_id')->on('agent');
 
@@ -39,12 +39,18 @@ class CreateMedicalTestTable extends Migration
 
             $table->date('date');
             $table->string('status');
-            $table->string('doctor_name', 255)->nullable();
             $table->string('result', 255)->nullable();
             $table->string('result_remark', 255)->nullable();
 
-            $table->timestamps();
+            /* Billing */
+            $table->integer('price');
+            $table->string('payment_status');
+
+            $table->integer('agent_commission')->nullable();
+            $table->string('agent_commission_status')->nullable();
+
             $table->string('comment', 255)->nullable();
+            $table->timestamps();
         });
     }
 
