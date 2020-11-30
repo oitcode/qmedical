@@ -8,11 +8,6 @@ use App\MedicalTestType;
 
 class AnalyticsMedical extends Component
 {
-    public $searchQery = [
-        'startDate' => '',
-        'endDate' => '',
-        'test' => '',
-    ];
     public $startDate;
     public $endDate;
 

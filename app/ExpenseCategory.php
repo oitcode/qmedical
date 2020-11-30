@@ -4,24 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Expense extends Model
+class ExpenseCategory extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'expense';
+    protected $table = 'expense_category';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'expense_id';
+    protected $primaryKey = 'expense_category_id';
 
     protected $fillable = [
-         'date', 'expense_category_id', 'name', 'amount', 'comment',
+        'name', 'comment',
     ];
 
     /*-------------------------------------------------------------------------
@@ -31,11 +31,11 @@ class Expense extends Model
      */
 
     /*
-     * expense_category table.
+     * expense table.
      *
      */
-    public function expenseCategory()
+    public function expenses()
     {
-        return $this->belongsTo('App\ExpenseCategory', 'expense_category_id', 'expense_category_id');
+        return $this->hasMany('App\Expense', 'expense_category_id', 'expense_category_id');
     }
 }
