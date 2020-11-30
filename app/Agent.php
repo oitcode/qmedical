@@ -23,4 +23,21 @@ class Agent extends Model
     protected $fillable = [
         'name', 'sex', 'contact_number', 'email', 'nationality', 'comment',
     ];
+
+
+    /*-------------------------------------------------------------------------
+     * Relationships
+     *-------------------------------------------------------------------------
+     *
+     */
+
+
+    /*
+     * medical_test table.
+     *
+     */
+    public function MedicalTests()
+    {
+        return $this->hasMany('App\MedicalTest', 'agent_id', 'agent_id');
+    }
 }

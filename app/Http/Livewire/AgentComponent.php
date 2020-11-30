@@ -37,5 +37,6 @@ class AgentComponent extends Component
         Agent::create($validatedData);
         session()->flash('message', 'Agent Created Successfully.');
         //$this->resetInputFields();
+        $this->emit('agentAdded');
     }
 }

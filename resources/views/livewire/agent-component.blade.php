@@ -83,13 +83,27 @@
             @foreach($agents as $agent)
             <tr>
                 <td>{{ $agent->agent_id }}</td>
-                <td>{{ $agent->name }}</td>
+                <td>
+                  <a href="{{ route('agentShow', $agent->agent_id) }}">
+                    {{ $agent->name }}
+                  </a>
+                </td>
                 <td>{{ $agent->sex }}</td>
                 <td>{{ $agent->contact_number }}</td>
                 <td>{{ $agent->email }}</td>
                 <td>
-                <button {{-- wire:click="edit({{ $patient->patient_id }})" --}} class="btn btn-primary btn-sm">Edit</button>
-                <button {{-- wire:click="delete({{ $patient->patient_id }})" --}} class="btn btn-danger btn-sm">Delete</button>
+                <button {{-- wire:click="edit({{ $patient->patient_id }})" --}} class="btn btn-info btn-sm">
+                  <i class="fas fa-folder"></i>
+                  View
+                </button>
+                <button {{-- wire:click="edit({{ $patient->patient_id }})" --}} class="btn btn-primary btn-sm">
+                  <i class="fas fa-pencil-alt"></i>
+                  Edit
+                </button>
+                <button {{-- wire:click="delete({{ $patient->patient_id }})" --}} class="btn btn-danger btn-sm">
+                  <i class="fas fa-trash"></i>
+                  Delete
+                </button>
                 </td>
             </tr>
             @endforeach

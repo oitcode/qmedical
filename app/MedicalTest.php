@@ -49,6 +49,15 @@ class MedicalTest extends Model
     }
 
     /*
+     * agent table.
+     *
+     */
+    public function agent()
+    {
+        return $this->belongsTo('App\Agent', 'agent_id', 'agent_id');
+    }
+
+    /*
      * medical_test_type table.
      *
      */

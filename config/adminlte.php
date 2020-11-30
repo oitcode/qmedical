@@ -295,9 +295,20 @@ return [
         ],
 
         [
-            'text' => 'Report',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-chart-line',
+            'text'    => 'Report',
+            'icon'    => 'fas fa-fw fa-chart-line',
+            'submenu' => [
+                [
+                    'text' => 'Medical',
+                    'url'  => '/analytics/medical',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'Financial',
+                    'url'  => '',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+            ],
         ],
 
 

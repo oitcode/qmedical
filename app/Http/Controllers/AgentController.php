@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Agent;
+
 class AgentController extends Controller
 {
     /**
@@ -24,5 +26,18 @@ class AgentController extends Controller
     public function index()
     {
         return view('agent');
+    }
+
+    /**
+     * Agent detail page
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function show($id)
+    {
+        $agent = Agent::findOrFail($id);
+
+        return view('agent-show')
+            ->with('agent', $agent);
     }
 }
