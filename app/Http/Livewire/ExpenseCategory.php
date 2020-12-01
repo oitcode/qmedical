@@ -51,4 +51,9 @@ class ExpenseCategory extends Component
         $this->resetInputFields();
         $this->createMode = false;
     }
+
+    public function delete($id)
+    {
+        EC::findOrFail($id)->delete();
+    }
 }

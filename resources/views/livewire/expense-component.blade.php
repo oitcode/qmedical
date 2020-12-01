@@ -23,10 +23,7 @@
         <div class="card-header">
           <h3 class="card-title">Expense List</h3>
           <div class="card-tools">
-            <button class="btn btn-sm btn-primary mx-4" wire:click="create">
-              <i class="fas fa-plus mr-3 "></i>
-              Add expense
-            </button>
+            <i class="fas fa-plus mr-3 text-success " wire:click="create"></i>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fas fa-minus"></i></button>
             <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
@@ -112,7 +109,7 @@
             </form>
           @endif
 
-          <table class="table table-sm table-bordered mt-5">
+          <table class="table table-sm table-bordered table-hover mt-5">
             <thead>
               <tr class="bg-primary text-white">
                 <th>No.</th>
@@ -135,14 +132,8 @@
                 <td>{{ $expense->expenseCategory->name }}</td>
                 <td>{{ $expense->comment }}</td>
                 <td>
-                <button wire:click="edit({{ $expense->expense_id }})" class="btn btn-primary btn-sm">
-                  <i class="fas fa-pencil-alt mr-2"></i>
-                  Edit
-                </button>
-                <button wire:click="delete({{ $expense->expense_id }})" class="btn btn-danger btn-sm">
-                  <i class="fas fa-trash mr-2"></i>
-                  Delete
-                </button>
+                  <i class="fas fa-pencil-alt mr-2 text-primary" wire:click="edit({{ $expense->expense_id }})"></i>
+                  <i class="fas fa-trash mr-2 text-danger" wire:click="delete({{ $expense->expense_id }})"></i>
                 </td>
               </tr>
               @endforeach

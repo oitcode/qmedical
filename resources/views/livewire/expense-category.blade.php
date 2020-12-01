@@ -5,9 +5,7 @@
 
 
     <div class="card-tools">
-      <button class="btn btn-sm btn-primary mx-4" wire:click="create">
-        <i class="fas fa-plus mr-3 "></i>
-        New
+      <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
       </button>
       <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
         <i class="fas fa-minus"></i></button>
@@ -49,11 +47,12 @@
       <hr />
     @endif
 
-    <table class="table table-sm table-striped table-bordered">
+    <table class="table table-sm table-bordered table-hover">
       <thead>
       <tr>
         <th>Name</th>
         <th>Comment</th>
+        <th>Action</th>
       </tr>
       </thead>
       <tbody>
@@ -61,6 +60,10 @@
           <tr>
             <td>{{ $expenseCategory->name }}</td>
             <td>{{ $expenseCategory->comment }}</td>
+            <td>
+                <i class="fas fa-trash mr-3 text-danger" wire:click="delete({{ $expenseCategory->expense_category_id }})"></i>
+                <i class="fas fa-pencil-alt text-primary"></i>
+            </td>
           </tr>
         @endforeach
       </tbody>
