@@ -305,7 +305,7 @@ return [
                 ],
                 [
                     'text' => 'Financial',
-                    'url'  => '',
+                    'url'  => '/analytics/financial',
                     'icon' => 'fas fa-fw fa-list',
                 ],
             ],
