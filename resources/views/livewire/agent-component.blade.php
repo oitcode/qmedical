@@ -5,10 +5,6 @@
         </div>
     @endif
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-      CREATE
-    </button>
 
     <!-- Create modal -->
     <div class="modal" tabindex="-1" role="dialog" id="exampleModal" wire:ignore>
@@ -16,9 +12,6 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Create Agent</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
 
           <div class="modal-body">
@@ -67,46 +60,55 @@
       </div>
     </div>
 
-    <table class="table table-bordered mt-5">
-        <thead>
-            <tr class="bg-primary text-white">
-                <th>No.</th>
-                <th>Name</th>
-                <th>Sex</th>
-                <th>Contact number</th>
-                <th>Email</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          Agent list
+        </h4>
+        <div class="card-tools">
+          <i class="fas fa-plus mr-3 text-success" wire:click="" data-toggle="modal" data-target="#exampleModal"></i>
+          <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+            <i class="fas fa-minus"></i></button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+            <i class="fas fa-times"></i></button>
+        </div>
 
-        <tbody>
-            @foreach($agents as $agent)
-            <tr>
-                <td>{{ $agent->agent_id }}</td>
-                <td>
-                  <a href="{{ route('agentShow', $agent->agent_id) }}">
-                    {{ $agent->name }}
-                  </a>
-                </td>
-                <td>{{ $agent->sex }}</td>
-                <td>{{ $agent->contact_number }}</td>
-                <td>{{ $agent->email }}</td>
-                <td>
-                <button {{-- wire:click="edit({{ $patient->patient_id }})" --}} class="btn btn-info btn-sm">
-                  <i class="fas fa-folder"></i>
-                  View
-                </button>
-                <button {{-- wire:click="edit({{ $patient->patient_id }})" --}} class="btn btn-primary btn-sm">
-                  <i class="fas fa-pencil-alt"></i>
-                  Edit
-                </button>
-                <button {{-- wire:click="delete({{ $patient->patient_id }})" --}} class="btn btn-danger btn-sm">
-                  <i class="fas fa-trash"></i>
-                  Delete
-                </button>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <!-- Button trigger modal -->
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-sm table-bordered table-hover">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Sex</th>
+                    <th>Contact number</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach($agents as $agent)
+                <tr>
+                    <td>{{ $agent->agent_id }}</td>
+                    <td>
+                      <a href="{{ route('agentShow', $agent->agent_id) }}">
+                        {{ $agent->name }}
+                      </a>
+                    </td>
+                    <td>{{ $agent->sex }}</td>
+                    <td>{{ $agent->contact_number }}</td>
+                    <td>{{ $agent->email }}</td>
+                    <td>
+                      <i class="fas fa-folder text-info mr-3"></i>
+                      <i class="fas fa-pencil-alt text-primary mr-3"></i>
+                      <i class="fas fa-trash text-danger mr-3"></i>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+      </div>
+    </div>
 </div>

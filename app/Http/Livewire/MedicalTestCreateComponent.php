@@ -12,6 +12,7 @@ use App\MedicalTestBill;
 
 class MedicalTestCreateComponent extends Component
 {
+    public $foobarcup = "";
     public $medicalTest;
 
     public $agents;
@@ -106,6 +107,8 @@ class MedicalTestCreateComponent extends Component
     public function selectAgent()
     {
         $this->selectedAgent = Agent::findOrFail($this->selectedAgentId);
+
+        $this->dispatchBrowserEvent('agentSelected');
     }
 
     public function undoAgentSelection()
@@ -197,5 +200,10 @@ class MedicalTestCreateComponent extends Component
         $medicalTest->save();
 
         session()->flash('message', 'Medical Test Updated Successfully.');
+    }
+
+    public function cancelCreate()
+    {
+        $this->emit('createCancelled');
     }
 }

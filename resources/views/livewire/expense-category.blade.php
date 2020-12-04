@@ -16,7 +16,7 @@
   <!-- /.Card header -->
 
   <!-- Card body -->
-  <div class="card-body">
+  <div class="card-body p-0">
     <!-- Show this only if creating new -->
     @if ($createMode)
       <form>

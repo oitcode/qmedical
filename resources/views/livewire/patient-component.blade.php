@@ -9,6 +9,52 @@
     @endif
 
 
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Patient List</h3>
+
+        <div class="card-tools">
+          <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+            <i class="fas fa-minus"></i></button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+            <i class="fas fa-times"></i></button>
+        </div>
+      </div>
+
+      <div class="card-body p-0">
+        <table class="table table-sm table-bordered table-hover">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Sex</th>
+                    <th>Contact Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach($patients as $patient)
+                <tr>
+                    <td>{{ $patient->patient_id }}</td>
+                    <td>{{ $patient->name }}</td>
+                    <td>{{ $patient->sex }}</td>
+                    <td>{{ $patient->contact_number }}</td>
+                    <td>
+                      <i class="fas fa-folder text-info mr-3"></i>
+                      <i class="fas fa-pencil-alt text-primary mr-3"></i>
+                      <i class="fas fa-trash text-danger mr-3"></i>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+    @if (false)
     <form>
         <div class="form-group">
             <label for="name">Name:</label>
@@ -40,31 +86,6 @@
           <button wire:click.prevent="store()" class="btn btn-success">Save</button>
         @endif
     </form>
+    @endif
 
-    <table class="table table-bordered mt-5">
-        <thead>
-            <tr class="bg-primary text-white">
-                <th>No.</th>
-                <th>Name</th>
-                <th>Sex</th>
-                <th>Contact Number</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach($patients as $patient)
-            <tr>
-                <td>{{ $patient->patient_id }}</td>
-                <td>{{ $patient->name }}</td>
-                <td>{{ $patient->sex }}</td>
-                <td>{{ $patient->contact_number }}</td>
-                <td>
-                <button {{-- wire:click="edit({{ $expense->expense_id }})" --}} class="btn btn-primary btn-sm">Edit</button>
-                <button {{-- wire:click="delete({{ $expense->expense_id }})" --}} class="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
 </div>

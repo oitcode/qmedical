@@ -34,7 +34,7 @@
         <!-- /.Card header -->
 
         <!-- /.Card body -->
-        <div class="card-body">
+        <div class="card-body p-0">
           @if ($createMode || $updateMode)
             <form class="border p-4 shadow-sm">
               <h4 class="h5">New Expense</h4>
@@ -109,7 +109,7 @@
             </form>
           @endif
 
-          <table class="table table-sm table-bordered table-hover mt-5">
+          <table class="table table-sm table-bordered table-hover">
             <thead>
               <tr class="bg-primary text-white">
                 <th>No.</th>
