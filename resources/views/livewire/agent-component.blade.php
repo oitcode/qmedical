@@ -1,27 +1,35 @@
-<div>
-  <!-- Tool box card -->
-  <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">
-        Actions
-      </h3>
-      <div class="card-tools">
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">
+      Agent
+    </h3>
+    <div class="card-tools">
+      <span class="btn btn-tool btn-sm">
         <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
-      </div>
+      <span>
+
+      <a href="#" class="btn btn-tool btn-sm">
+        <i class="fas fa-download"></i>
+      </a>
+
+      <a href="#" class="btn btn-tool btn-sm">
+        <i class="fas fa-bars"></i>
+      </a>
+
     </div>
   </div>
-  <!-- /.Tool box card -->
+  <div class="card-body p-0">
+    {{-- Show agent create modal if neccessary --}}
+    @if($createMode)
+      @livewire('agent-create')
+    @endif
 
-  {{-- Show agent create modal if neccessary --}}
-  @if($createMode)
-    @livewire('agent-create')
-  @endif
+    {{-- Display agent details in a modal --}}
+    @if ($displayMode)
+      @livewire('agent-detail', ['agent' => $displayedAgent])
+    @endif
 
-  {{-- Display agent details in a modal --}}
-  @if ($displayMode)
-    @livewire('agent-detail', ['agent' => $displayedAgent])
-  @endif
-
-  {{-- Show agent list --}}
-  @livewire('agent-list')
+    {{-- Show agent list --}}
+    @livewire('agent-list')
+  </div>
 </div>

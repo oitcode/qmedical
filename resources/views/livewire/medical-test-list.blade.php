@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card shadow-none">
   <div class="card-header">
     <h3 class="card-title">
       Recent Medical Tests
@@ -17,17 +17,13 @@
         </div>
       @endif
     </div>
-    <table class="table table-hover">
+    <table class="table table-striped table-hover table-valign-middle">
       <thead>
-        <tr class="bg-primary text-white">
-          <th>No.</th>
-          <th>Date</th>
+        <tr class="">
           <th>Patient</th>
           <th>Type</th>
           <th>Status</th>
           <th>Payment</th>
-          <th>Agent Commission</th>
-          <th>Agent Commission Status</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -35,8 +31,6 @@
       <tbody>
         @foreach($medicalTests as $medicalTest)
         <tr>
-          <td>{{ $medicalTest->medical_test_id }}</td>
-          <td>{{ $medicalTest->date }}</td>
           <td
             class="btn btn-link"
             wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})">
@@ -57,24 +51,13 @@
               </span>
             @endif
           </td>
-          <td>{{ $medicalTest->agent_commission }}</td>
-          <td>
-            @if ($medicalTest->agent_commission_status === 'Paid')
-              <span class="text-success">
-                {{ $medicalTest->agent_commission_status }}
-              </span>
-            @else
-              <span class="text-danger">
-                {{ $medicalTest->agent_commission_status }}
-              </span>
-            @endif
-          </td>
           <td>
 
             <a href="{{ route('medicalTestEdit', $medicalTest->medical_test_id) }}">
               <i class="fas fa-pencil-alt text-primary mr-3"></i>
             </a>
-              <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
+
+                <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
           </td>
         </tr>
         @endforeach

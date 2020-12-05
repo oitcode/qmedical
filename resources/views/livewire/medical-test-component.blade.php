@@ -1,35 +1,39 @@
-<div>
-
-  <!-- Tool box card -->
-  <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">
-        Actions
-      </h3>
-      <div class="card-tools">
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">
+      Medical
+    </h3>
+    <div class="card-tools">
+      <a href="#" class="btn btn-tool btn-sm">
         <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
-        <button class="btn btn-outline bg-white text-green btn-success">
-          <span class="text-success text-bold mr-3">Refresh</span>
-        </button>
-      </div>
+      </a>
+      <a href="#" class="btn btn-tool btn-sm">
+        <i class="fas fa-download"></i>
+      </a>
+
+      <a href="#" class="btn btn-tool btn-sm">
+        <i class="fas fa-bars"></i>
+      </a>
     </div>
   </div>
-  <!-- /.Tool box card -->
 
-  @if ($createMode)
-    @livewire('medical-test-create-component')
-  @endif
 
-  @if ($displayMode)
-    @livewire('medical-test-detail', ['medicalTest' => $displayedMedicalTest])
-  @endif
-
-  @livewire('medical-test-list')
-
-  {{--
-  @if ($editMode)
-    @livewire('medical-test-edit')
-  @endif
-  --}}
+  <div class="card-bpdy p-0">
+    @if ($createMode)
+      @livewire('medical-test-create-component')
+    @endif
+  
+    @if ($displayMode)
+      @livewire('medical-test-detail', ['medicalTest' => $displayedMedicalTest])
+    @endif
+  
+    @livewire('medical-test-list')
+  
+    {{--
+    @if ($editMode)
+      @livewire('medical-test-edit')
+    @endif
+    --}}
+  </div>
 
 </div>

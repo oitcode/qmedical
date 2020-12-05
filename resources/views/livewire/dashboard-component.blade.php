@@ -1,4 +1,5 @@
 <div>
+  @if (true)
   <div class="row">
     <div class="col-md-3 col-6">
       @livewire('info-card-patient')
@@ -13,9 +14,10 @@
       @livewire('info-card-user')
     </div>
   </div>
+  @endif
   <div class="row">
     <div class="col-md-6">
-      @livewire('medical-test-pending-list-component')
+      @livewire('medical-test-component')
     </div>
     <div class="col-md-6">
       @livewire('agent-component')
