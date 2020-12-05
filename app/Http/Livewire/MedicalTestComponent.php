@@ -39,7 +39,6 @@ class MedicalTestComponent extends Component
 
     public function finishCreate()
     {
-        //$this->createMode = false;
         $this->emit('dataAdded');
     }
 
@@ -55,7 +54,7 @@ class MedicalTestComponent extends Component
 
     public function exitDisplayMode()
     {
-        $this->displayMedicalTest = null;
+        $this->displayedMedicalTest = null;
         $this->displayMode = false;
     }
 

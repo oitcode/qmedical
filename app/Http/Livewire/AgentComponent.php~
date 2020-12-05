@@ -25,7 +25,6 @@ class AgentComponent extends Component
     protected $listeners = [
         'agentAdded' => 'finishCreate',
         'destroyAgentCreate' => 'exitCreateMode',
-        'displayAgent' => 'displaySingleAgent',
         'destroyDisplay' => 'exitDisplayMode',
         'deleteAgent',
     ];
@@ -83,17 +82,5 @@ class AgentComponent extends Component
     {
         $this->displayedAgent = null;
         $this->displayMode = false;
-    }
-
-    public function displaySingleAgent(Agent $agent)
-    {
-        $this->enterDisplayMode();
-        $this->displayedAgent = $agent;
-        $this->render();
-    }
-
-    public function enterDisplayMode()
-    {
-        $this->displayMode = true;
     }
 }

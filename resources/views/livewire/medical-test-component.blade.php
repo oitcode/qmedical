@@ -1,18 +1,20 @@
 <div>
 
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">
-      Actions
-    </h3>
-    <div class="card-tools">
-      <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
-      <button class="btn btn-outline bg-white text-green btn-success">
-        <span class="text-success text-bold mr-3">Refresh</span>
-      </button>
+  <!-- Tool box card -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
+        Actions
+      </h3>
+      <div class="card-tools">
+        <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
+        <button class="btn btn-outline bg-white text-green btn-success">
+          <span class="text-success text-bold mr-3">Refresh</span>
+        </button>
+      </div>
     </div>
   </div>
-</div>
+  <!-- /.Tool box card -->
 
   @if ($createMode)
     @livewire('medical-test-create-component')
