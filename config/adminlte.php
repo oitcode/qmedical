@@ -261,19 +261,8 @@ return [
 
         [
             'text'    => 'Medical Test',
+            'url'  => '/medicaltest',
             'icon'    => 'fas fa-fw fa-clipboard',
-            'submenu' => [
-                [
-                    'text' => 'Create',
-                    'url'  => '/medicaltest/create',
-                    'icon' => 'fas fa-fw fa-plus',
-                ],
-                [
-                    'text' => 'List',
-                    'url'  => '/medicaltest',
-                    'icon' => 'fas fa-fw fa-list',
-                ],
-            ],
         ],
 
         [

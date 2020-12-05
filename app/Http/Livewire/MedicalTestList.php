@@ -10,11 +10,14 @@ class MedicalTestList extends Component
     public $medicalTests;
     public $createMode = false;
 
-    protected $listeners = ['dataAdded' => 'render'];
+    protected $listeners = [
+        'dataAdded' => 'render',
+        'updateList' => 'render',
+    ];
 
     public function render()
     {
-        $this->medicalTests = MedicalTest::all();
+        $this->medicalTests = MedicalTest::all()->sortByDesc('medical_test_id');
 
         return view('livewire.medical-test-list');
     }

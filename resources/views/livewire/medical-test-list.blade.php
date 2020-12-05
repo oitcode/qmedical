@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">
-      Expense list
+      Recent Medical Tests
     </h3>
     <div class="card-tools">
     </div>
@@ -25,7 +25,6 @@
           <th>Patient</th>
           <th>Type</th>
           <th>Status</th>
-          <th>Price</th>
           <th>Payment</th>
           <th>Agent Commission</th>
           <th>Agent Commission Status</th>
@@ -44,7 +43,6 @@
           </td>
           <td>{{ $medicalTest->medicalTestType->name }}</td>
           <td>{{ $medicalTest->status }}</td>
-          <td>{{ $medicalTest->price }}</td>
           <td>
             @if ($medicalTest->payment_status === 'Paid')
               <span class="text-success">
@@ -73,7 +71,7 @@
             <a href="{{ route('medicalTestEdit', $medicalTest->medical_test_id) }}">
               <i class="fas fa-pencil-alt text-primary mr-3"></i>
             </a>
-              <i class="fas fa-trash text-danger mr-3"></i>
+              <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
           </td>
         </tr>
         @endforeach

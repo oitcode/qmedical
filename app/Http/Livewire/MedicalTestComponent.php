@@ -22,6 +22,7 @@ class MedicalTestComponent extends Component
         'destroyDisplay' => 'exitDisplayMode',
         'displayCancelled' => 'exitDisplayMode',
         'createCancel' => 'exitCreateMode',
+        'deleteMedicalTest',
     ];
 
     public function render()
@@ -64,5 +65,11 @@ class MedicalTestComponent extends Component
         $this->displayedMedicalTest = null;
         $this->displayedMedicalTest = $medicalTest;
         $this->render();
+    }
+
+    public function deleteMedicalTest($id)
+    {
+        MedicalTest::findOrFail($id)->delete();
+        $this->emit('updateList');
     }
 }
