@@ -37,9 +37,12 @@
         <tr>
           <td>{{ $medicalTest->medical_test_id }}</td>
           <td>{{ $medicalTest->date }}</td>
-          <td wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})">
-             {{ $medicalTest->patient->name }}
-            </a>
+          <td
+            class="btn btn-link"
+            wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})">
+             <span class="w-100">
+               {{ $medicalTest->patient->name }}
+             </span>
           </td>
           <td>{{ $medicalTest->medicalTestType->name }}</td>
           <td>{{ $medicalTest->status }}</td>

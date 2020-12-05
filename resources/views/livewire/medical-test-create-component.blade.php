@@ -243,7 +243,7 @@
             <!-- /.row -->
 
               <button wire:click.prevent="store()" class="btn btn-success">Save</button>
-              <button wire:click.prevent="" class="btn btn-danger">Cancel</button>
+              <button wire:click.prevent="$emit('toggleMedicalTestCreateModal')" class="btn btn-danger">Cancel</button>
         </form>
 
 
@@ -258,40 +258,24 @@
 
 </div>
 
-  <script>
-       $(document).ready(function () {
-          console.log('Hi');
-          $('#createModal').modal('show');
-       });
-
-      // document.onreadystatechange = function () {
-      //     if (document.readyState == "complete") {
-      //     // document is ready. Do your stuff here
-      //        window.livewire.emit('show');
-      //   }
-      // }
-
-
-      // $("#exampleModal").ready(function () {
-      //     window.livewire.emit('show');
-      // });
-
-     //   $('#exampleModal').ready(function () {
-     //      //$('#exampleModal').modal('show');
-     //   });
-
-     window.livewire.on('toggleMedicalTestCreateModal', () => {
-         $('#createModal').modal('hide');
-         console.log('Create modal toggled off');
-     });
-
-    // $('#createModal').on('hidden.bs.modal', function (e) {
-    //     console.log('Hiding');
-    //     window.livewire.emit('destroyCreate');
-    // })
-
-    $('#createModal').on('hidden.bs.modal', function () {
-        window.livewire.emit('destroyCreate');
+<script>
+    /* Show the modal on load */
+    $(document).ready(function () {
+       console.log('Hi');
+       $('#createModal').modal('show');
     });
 
-  </script>
+
+    /* Toggle the modal.  */
+    window.livewire.on('toggleMedicalTestCreateModal', () => {
+        $('#createModal').modal('hide');
+        console.log('Create modal toggled off');
+    });
+
+
+   /* Destroy the modal on hide */
+   $('#createModal').on('hidden.bs.modal', function () {
+       window.livewire.emit('destroyCreate');
+   });
+
+</script>
