@@ -38,7 +38,7 @@ class MedicalTestComponent extends Component
 
     public function finishCreate()
     {
-        $this->createMode = false;
+        //$this->createMode = false;
         $this->emit('dataAdded');
     }
 

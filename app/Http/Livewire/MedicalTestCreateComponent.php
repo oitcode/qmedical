@@ -155,8 +155,7 @@ class MedicalTestCreateComponent extends Component
         $medicalTest->save();
 
         $this->emitUp('medicalTestAdded');
-
-        session()->flash('message', 'Medical Test Created Successfully.');
+        $this->emit('toggleMedicalTestCreateModal');
     }
 
     public function update()
@@ -199,11 +198,17 @@ class MedicalTestCreateComponent extends Component
 
         $medicalTest->save();
 
-        session()->flash('message', 'Medical Test Updated Successfully.');
+
+        //session()->flash('message', 'Medical Test Updated Successfully.');
     }
 
     public function cancelCreate()
     {
         $this->emit('createCancelled');
+    }
+
+    public function showModal()
+    {
+        $this->emit('show');
     }
 }

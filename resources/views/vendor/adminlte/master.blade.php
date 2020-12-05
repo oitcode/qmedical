@@ -104,6 +104,9 @@
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
 
+    {{-- Child component scripts --}}
+    @stack('child-scripts')
+
 </body>
 
 </html>

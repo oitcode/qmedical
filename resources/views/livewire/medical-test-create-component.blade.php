@@ -1,11 +1,20 @@
-<div class="card">
-  <div class="card-header">
-    Mecial Test Create
-    <button wire:click="$emitUp('createCancel')" class="btn btn-outline-primary">Close</button>
-  </div>
-  <div class="card-body">
-  </div>
-      <div class="">
+<div>
+
+  <!-- Modal -->
+  <div  wire:ignore.self class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog mw-100 w-75">
+      <div class="modal-content">
+        <div class="modal-body">
+
+          <!--
+           |    Issue here
+           |
+           |    When user types here and component has to render again the modal breaks.
+           |
+           -->
+
+
+
         <form>
             <!-- Top row -->
             <div class="row">
@@ -233,41 +242,56 @@
             </div>
             <!-- /.row -->
 
-            @if($editMode)
-              <button wire:click.prevent="update()" class="btn btn-success">Update</button>
-            @else
               <button wire:click.prevent="store()" class="btn btn-success">Save</button>
               <button wire:click.prevent="" class="btn btn-danger">Cancel</button>
-            @endif
         </form>
+
+
+
+
+        </div>
       </div>
     </div>
   </div>
 
-<script>
-    $(document).ready(function () {
-        window.livewire.emit('show');
-    });
 
-    window.livewire.on('show', () => {
-        $('#createModal').modal('show');
-    });
 
-    window.livewire.on('oclose', () => {
-        $('#createModal').modal('hide');
-    });
+</div>
+
+  <script>
+       $(document).ready(function () {
+          console.log('Hi');
+          $('#createModal').modal('show');
+       });
+
+      // document.onreadystatechange = function () {
+      //     if (document.readyState == "complete") {
+      //     // document is ready. Do your stuff here
+      //        window.livewire.emit('show');
+      //   }
+      // }
+
+
+      // $("#exampleModal").ready(function () {
+      //     window.livewire.emit('show');
+      // });
+
+     //   $('#exampleModal').ready(function () {
+     //      //$('#exampleModal').modal('show');
+     //   });
+
+     window.livewire.on('toggleMedicalTestCreateModal', () => {
+         $('#createModal').modal('hide');
+         console.log('Create modal toggled off');
+     });
+
+    // $('#createModal').on('hidden.bs.modal', function (e) {
+    //     console.log('Hiding');
+    //     window.livewire.emit('destroyCreate');
+    // })
 
     $('#createModal').on('hidden.bs.modal', function () {
         window.livewire.emit('destroyCreate');
     });
 
-    //$('#createModal').load(function() {
-    //    $('#createModal').modal('show');
-    //}):
-    //window.addEventListener('agentSelected', event => {
-    //    $('#createModal').modal('toggle');
-    //})
-
-</script>
-
-</div>
+  </script>

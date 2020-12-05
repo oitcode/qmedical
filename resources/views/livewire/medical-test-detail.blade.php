@@ -99,7 +99,8 @@
 
 <script>
     $(document).ready(function () {
-        window.livewire.emit('show');
+        //window.livewire.emit('show');
+        $('#detailModal').modal('show');
     });
 
     window.livewire.on('show', () => {

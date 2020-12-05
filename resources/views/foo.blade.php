@@ -1,15 +1,12 @@
-<html>
-  <head>
-    @livewireStyles
-  </head>
-  <body>
-          <h2>Laravel Livewire CRUD - ItSolutionStuff.com</h2>
-             @if (session()->has('message'))
-                 <div class="alert alert-success">
-                     {{ session('message') }}
-                 </div>
-             @endif
-             @livewire('patient')
-    @livewireScripts
-  </body>
-</html>
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Component test</h1>
+@stop
+
+@section('content')
+  @livewire('parent-component')
+
+@stop
