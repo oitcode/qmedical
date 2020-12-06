@@ -23,7 +23,7 @@
               </span>
 
               <span class="btn btn-tool btn-sm">
-                <i class="fas fa-pencil-alt text-primary mr-3"></i>
+                <i class="fas fa-pencil-alt text-primary mr-3" wire:click="$emit('updateAgent', {{ $agent }})"></i>
               </span>
               <span class="btn btn-tool btn-sm">
                 <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>

@@ -11,15 +11,12 @@ class AgentComponent extends Component
     public $createInProgress;
     public $updateInProgress;
 
-    public $name = '';
-    public $sex = '';
-    public $email = '';
-    public $contact_number = '';
-    public $comment = '';
-
+    /* Different modes of this component. */
     public $createMode = false;
     public $displayMode = false;
     public $displayedAgent = null;
+    public $updateMode = false;
+    public $updatingAgent = null;
 
     protected $listeners = [
         'agentAdded' => 'finishCreate',
@@ -27,6 +24,8 @@ class AgentComponent extends Component
         'displayAgent' => 'displaySingleAgent',
         'destroyDisplay' => 'exitDisplayMode',
         'deleteAgent',
+        'updateAgent',
+        'destroyAgentUpdate' => 'exitUpdateMode',
     ];
 
     public function render()
@@ -94,5 +93,22 @@ class AgentComponent extends Component
     public function enterDisplayMode()
     {
         $this->displayMode = true;
+    }
+
+    public function exitUpdateMode()
+    {
+        $this->updatingAgent = null;
+        $this->updateMode = false;
+    }
+
+    public function updateAgent(Agent $agent)
+    {
+        $this->updatingAgent = $agent;
+        $this->enterUpdateMode();
+    }
+
+    public function enterUpdateMode()
+    {
+        $this->updateMode = true;
     }
 }

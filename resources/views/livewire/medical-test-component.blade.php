@@ -26,6 +26,10 @@
     @if ($displayMode)
       @livewire('medical-test-detail', ['medicalTest' => $displayedMedicalTest])
     @endif
+
+    @if ($updateMode)
+      @livewire('medical-test-update', ['medicalTest' => $updatingMedicalTest])
+    @endif
   
     @livewire('medical-test-list')
   

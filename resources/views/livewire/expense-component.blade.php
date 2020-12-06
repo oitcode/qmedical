@@ -24,9 +24,14 @@
       @livewire('expense-create')
     @endif
 
-    {{-- Display agent details in a modal --}}
+    {{-- Display expense details in a modal --}}
     @if ($displayMode)
       @livewire('expense-detail', ['expense' => $displayedExpense])
+    @endif
+
+    {{-- Update modal --}}
+    @if ($updateMode)
+      @livewire('expense-update', ['expense' => $updatingExpense])
     @endif
 
     {{-- Show agent list --}}

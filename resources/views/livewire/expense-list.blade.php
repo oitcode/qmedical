@@ -22,7 +22,7 @@
           <td>{{ $expense->amount }}</td>
           <td>
             <span class="btn btn-tool btn-sm">
-              <i class="fas fa-pencil-alt mr-2 text-primary" wire:click=""></i>
+              <i class="fas fa-pencil-alt mr-2 text-primary" wire:click="$emit('updateExpense', {{ $expense }})"></i>
             </span>
             <span class="btn btn-tool btn-sm">
               <i class="fas fa-trash mr-2 text-danger" wire:click="$emit('deleteExpense', {{ $expense->expense_id }})"></i>

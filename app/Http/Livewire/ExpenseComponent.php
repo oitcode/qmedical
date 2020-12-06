@@ -13,11 +13,17 @@ class ExpenseComponent extends Component
         'displayExpense' => 'displaySingleExpense',
         'destroyDisplay' => 'exitDisplayMode',
         'deleteExpense',
+        'updateExpense',
+        'destroyExpenseUpdate' => 'exitUpdateMode',
     ];
 
     public $createMode = false;
+
     public $displayMode = false;
     public $displayedExpense = null;
+
+    public $updateMode = false;
+    public $updatingExpense = null;
 
     public function render()
     {
@@ -41,13 +47,6 @@ class ExpenseComponent extends Component
     {
         $this->createMode = false;
     }
-
-    public function exitUpdateMode()
-    {
-        $this->resetInputFields();
-        $this->updateMode = false;
-    }
-
 
     public function edit($id)
     {
@@ -123,5 +122,22 @@ class ExpenseComponent extends Component
     {
         Expense::findOrFail($id)->delete();
         $this->emit('updateList');
+    }
+
+    public function updateExpense(Expense $expense)
+    {
+        $this->updatingExpense = $expense;
+        $this->enterUpdateMode();
+    }
+
+    public function enterUpdateMode()
+    {
+        $this->updateMode = true;
+    }
+
+    public function exitUpdateMode()
+    {
+        $this->updatingExpense = null;
+        $this->updateMode = false;
     }
 }

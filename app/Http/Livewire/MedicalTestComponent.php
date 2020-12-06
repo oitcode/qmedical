@@ -9,10 +9,12 @@ use App\MedicalTest;
 class MedicalTestComponent extends Component
 {
     public $medicalTests;
-    public $createMode = false;
 
+    public $createMode = false;
     public $displayMode = false;
     public $displayedMedicalTest = null;
+    public $updateMode = false;
+    public $updatingMedicalTest = null;
 
     protected $listeners = [
         'destroyCreate' => 'exitCreateMode',
@@ -23,6 +25,8 @@ class MedicalTestComponent extends Component
         'displayCancelled' => 'exitDisplayMode',
         'createCancel' => 'exitCreateMode',
         'deleteMedicalTest',
+        'updateMedicalTest',
+        'destroyMedicalTestUpdate' => 'exitUpdateMode',
     ];
 
     public function render()
@@ -70,5 +74,22 @@ class MedicalTestComponent extends Component
     {
         MedicalTest::findOrFail($id)->delete();
         $this->emit('updateList');
+    }
+
+    public function updateMedicalTest(MedicalTest $medicalTest)
+    {
+        $this->updatingMedicalTest = $medicalTest;
+        $this->enterUpdateMode();
+    }
+
+    public function enterUpdateMode()
+    {
+        $this->updateMode = true;
+    }
+
+    public function exitUpdateMode()
+    {
+        $this->updatingMedicalTest = null;
+        $this->updateMode = false;
     }
 }

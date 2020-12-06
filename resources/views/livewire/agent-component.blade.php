@@ -29,6 +29,11 @@
       @livewire('agent-detail', ['agent' => $displayedAgent])
     @endif
 
+    {{-- Update Modal --}}
+    @if ($updateMode)
+      @livewire('agent-update', ['agent' => $updatingAgent])
+    @endif
+
     {{-- Show agent list --}}
     @livewire('agent-list')
   </div>

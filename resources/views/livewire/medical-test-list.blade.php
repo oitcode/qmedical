@@ -33,12 +33,11 @@
           <td>{{ $medicalTest->medicalTestType->name }}</td>
           <td>{{ $medicalTest->status }}</td>
           <td>
+            <span class="btn btn-tool btn-sm">
+              <i class="fas fa-pencil-alt text-primary mr-3" wire:click="$emit('updateMedicalTest', {{ $medicalTest }})"></i>
+            </span>
 
-            <a href="{{ route('medicalTestEdit', $medicalTest->medical_test_id) }}">
-              <i class="fas fa-pencil-alt text-primary mr-3"></i>
-            </a>
-
-                <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
+            <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
           </td>
         </tr>
         @endforeach
