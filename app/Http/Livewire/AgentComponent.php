@@ -18,7 +18,6 @@ class AgentComponent extends Component
     public $comment = '';
 
     public $createMode = false;
-
     public $displayMode = false;
     public $displayedAgent = null;
 

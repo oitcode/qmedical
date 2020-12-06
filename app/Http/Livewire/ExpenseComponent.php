@@ -8,19 +8,16 @@ use App\ExpenseCategory;
 
 class ExpenseComponent extends Component
 {
-    public $expenses;
-
-    public $expense_id;
-    public $date = '';
-    public $expense_category_id = '';
-    public $amount = '';
-    public $comment = '';
-    public $name = '';
-
-    public $expenseCategories;
+    protected $listeners = [
+        'destroyExpenseCreate' => 'exitCreateMode',
+        'displayExpense' => 'displaySingleExpense',
+        'destroyDisplay' => 'exitDisplayMode',
+        'deleteExpense',
+    ];
 
     public $createMode = false;
-    public $updateMode = false;
+    public $displayMode = false;
+    public $displayedExpense = null;
 
     public function render()
     {
@@ -32,12 +29,16 @@ class ExpenseComponent extends Component
 
     public function create()
     {
+        $this->enterCreateMode();
+    }
+
+    public function enterCreateMode()
+    {
         $this->createMode = true;
     }
 
     public function exitCreateMode()
     {
-        $this->resetInputFields();
         $this->createMode = false;
     }
 
@@ -47,21 +48,6 @@ class ExpenseComponent extends Component
         $this->updateMode = false;
     }
 
-    public function store()
-    {
-        $validatedData = $this->validate([
-            'date' => 'required',
-            'expense_category_id' => 'required',
-            'name' => 'required',
-            'amount' => 'required',
-            'comment' => 'nullable',
-        ]);
-
-        Expense::create($validatedData);
-        session()->flash('message', 'Expense Created Successfully.');
-        $this->resetInputFields();
-        $this->exitCreateMode();
-    }
 
     public function edit($id)
     {
@@ -113,5 +99,29 @@ class ExpenseComponent extends Component
     {
         Expense::find($id)->delete();
         session()->flash('message', 'Expense Deleted Successfully.');
+    }
+
+    public function displaySingleExpense(Expense $expense)
+    {
+        $this->enterDisplayMode();
+        $this->displayedExpense = $expense;
+        $this->render();
+    }
+
+    public function enterDisplayMode()
+    {
+        $this->displayMode = true;
+    }
+
+    public function exitDisplayMode()
+    {
+        $this->displayedExpense = null;
+        $this->displayMode = false;
+    }
+
+    public function deleteExpense($id)
+    {
+        Expense::findOrFail($id)->delete();
+        $this->emit('updateList');
     }
 }

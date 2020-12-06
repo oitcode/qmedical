@@ -1,11 +1,4 @@
 <div class="card shadow-none">
-  <div class="card-header">
-    <h3 class="card-title">
-      Recent Medical Tests
-    </h3>
-    <div class="card-tools">
-    </div>
-  </div>
   <div class="card-body p-0">
     <div>
       @if (session()->has('message'))
@@ -18,39 +11,27 @@
       @endif
     </div>
     <table class="table table-striped table-hover table-valign-middle">
+      @if (false)
       <thead>
-        <tr class="">
+        <tr class="text-secondary">
           <th>Patient</th>
           <th>Type</th>
           <th>Status</th>
-          <th>Payment</th>
           <th>Action</th>
         </tr>
       </thead>
+      @endif
 
       <tbody>
         @foreach($medicalTests as $medicalTest)
         <tr>
-          <td
-            class="btn btn-link"
-            wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})">
-             <span class="w-100">
+          <td>
+            <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
                {{ $medicalTest->patient->name }}
-             </span>
+            </a>
           </td>
           <td>{{ $medicalTest->medicalTestType->name }}</td>
           <td>{{ $medicalTest->status }}</td>
-          <td>
-            @if ($medicalTest->payment_status === 'Paid')
-              <span class="text-success">
-                {{ $medicalTest->payment_status }}
-              </span>
-            @else
-              <span class="text-danger">
-                {{ $medicalTest->payment_status }}
-              </span>
-            @endif
-          </td>
           <td>
 
             <a href="{{ route('medicalTestEdit', $medicalTest->medical_test_id) }}">
