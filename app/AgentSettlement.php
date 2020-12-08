@@ -4,26 +4,25 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Agent extends Model
+class AgentSettlement extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'agent';
+    protected $table = 'agent_settlement';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'agent_id';
+    protected $primaryKey = 'agent_settlement_id';
 
     protected $fillable = [
-        'name', 'sex', 'contact_number', 'email', 'nationality', 'comment',
+          'agent_id', 'date', 'comment',
     ];
-
 
     /*-------------------------------------------------------------------------
      * Relationships
@@ -31,22 +30,21 @@ class Agent extends Model
      *
      */
 
+    /*
+     * agent table.
+     *
+     */
+    public function agent()
+    {
+        return $this->belongsTo('App\Agent', 'agent_id', 'agent_id');
+    }
 
     /*
      * medical_test table.
      *
      */
-    public function MedicalTests()
+    public function medicalTest()
     {
-        return $this->hasMany('App\MedicalTest', 'agent_id', 'agent_id');
-    }
-
-    /*
-     * agent_settlement table.
-     *
-     */
-    public function agentSettlements()
-    {
-        return $this->hasMany('App\AgentSettlement', 'agent_id', 'agent_id');
+        return $this->belongsTo('App\MedicalTest', 'medical_test_id', 'medical_test_id');
     }
 }

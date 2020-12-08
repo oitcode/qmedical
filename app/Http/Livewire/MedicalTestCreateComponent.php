@@ -12,7 +12,6 @@ use App\MedicalTestBill;
 
 class MedicalTestCreateComponent extends Component
 {
-    public $foobarcup = "";
     public $medicalTest;
 
     public $agents;
@@ -24,14 +23,14 @@ class MedicalTestCreateComponent extends Component
     public $patientSex;
     public $patientDob;
 
-    public $patientAddress;
-    public $patientContactNumber;
-    public $patientEmail;
+    public $patientAddress = "";
+    public $patientContactNumber = "";
+    public $patientEmail = "";
 
-    public $patientPassportNumber;
-    public $patientPassportExpiryDate;
-    public $patientPassportIssuePlace;
-    public $patientNationality;
+    public $patientPassportNumber = "";
+    public $patientPassportExpiryDate = "";
+    public $patientPassportIssuePlace = "";
+    public $patientNationality = "";
 
     public $medicalTestDate;
     public $medicalTestTypeId;
@@ -119,6 +118,41 @@ class MedicalTestCreateComponent extends Component
 
     public function store()
     {
+        /* Validate form data */
+
+        $validatedData = $this->validate([
+
+            /* Medical test info */
+            'medicalTestDate' => 'required|date',
+            'medicalTestTypeId' => 'required|integer|exists:medical_test_type,medical_test_type_id',
+
+
+            /* Patient Info */
+            'patientName' => 'required',
+            'patientSex' => 'required',
+            'patientDob' => 'required|date',
+
+            'patientAddress' => 'nullable',
+            'patientContactNumber' => 'nullable',
+            'patientEmail' => 'nullable|email',
+
+            /* Patient Passport Info */
+            'patientPassportNumber' => 'nullable',
+            'patientPassportExpiryDate' => 'nullable|date',
+            'patientPassportIssuePlace' => 'nullable',
+
+            /* Billing Info */
+            'price' => 'required|integer',
+            'paymentStatus' => 'required',
+
+            /* Agent Info */
+            'selectedAgentId' => 'required|integer|exists:agent,agent_id',
+            'agentCommission' => 'nullable|integer',
+            'agentCommissionStatus' => 'required_with:agentCommission',
+        ]);
+
+
+
         $patient = new Patient;
 
         $patient->name = $this->patientName;

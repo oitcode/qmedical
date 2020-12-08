@@ -18,6 +18,9 @@ class AgentComponent extends Component
     public $updateMode = false;
     public $updatingAgent = null;
 
+    public $settlementMode = false;
+    public $settlingAgent = null;
+
     protected $listeners = [
         'agentAdded' => 'finishCreate',
         'destroyAgentCreate' => 'exitCreateMode',
@@ -26,6 +29,10 @@ class AgentComponent extends Component
         'deleteAgent',
         'updateAgent',
         'destroyAgentUpdate' => 'exitUpdateMode',
+        'makeAgentSettlement',
+        'agentSettlementAdded' => 'exitSettlementMode',
+        /* Better to update settlingAgent rather than just exit. */
+        'destroyAgentSettlementCreate' => 'exitSettlementMode',
     ];
 
     public function render()
@@ -110,5 +117,21 @@ class AgentComponent extends Component
     public function enterUpdateMode()
     {
         $this->updateMode = true;
+    }
+
+    public function enterSettlementMode()
+    {
+        $this->settlementMode = true;
+    }
+
+    public function exitSettlementMode()
+    {
+        $this->settlementMode = false;
+    }
+
+    public function makeAgentSettlement(Agent $agent)
+    {
+        $this->settlingAgent = $agent;
+        $this->enterSettlementMode();
     }
 }

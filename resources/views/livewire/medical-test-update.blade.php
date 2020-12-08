@@ -1,6 +1,13 @@
 <div  wire:ignore.self class="modal fade" id="medicalTestUpdateModal" tabindex="-1">
   <div class="modal-dialog mw-100 w-75">
     <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Medical Test</h5>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
       <div class="modal-body">
       <form>
           <!-- Top row -->

@@ -40,5 +40,7 @@
     {{--
     @livewire('expense-category')
     --}}
+
+    @livewire('expense-category')
   </div>
 </div>

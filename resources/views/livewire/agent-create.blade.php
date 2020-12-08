@@ -3,6 +3,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Create Agent</h5>
+        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
 
       <div class="modal-body">

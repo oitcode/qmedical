@@ -65,4 +65,13 @@ class MedicalTest extends Model
     {
         return $this->hasOne('App\MedicalTestBill', 'medical_test_id', 'medical_test_id');
     }
+
+    /*
+     * medical_test_type table.
+     *
+     */
+    public function agentSettlement()
+    {
+        return $this->hasOne('App\AgentSettlement', 'medical_test_id', 'medical_test_id');
+    }
 }

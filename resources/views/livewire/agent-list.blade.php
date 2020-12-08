@@ -28,6 +28,10 @@
               <span class="btn btn-tool btn-sm">
                 <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>
               </span>
+              </span>
+              <span class="btn btn-outline-info btn-xs text-bold" wire:click="$emit('makeAgentSettlement', {{ $agent }})">
+                Settle
+              </span>
             </td>
         </tr>
         @endforeach

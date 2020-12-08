@@ -34,6 +34,11 @@
       @livewire('agent-update', ['agent' => $updatingAgent])
     @endif
 
+    {{-- Settlement Create Modal --}}
+    @if ($settlementMode)
+      @livewire('agent-settlement-create', ['agent' => $settlingAgent])
+    @endif
+
     {{-- Show agent list --}}
     @livewire('agent-list')
   </div>
