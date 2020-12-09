@@ -9,6 +9,7 @@ use App\Agent;
 use App\MedicalTest;
 use App\MedicalTestType;
 use App\MedicalTestBill;
+use App\AgentTransaction;
 
 class MedicalTestCreateComponent extends Component
 {
@@ -159,14 +160,34 @@ class MedicalTestCreateComponent extends Component
         $patient->sex = $this->patientSex;
         $patient->dob = $this->patientDob;
 
-        $patient->address = $this->patientAddress;
-        $patient->contact_number = $this->patientContactNumber;
-        $patient->email = $this->patientEmail;
+        if($this->patientAddress) {
+            $patient->address = $this->patientAddress;
+        }
 
-        $patient->passport_number = $this->patientPassportNumber;
-        $patient->passport_expiry_date = $this->patientPassportExpiryDate;
-        $patient->passport_issue_place = $this->patientPassportIssuePlace;
-        $patient->nationality = $this->patientNationality;
+        if($this->patientContactNumber) {
+            $patient->contact_number = $this->patientContactNumber;
+        }
+
+        if($this->patientEmail) {
+            $patient->email = $this->patientEmail;
+        }
+
+        if($this->patientPassportNumber) {
+            $patient->passport_number = $this->patientPassportNumber;
+        }
+
+        if($this->patientPassportExpiryDate) {
+            $patient->passport_expiry_date = $this->patientPassportExpiryDate;
+        }
+
+        if($this->patientPassportIssuePlace) {
+            $patient->passport_issue_place = $this->patientPassportIssuePlace;
+        }
+
+        if($this->patientNationality) {
+            $patient->nationality = $this->patientNationality;
+        }
+
 
         $patient->save();
 
@@ -187,6 +208,34 @@ class MedicalTestCreateComponent extends Component
         $medicalTest->agent_commission_status = $this->agentCommissionStatus;
 
         $medicalTest->save();
+
+        /* Create agent_transaction if agent involved */
+        if($this->selectedAgentId) {
+            /* calculate amount to give/receive */
+            $amount = 0;
+            $direction = 'out';
+
+            $amount = $this->agentCommission;
+            if ($medicalTest->payment_status === 'Pending') {
+                $amount -= $this->price;
+            }
+
+            if ($amount < 0) {
+                $direction = 'in';
+                $amount *= -1;
+            }
+
+            
+            $agentTransaction = new AgentTransaction;
+
+            $agentTransaction->medical_test_id = $medicalTest->medical_test_id;
+            $agentTransaction->agent_id = $this->selectedAgentId;
+            $agentTransaction->amount = $amount;
+            $agentTransaction->direction = $direction;
+            $agentTransaction->comment = 'medical test';
+
+            $agentTransaction->save();
+        }
 
         $this->emitUp('medicalTestAdded');
         $this->emit('toggleMedicalTestCreateModal');

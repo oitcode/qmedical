@@ -8,6 +8,8 @@ use App\AgentSettlement;
 
 class AgentSettlementCreate extends Component
 {
+    public $compDisplayMode = "";
+
     public $agent = null;
 
     public $date = "";
@@ -40,7 +42,16 @@ class AgentSettlementCreate extends Component
 
         $agentSettlement->save();
 
-        $this->emitUp('agentSettlementAdded');
-        $this->emit('toggleAgentSettlementCreateModal');
+        if ($this->compDisplayMode === 'normal') {
+            $this->close();
+        } else {
+            $this->emitUp('agentSettlementAdded');
+            $this->emit('toggleAgentSettlementCreateModal');
+        }
+    }
+
+    public function close()
+    {
+        $this->emit('closeAgentSettlement');
     }
 }

@@ -13,6 +13,7 @@ class MedicalTestList extends Component
     protected $listeners = [
         'dataAdded' => 'render',
         'updateList' => 'render',
+        'refreshMedicalTestList' => 'render',
     ];
 
     public function render()

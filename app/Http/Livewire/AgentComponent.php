@@ -95,6 +95,7 @@ class AgentComponent extends Component
         $this->enterDisplayMode();
         $this->displayedAgent = $agent;
         $this->render();
+        // $this->emit('displayComponentInDash', 'agent-detail', 'agent', $agent);
     }
 
     public function enterDisplayMode()

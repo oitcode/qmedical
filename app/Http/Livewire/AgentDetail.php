@@ -8,6 +8,12 @@ class AgentDetail extends Component
 {
     public $agent;
 
+    public $compDisplayMode = "";
+
+    public $settlementMode = false;
+    public $agentTransactionMode = false;
+    public $agentTransactions = null;
+
     public $latestSettlement = null;
     public $latestSettlementDate;
 
@@ -24,9 +30,15 @@ class AgentDetail extends Component
     public $viewPrevious = false;
     public $allMedicalTests = null;
 
+    protected $listeners = [
+        'closeAgentSettlement' => 'closeSettlementComponent',
+        'agentTransactionAdded' => 'exitAgentTransactionMode',
+    ];
+
 
     public function render()
     {
+        $this->agentTransactions = $this->agent->agentTransactions;
         $this->getLastSettlementInfo();
 
         $this->amountToPay = $this->calculateAmountToPay();
@@ -131,5 +143,25 @@ class AgentDetail extends Component
     public function hideViewPrevious()
     {
         $this->viewPrevious = false;
+    }
+
+    public function enterSettlementMode()
+    {
+        $this->settlementMode = true;
+    }
+
+    public function closeSettlementComponent()
+    {
+        $this->settlementMode = false;
+    }
+
+    public function enterAgentTransactionMode()
+    {
+        $this->agentTransactionMode = true;
+    }
+
+    public function exitAgentTransactionMode()
+    {
+        $this->agentTransactionMode = false;
     }
 }

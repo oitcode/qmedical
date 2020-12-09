@@ -49,4 +49,13 @@ class Agent extends Model
     {
         return $this->hasMany('App\AgentSettlement', 'agent_id', 'agent_id');
     }
+
+    /*
+     * agent_transaction table.
+     *
+     */
+    public function agentTransactions()
+    {
+        return $this->hasMany('App\AgentTransaction', 'agent_id', 'agent_id');
+    }
 }

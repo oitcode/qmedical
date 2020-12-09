@@ -4,7 +4,7 @@
       <thead>
       <tr class="sr-only">
         <th>Name</th>
-        <th>Contact</th>
+        <th>Balance</th>
         <th>Action</th>
       </tr>
       </thead>
@@ -16,7 +16,9 @@
                 {{ $agent->name }}
               </a>
             </td>
-            <td>{{ $agent->contact_number }}</td>
+            <td>
+              @livewire('agent-balance-display', ['agent' => $agent,])
+            </td>
             <td>
               <span class="btn btn-tool btn-sm">
                 <i class="fas fa-folder text-info mr-3" wire:click="$emit('displayAgent', {{ $agent }})"></i>

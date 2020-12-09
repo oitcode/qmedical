@@ -1,5 +1,5 @@
-<div class="modal fade" id="detailModal">
-  <div class="modal-dialog mw-100 w-75">
+<div class="modal fade" id="detailModal" data-backdrop="static">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Medical Test Detail</h5>
@@ -9,8 +9,6 @@
       </div>
       <div class="modal-body">
 
-    <div class="row">
-      <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
         <!-- Patient Detail -->
         <div class="mb-3">
           <h2 class="lead mb-4"><b>{{ $medicalTest->patient->name }}</b></h2>
@@ -49,23 +47,21 @@
           Fit
         </p>
         <!-- /.Test Detail -->
-      </div>
 
-      <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-        <h3 class="">Billing</h3>
+        <h3 class="h5 mt-4">Billing</h3>
         <div class="table-responsive">
-          <table class="table text-muted">
+          <table class="table table-sm text-muted text-sm">
             <tr>
               <th style="width:50%">Charge</th>
-              <td>$250.30</td>
+              <td>{{ $medicalTest->price }}</td>
             </tr>
             <tr>
               <th>Agent</th>
-              <td>$10.34</td>
+              <td>{{ $medicalTest->agent_commission}}</td>
             </tr>
             <tr>
               <th>Total</th>
-              <td>$265.24</td>
+              <td>{{ $medicalTest->price - $medicalTest->agent_commission}}</td>
             </tr>
           </table>
         </div>
@@ -73,9 +69,6 @@
           <a href="#" class="btn btn-sm btn-primary">SMS Invoice</a>
           <a href="#" class="btn btn-sm btn-warning">Report</a>
         </div>
-      </div>
-    </div>
-
 
 
 

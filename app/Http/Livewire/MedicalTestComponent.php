@@ -27,6 +27,7 @@ class MedicalTestComponent extends Component
         'deleteMedicalTest',
         'updateMedicalTest',
         'destroyMedicalTestUpdate' => 'exitUpdateMode',
+        'medicalTestUpdated' => 'refreshList'
     ];
 
     public function render()
@@ -44,6 +45,11 @@ class MedicalTestComponent extends Component
     public function finishCreate()
     {
         $this->emit('dataAdded');
+    }
+
+    public function refreshList()
+    {
+        $this->emit('refreshMedicalTestList');
     }
 
     public function exitCreateMode()

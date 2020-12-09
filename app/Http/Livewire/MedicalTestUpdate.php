@@ -140,6 +140,7 @@ class MedicalTestUpdate extends Component
         $medicalTest->save();
 
         $this->emit('toggleMedicalTestUpdateModal');
+        $this->emit('medicalTestUpdated');
     }
 
     public function selectAgent()

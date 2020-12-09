@@ -15,7 +15,6 @@
       <thead>
         <tr class="text-secondary">
           <th>Patient</th>
-          <th>Type</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -29,9 +28,25 @@
             <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
                {{ $medicalTest->patient->name }}
             </a>
+            <span class="text-muted ml-3 font-sm">
+              {{ $medicalTest->medicalTestType->name }}
+            </span>
           </td>
-          <td>{{ $medicalTest->medicalTestType->name }}</td>
-          <td>{{ $medicalTest->status }}</td>
+          <td>
+            @if ($medicalTest->status === 'Waiting')
+              <span class="badge badge-danger badge-pill">
+                W
+              </span>
+            @elseif ($medicalTest->status === 'Completed')
+              <span class="badge badge-success badge-pill">
+                C
+              </span>
+            @else
+              <span class="">
+                {{ $medicalTest->status }}
+              </span>
+            @endif
+          </td>
           <td>
             <span class="btn btn-tool btn-sm">
               <i class="fas fa-pencil-alt text-primary mr-3" wire:click="$emit('updateMedicalTest', {{ $medicalTest }})"></i>

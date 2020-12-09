@@ -74,4 +74,9 @@ class MedicalTest extends Model
     {
         return $this->hasOne('App\AgentSettlement', 'medical_test_id', 'medical_test_id');
     }
+
+    public function agentTransaction()
+    {
+        return $this->hasOne('App\AgentTransaction', 'medical_test_id', 'medical_test_id');
+    }
 }
