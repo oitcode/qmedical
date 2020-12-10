@@ -10,15 +10,19 @@ class AgentList extends Component
 {
     protected $listeners = [
         'dataAdded' => 'render',
-        'updateList' => 'render',
+        //'updateList' => 'render',
     ];
 
     public $agents = null;
 
     public function render()
     {
+        $this->agents = null;
         $this->agents = Agent::all()->sortByDesc('agent_id');
-
         return view('livewire.agent-list');
+    }
+
+    public function hydrate()
+    {
     }
 }

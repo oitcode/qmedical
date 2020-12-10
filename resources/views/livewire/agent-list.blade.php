@@ -3,6 +3,7 @@
     <table class="table table-striped table-hover table-valign-middle">
       <thead>
       <tr class="sr-only">
+        <th>#</th>
         <th>Name</th>
         <th>Balance</th>
         <th>Action</th>
@@ -12,12 +13,15 @@
         @foreach($agents as $agent)
         <tr >
             <td>
+              {{ $loop->iteration }}
+            </td>
+            <td>
               <a href="" wire:click.prevent="$emit('displayAgent', {{ $agent }})" class="text-dark">
                 {{ $agent->name }}
               </a>
             </td>
             <td>
-              @livewire('agent-balance-display', ['agent' => $agent,])
+                @livewire('agent-balance-display', ['agent' => $agent], key(rand() * $agent->agent_id))
             </td>
             <td>
               <span class="btn btn-tool btn-sm">
@@ -30,9 +34,6 @@
               <span class="btn btn-tool btn-sm">
                 <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>
               </span>
-              </span>
-              <span class="btn btn-outline-info btn-xs text-bold" wire:click="$emit('makeAgentSettlement', {{ $agent }})">
-                Settle
               </span>
             </td>
         </tr>

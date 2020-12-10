@@ -26,6 +26,18 @@
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
+                      Balance
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" placeholder="Balance" wire:model.defer="balance">
+                  @error('balance') <span class="text-danger">{{ $message }}</span>@enderror
+                </div>
+            </div>
+
+            <div class="form-group form-inline">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
                       Sex
                     </div>
                   </div>
