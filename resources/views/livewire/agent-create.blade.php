@@ -1,4 +1,4 @@
-<div wire:ignore.self class="modal fade" tabindex="-1" role="dialog" id="agentCreateModal">
+<div wire:ignore.self class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" id="agentCreateModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -86,11 +86,12 @@
                 </div>
             </div>
         </form>
-      </div>
-
-      <div class="modal-footer">
         <button wire:click="store" class="btn btn-success">Save</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+
+
       </div>
     </div>
   </div>

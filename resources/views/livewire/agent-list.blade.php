@@ -13,7 +13,7 @@
         @foreach($agents as $agent)
         <tr >
             <td>
-              {{ $loop->iteration }}
+              {{ $agent->agent_id }}
             </td>
             <td>
               <a href="" wire:click.prevent="$emit('displayAgent', {{ $agent }})" class="text-dark">
@@ -40,6 +40,7 @@
         @endforeach
       </tbody>
     </table>
+    {{ $agents->links() }}
   </div>
 </div>
 <!-- /.card -->

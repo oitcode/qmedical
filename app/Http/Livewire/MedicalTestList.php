@@ -7,7 +7,7 @@ use App\MedicalTest;
 
 class MedicalTestList extends Component
 {
-    public $medicalTests;
+    //public $medicalTests;
     public $createMode = false;
 
     protected $listeners = [
@@ -18,8 +18,9 @@ class MedicalTestList extends Component
 
     public function render()
     {
-        $this->medicalTests = MedicalTest::all()->sortByDesc('medical_test_id');
+        //$this->medicalTests = MedicalTest::all()->sortByDesc('medical_test_id');
 
-        return view('livewire.medical-test-list');
+        return view('livewire.medical-test-list')
+          ->with('medicalTests', MedicalTest::orderBy('medical_test_id', 'desc')->paginate(5));
     }
 }

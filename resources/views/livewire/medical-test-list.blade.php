@@ -58,6 +58,7 @@
         @endforeach
       </tbody>
     </table>
+    {{ $medicalTests->links() }}
   </div>
   @if ($createMode)
     @livewire('medical-test-create-component')
