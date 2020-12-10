@@ -213,7 +213,7 @@ class MedicalTestCreateComponent extends Component
         if($this->selectedAgentId) {
             /* calculate amount to give/receive */
             $amount = 0;
-            $direction = 'out';
+            $direction = 'in';
 
             $amount = $this->agentCommission;
             if ($medicalTest->payment_status === 'Pending') {
@@ -221,7 +221,7 @@ class MedicalTestCreateComponent extends Component
             }
 
             if ($amount < 0) {
-                $direction = 'in';
+                $direction = 'out';
                 $amount *= -1;
             }
 
