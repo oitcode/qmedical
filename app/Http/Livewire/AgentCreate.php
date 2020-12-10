@@ -25,9 +25,9 @@ class AgentCreate extends Component
     {
         $validatedData = $this->validate([
             'name' => 'required',
-            'sex' => 'required',
-            'email' => 'nullable',
-            'contact_number' => 'nullable',
+            'sex' => 'nullable',
+            'email' => 'nullable|email',
+            'contact_number' => 'nullable|regex:/^[0-9]*$/',
             'comment' => 'nullable',
             'balance' => 'required|integer',
         ]);

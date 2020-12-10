@@ -8,25 +8,25 @@
         </button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body p-0">
         <form>
-            <div class="form-group form-inline">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <i class="fas fa-user"></i>
+            <div class="form-group form-inline m-0">
+                <div class="input-group w-100">
+                  <div class="input-group-prepend w-25">
+                    <div class="input-group-text w-100">
+                      <i class="fas fa-user mr-3"></i>
                     </div>
                   </div>
-                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" wire:model.defer="name">
+                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name" wire:model.defer="name">
                   @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
 
-            <div class="form-group form-inline">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      Balance
+            <div class="form-group form-inline m-0">
+                <div class="input-group w-100">
+                  <div class="input-group-prepend w-25">
+                    <div class="input-group-text w-100">
+                      <i class="fas fa-dollar-sign mr-3"></i>
                     </div>
                   </div>
                   <input type="text" class="form-control" placeholder="Balance" wire:model.defer="balance">
@@ -34,8 +34,10 @@
                 </div>
             </div>
 
-            <div class="form-group form-inline">
-                <div class="input-group">
+            {{-- TODO --}}
+            @if (false)
+            <div class="form-group form-inline m-0">
+                <div class="input-group w-100">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       Sex
@@ -49,11 +51,12 @@
                   @error('sex') <span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
+            @endif
 
-            <div class="form-group form-inline">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
+            <div class="form-group form-inline m-0">
+                <div class="input-group w-100">
+                  <div class="input-group-prepend w-25">
+                    <div class="input-group-text w-100">
                       <i class="fas fa-envelope mr-3"></i>
                     </div>
                   </div>
@@ -62,10 +65,10 @@
                 </div>
             </div>
 
-            <div class="form-group form-inline">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
+            <div class="form-group form-inline m-0">
+                <div class="input-group w-100">
+                  <div class="input-group-prepend w-25">
+                    <div class="input-group-text w-100">
                       <i class="fas fa-phone mr-3"></i>
                     </div>
                   </div>
@@ -74,20 +77,23 @@
                 </div>
             </div>
 
-            <div class="form-group form-inline">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
+            <div class="form-group form-inline m-0">
+                <div class="input-group w-100">
+                  <div class="input-group-prepend w-25">
+                    <div class="input-group-text w-100">
                       <i class="fas fa-comment mr-3"></i>
                     </div>
                   </div>
-                  <textarea class="form-control" rows="3" wire:model.defer="comment" placeholder="Comment"></textarea>
+                  <input type="text" class="form-control" rows="3" wire:model.defer="comment" placeholder="Comment">
                   @error('comment') <span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
         </form>
-        <button wire:click="store" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        <div class="mx-2 my-4">
+          <button wire:click="store" class="btn btn-sm btn-success mr-3">Save</button>
+          <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
 
 
 
