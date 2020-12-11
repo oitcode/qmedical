@@ -21,7 +21,7 @@ class AgentTransaction extends Model
     protected $primaryKey = 'agent_transaction_id';
 
     protected $fillable = [
-        'agent_id', 'medical_test_id', 'amount', 'direction',
+        'agent_id', 'medical_test_id', 'amount', 'direction', 'comment',
     ];
 
 

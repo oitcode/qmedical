@@ -92,7 +92,7 @@
 
         <div class="mx-2 my-4">
           <button wire:click="store" class="btn btn-sm btn-success mr-3">Save</button>
-          <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
 
 

@@ -14,310 +14,111 @@
 
 
 
-      <div class="modal-body">
+      <div class="modal-body p-0">
 @endif
-        <h3 class="text-secondary"><i class="fas fa-user mr-3"></i>{{ $agent->name}}</h3>
-        <ul class="list-unstyled">
-          <li>
-            <a href="" class="btn-link text-secondary">
-              <i class="fas fa-map mr-3"></i>
-              {{ $agent->address}}
-            </a>
-          </li>
-          <li>
-            <a href="" class="btn-link text-secondary">
-              <i class="fas fa-envelope mr-3"></i>
-              {{ $agent->email }}
-            </a>
-          </li>
-          <li>
-            <a href="" class="btn-link text-secondary">
-              <i class="fas fa-phone mr-3"></i>
-              {{ $agent->contact_number }}
-            </a>
-          </li>
-        </ul>
-
-
-
-
-
-        <div class="my-3">
-          <!-- Transaction button -->
-          @if (!$agentTransactionMode)
-            <span wire:click="enterAgentTransactionMode" class="btn btn-sm btn-success">
-              Settle
-            </span>
-          @else
-            <span wire:click="exitAgentTransactionMode" class="btn btn-sm btn-success">
-              Cancel
-            </span>
-          @endif
+        <div class="m-2">
+          <h3 class="text-secondary"><i class="fas fa-user mr-3"></i>{{ $agent->name}}</h3>
+          <ul class="list-unstyled">
+            <li>
+              <a href="" class="btn-link text-secondary">
+                <i class="fas fa-envelope mr-3"></i>
+                {{ $agent->email }}
+              </a>
+            </li>
+            <li>
+              <a href="" class="btn-link text-secondary">
+                <i class="fas fa-phone mr-3"></i>
+                {{ $agent->contact_number }}
+              </a>
+            </li>
+            <li>
+              <a href="" class="btn-link text-secondary">
+                <i class="fas fa-dollar-sign mr-3"></i>
+                @livewire('agent-balance-display', ['agent' => $agent], key(rand() * $agent->agent_id))
+              </a>
+            </li>
+          </ul>
         </div>
 
 
-
-
+        <div class="m-2">
+          <!-- Transaction button -->
+          @if (!$agentTransactionMode)
+            <button class="btn">
+              <span wire:click="enterAgentTransactionMode" class="text-primary">
+                New Transaction
+              </span>
+            </button>
+          @else
+            <span wire:click="exitAgentTransactionMode" class="btn btn-sm btn-success">
+              Cancel Transaction
+            </span>
+          @endif
+        </div>
 
 
         @if ($agentTransactionMode)
-            {{--
-            @livewire('agent-settlement-create', ['agent' => $agent, 'compDisplayMode' => 'normal',])
-            --}}
-
-            @livewire('agent-transaction-create', ['agent' => $agent,])
+            @livewire('agent-transaction-create', ['agent' => $agent,], key(rand() * $agent->agent_id))
         @endif
 
 
 
-
-
-
-        <h3 class="h5 mt-3">Recent</h3>
-
-        @if (count($recentMedicalTests))
-
-        @php
-          $netSummary = 0; 
-        @endphp
-        <div class="table-responsive text-muted">
-          <table class="table table-sm table-hover text-nowrap">
-            <thead>
-              <tr>
-                <th>Patient</th>
-                <th>Amount</th>
-                <th>Commission</th>
-                <th>Net</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($recentMedicalTests as $medicalTest)
-                <tr>
-                  <td>
-                    {{ $medicalTest->patient->name }}
-                  </td>
-                  <td>
-                    {{ $medicalTest->price }}
-                    @if ($medicalTest->payment_status === 'Pending')
-                      <span class="badge badge-pill badge-primary ml-3">
-                        A
-                      </span>
-                    @endif
-                  </td>
-                  <td>
-                    {{ $medicalTest->agent_commission }}
-                  </td>
-                  <td>
-                    @php
-                        $net = 0;
-                        if ($medicalTest->payment_status === 'Pending') {
-                            $net = $medicalTest->agent_commission - $medicalTest->price;
-                        } else {
-                            $net = $medicalTest->agent_commission;
-                        }
-
-                        $netSummary += $net;
-                    @endphp
-                    @if ($net > 0)
-                      <span class="text-success">
-                        + {{ $net }}
-                      </span>
-                    @elseif ($net < 0)
-                      <span class="text-danger">
-                        {{ $net }}
-                      </span>
-                    @else
-                      0
-                    @endif
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>Total</th>
-                <td>
-                  @if ($netSummary > 0)
-                    <span class="text-success">
-                      + {{ $netSummary }}
-                    </span>
-                  @elseif ($netSummary < 0)
-                    <span class="text-danger">
-                      {{ $netSummary }}
-                    </span>
-                  @else
-                    0
-                  @endif
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        @else
-          <p class="text-info">
-            No recent medical tests
-          </p>
-        @endif
-
-        @if (false)
-        <div class="table-responsive">
-          <table class="table table-sm text-muted">
-            <tr>
-              <th>Last settlement</th>
-              <td>
-                {{ $latestSettlementDate }}</td>
-            </tr>
-            <tr>
-              <th>Commission</th>
-              <td>{{ $amountToPay }}</td>
-            </tr>
-            <tr>
-              <th>Payment</th>
-              <td>{{ $amountToReceive }}</td>
-            </tr>
-            <tr>
-              <th>Net</th>
-              <td>
-                {{ $netBalance['action'] }}
-                {{ $netBalance['amount'] }}
-              </td>
-            </tr>
-          </table>
-        </div>
-        @endif
-
-        <!-- Previous records button -->
-        <div class="my-3">
-          @if (!$viewPrevious)
-            <span wire:click="showViewPrevious" class="btn btn-sm btn-primary mr-3">
-              View Older
-            </span>
-          @else
-            <span wire:click="hideViewPrevious" class="btn btn-sm btn-primary mr-3">
-              Close Older
-            </span>
-          @endif
-          <!-- /.Previous records button -->
-        </div>
-
-        @if ($viewPrevious)
-          @if (count($allMedicalTests))
-
-          @php
-            $netSummary = 0; 
-          @endphp
+        <!-- Recent transactions -->
+        <h3 class="h5 m-3">Transactions</h3>
+        @if (count($agentTransactions))
           <div class="table-responsive text-muted">
             <table class="table table-sm table-hover text-nowrap">
               <thead>
                 <tr>
-                  <th>Patient</th>
-                  <th>Amount</th>
-                  <th>Commission</th>
-                  <th>Net</th>
+                  <th>Date</th>
+                  <th>In</th>
+                  <th>Out</th>
+                  <th>Comment</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($allMedicalTests as $medicalTest)
+                @foreach ($agentTransactions as $agentTransaction)
+                  @if($agentTransaction->medicalTest)
                   <tr>
+                  @else
+                  <tr class="">
+                  @endif
                     <td>
-                      {{ $medicalTest->patient->name }}
+                      {{ $agentTransaction->created_at->format('Y-d-m') }}
                     </td>
                     <td>
-                      {{ $medicalTest->price }}
-                      @if ($medicalTest->payment_status === 'Pending')
-                        <span class="badge badge-pill badge-primary ml-3">
-                          A
+                      @if ($agentTransaction->direction === 'in')
+                        <span class="text-success">
+                          {{ $agentTransaction->amount }}
                         </span>
                       @endif
                     </td>
                     <td>
-                      {{ $medicalTest->agent_commission }}
+                      @if ($agentTransaction->direction === 'out')
+                        <span class="text-danger">
+                          {{ $agentTransaction->amount }}
+                        </span>
+                      @endif
                     </td>
                     <td>
-                      @php
-                          $net = 0;
-                          if ($medicalTest->payment_status === 'Pending') {
-                              $net = $medicalTest->agent_commission - $medicalTest->price;
-                          } else {
-                              $net = $medicalTest->agent_commission;
-                          }
-
-                          $netSummary += $net;
-                      @endphp
-                      @if ($net > 0)
-                        <span class="text-success">
-                          + {{ $net }}
-                        </span>
-                      @elseif ($net < 0)
-                        <span class="text-danger">
-                          {{ $net }}
-                        </span>
-                      @else
-                        0
+                      {{ $agentTransaction->comment }}
+                    </td>
+                    <td>
+                      @if ($agentTransaction->medicalTest)
+                        {{ $agentTransaction->medicalTest->patient->name }}
                       @endif
                     </td>
                   </tr>
                 @endforeach
               </tbody>
-              <tfoot>
-                <tr>
-                  <th>Total</th>
-                  <td>
-                    @if ($netSummary > 0)
-                      <span class="text-success">
-                        + {{ $netSummary }}
-                      </span>
-                    @elseif ($netSummary < 0)
-                      <span class="text-danger">
-                        {{ $netSummary }}
-                      </span>
-                    @else
-                      0
-                    @endif
-                  </td>
-                </tr>
-              </tfoot>
             </table>
           </div>
-          @else
-            <p class="text-info">
-              No medical tests
-            </p>
-          @endif
-
-        @endif
-
-
-        <!-- Recent transactions -->
-        <h3 class="h5 mt-3">Transactions</h3>
-        <div class="table-responsive text-muted">
-          <table class="table table-sm table-hover text-nowrap">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Amount</th>
-                <th>Comment</th>
-              </tr>
-            </thead>
-            <tbody>
-              @isset($agentTransactions)
-                @foreach ($agentTransactions as $agentTransaction)
-                  <tr>
-                    <td>
-                      {{ $agentTransaction->agent_transaction_id }}
-                    </td>
-                    <td>
-                      {{ $agentTransaction->amount }}
-                    </td>
-                    <td>
-                      {{ $agentTransaction->comment }}
-                    </td>
-                  </tr>
-                @endforeach
-              @endisset
-            </tbody>
-          </table>
-        </div>
+        @else
+          <p class="text-info m-3">
+            No Transactions
+          </>
+        @endisset
       @if ($compDisplayMode === 'normal')
       </div>
       @else

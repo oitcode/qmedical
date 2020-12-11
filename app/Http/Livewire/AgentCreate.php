@@ -14,7 +14,7 @@ class AgentCreate extends Component
     public $email;
     public $contact_number;
     public $comment;
-    public $balance;
+    public $balance = null;
 
     public function render()
     {
@@ -29,28 +29,30 @@ class AgentCreate extends Component
             'email' => 'nullable|email',
             'contact_number' => 'nullable|regex:/^[0-9]*$/',
             'comment' => 'nullable',
-            'balance' => 'required|integer',
+            'balance' => 'nullable|integer',
         ]);
 
         $agent = Agent::create($validatedData);
 
-        /* Starting Balance */
-        $agentTransaction = new AgentTransaction;
+        /* Create first agent_transaction if needed. */
+        if ($this->balance != null) {
+            $agentTransaction = new AgentTransaction;
 
-        $agentTransaction->agent_id = $agent->agent_id;
+            $agentTransaction->agent_id = $agent->agent_id;
 
-        $direction = 'in';
-        $agentTransaction->amount = $this->balance;
+            $direction = 'in';
+            $agentTransaction->amount = $this->balance;
 
-        if ($this->balance < 0) {
-            $direction = 'out';
-            $agentTransaction->amount *= -1;
+            if ($this->balance < 0) {
+                $direction = 'out';
+                $agentTransaction->amount *= -1;
+            }
+
+            $agentTransaction->direction = $direction;
+            $agentTransaction->comment = 'opening';
+
+            $agentTransaction->save();
         }
-
-        $agentTransaction->direction = $direction;
-        $agentTransaction->comment = 'opening';
-
-        $agentTransaction->save();
 
         $this->emitUp('agentAdded');
         $this->emit('toggleAgentCreateModal');

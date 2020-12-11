@@ -1,31 +1,55 @@
-<div class="modal fade" id="expenseDetailModal">
+<div class="modal fade" id="expenseDetailModal" data-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Expense Detail</h5>
+        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
 
       <div class="modal-body">
 
-            <h3 class="h5 mb-3">
-              {{ $expense->name }}
-            </h3>
-            <div class="table-responsive border-none">
-              <table class="table text-muted">
-                <tr>
-                  <th style="width:50%">Total</th>
-                  <td>250</td>
-                </tr>
-                <tr>
-                  <th>Category</th>
-                  <td>{{ $expense->expenseCategory->name }}</td>
-                </tr>
-                <tr>
-                  <th>Comment</th>
-                  <td>{{ $expense->comment }}</td>
-                </tr>
-              </table>
-            </div>
+        <h3 class="h5 mb-3">
+          {{ $expense->name }}
+        </h3>
+
+        <div class="row">
+          <div class="col-sm-4 bg-info text-light">
+            Date
+          </div>
+          <div class="col-sm-8">
+            {{ $expense->date }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            Total
+          </div>
+          <div class="col-sm-8">
+            {{ $expense->amount }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            Category
+          </div>
+          <div class="col-sm-8">
+            {{ $expense->expenseCategory->name }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            Comment
+          </div>
+          <div class="col-sm-8">
+            {{ $expense->comment }}
+          </div>
+        </div>
+
 
       </div>
     </div>

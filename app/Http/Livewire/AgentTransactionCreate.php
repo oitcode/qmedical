@@ -27,7 +27,7 @@ class AgentTransactionCreate extends Component
             'date' => 'required|date',
             'direction' => 'required',
             'amount' => 'required|integer',
-            'comment' => 'nullable',
+            'comment' => 'string',
         ]);
 
         $validatedData['agent_id'] = $this->agent->agent_id;

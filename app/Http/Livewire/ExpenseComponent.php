@@ -15,9 +15,12 @@ class ExpenseComponent extends Component
         'deleteExpense',
         'updateExpense',
         'destroyExpenseUpdate' => 'exitUpdateMode',
+        'destroyExpenseCategoryCreate' => 'exitCreateCategoryMode',
+        'expenseCategoryAdded' => 'exitCreateCategoryMode',
     ];
 
     public $createMode = false;
+    public $createCategoryMode = false;
 
     public $displayMode = false;
     public $displayedExpense = null;
@@ -139,5 +142,15 @@ class ExpenseComponent extends Component
     {
         $this->updatingExpense = null;
         $this->updateMode = false;
+    }
+
+    public function enterCreateCategoryMode()
+    {
+        $this->createCategoryMode = true;
+    }
+
+    public function exitCreateCategoryMode()
+    {
+        $this->createCategoryMode = false;
     }
 }

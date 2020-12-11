@@ -18,7 +18,7 @@
           <div class="col-md-4">
             <div class="form-group form-inline">
                 <label for="name" class="text-muted">Date</label>
-                <input type="text" class="form-control" id="" placeholder="Date" wire:model.defer="medicalTestDate">
+                <input type="date" class="form-control" id="" placeholder="Date" wire:model.defer="medicalTestDate">
                 @error('medicalTestDate')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -108,7 +108,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="sr-only">Date of Birth</label>
-                    <input type="text" class="form-control" id="" placeholder="Date of birth" wire:model.defer="patientDob">
+                    <input type="date" class="form-control" id="" placeholder="Date of birth" wire:model.defer="patientDob">
                     @error('patientDob')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror

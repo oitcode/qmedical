@@ -19,14 +19,20 @@
               {{ $expense->name }}
             </a>
           </td>
-          <td>{{ $expense->amount }}</td>
+          <td>
+            <span class="text-dark">
+              {{ $expense->amount }}
+            </span>
+          </td>
           <td>
             <span class="btn btn-tool btn-sm">
               <i class="fas fa-pencil-alt mr-2 text-primary" wire:click="$emit('updateExpense', {{ $expense }})"></i>
             </span>
-            <span class="btn btn-tool btn-sm">
-              <i class="fas fa-trash mr-2 text-danger" wire:click="$emit('deleteExpense', {{ $expense->expense_id }})"></i>
-            </span>
+            @can ('delete-models')
+              <span class="btn btn-tool btn-sm">
+                <i class="fas fa-trash mr-2 text-danger" wire:click="$emit('deleteExpense', {{ $expense->expense_id }})"></i>
+              </span>
+            @endcan
           </td>
         </tr>
         @endforeach

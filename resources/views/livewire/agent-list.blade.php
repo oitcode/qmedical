@@ -25,16 +25,13 @@
             </td>
             <td>
               <span class="btn btn-tool btn-sm">
-                <i class="fas fa-folder text-info mr-3" wire:click="$emit('displayAgent', {{ $agent }})"></i>
-              </span>
-
-              <span class="btn btn-tool btn-sm">
                 <i class="fas fa-pencil-alt text-primary mr-3" wire:click="$emit('updateAgent', {{ $agent }})"></i>
               </span>
-              <span class="btn btn-tool btn-sm">
-                <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>
-              </span>
-              </span>
+              @can ('delete-models')
+                <span class="btn btn-tool btn-sm">
+                  <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>
+                </span>
+              @endcan
             </td>
         </tr>
         @endforeach

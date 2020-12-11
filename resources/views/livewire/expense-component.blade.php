@@ -4,9 +4,13 @@
       Expense
     </h3>
     <div class="card-tools">
-      <span class="btn btn-tool btn-sm">
-        <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
-      <span>
+      <button class="btn btn-sm btn-outline-success px-3" wire:click="create">
+        <i class="fas fa-plus"></i>
+      </button>
+
+      <button class="btn btn-sm btn-outline-success px-3" wire:click="enterCreateCategoryMode">
+        <i class="fas fa-folder-plus"></i>
+      </button>
 
       <a href="#" class="btn btn-tool btn-sm">
         <i class="fas fa-download"></i>
@@ -41,6 +45,12 @@
     @livewire('expense-category')
     --}}
 
-    @livewire('expense-category')
+    @if ($createCategoryMode)
+      @livewire('expense-category-create')
+    @endif
+
+    @can ('view-expense-category-component')
+      @livewire('expense-category')
+    @endcan
   </div>
 </div>

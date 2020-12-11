@@ -25,6 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        /* Authorization gates. */
+        Gate::define('delete-models', function ($user) {
+            return $user->role === 'admin';
+        });
+        Gate::define('view-expense-category-component', function ($user) {
+            return $user->role === 'admin';
+        });
     }
 }

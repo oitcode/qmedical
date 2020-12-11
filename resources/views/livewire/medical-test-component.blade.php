@@ -4,10 +4,14 @@
       Medical
     </h3>
     <div class="card-tools">
-      <button class="btn btn-sm btn-outline-secondary px-3" wire:click="create">
+      <button class="btn btn-sm btn-outline-success px-3" wire:click="create">
         <i class="fas fa-plus"></i>
       </button>
-      </a>
+
+      <button class="btn btn-sm btn-outline-success px-3" wire:click="">
+        <i class="fas fa-folder-plus"></i>
+      </button>
+
       <a href="#" class="btn btn-tool btn-sm">
         <i class="fas fa-download"></i>
       </a>
