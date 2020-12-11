@@ -29,7 +29,16 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-models', function ($user) {
             return $user->role === 'admin';
         });
+
         Gate::define('view-expense-category-component', function ($user) {
+            return $user->role === 'admin';
+        });
+
+        Gate::define('create-expense-category', function ($user) {
+            return $user->role === 'admin';
+        });
+
+        Gate::define('view-user-component', function ($user) {
             return $user->role === 'admin';
         });
     }

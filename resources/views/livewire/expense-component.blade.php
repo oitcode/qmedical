@@ -8,9 +8,11 @@
         <i class="fas fa-plus"></i>
       </button>
 
-      <button class="btn btn-sm btn-outline-success px-3" wire:click="enterCreateCategoryMode">
-        <i class="fas fa-folder-plus"></i>
-      </button>
+      @can ('create-expense-category')
+        <button class="btn btn-sm btn-outline-success px-3" wire:click="enterCreateCategoryMode">
+          <i class="fas fa-folder-plus"></i>
+        </button>
+      @endcan
 
       <a href="#" class="btn btn-tool btn-sm">
         <i class="fas fa-download"></i>
@@ -49,8 +51,5 @@
       @livewire('expense-category-create')
     @endif
 
-    @can ('view-expense-category-component')
-      @livewire('expense-category')
-    @endcan
   </div>
 </div>

@@ -3,33 +3,31 @@
     <table class="table table-striped table-hover table-valign-middle">
       <thead>
       <tr class="sr-only">
-        <th>#</th>
         <th>Name</th>
-        <th>Balance</th>
+        <th>Role</th>
+        <th>Email</th>
         <th>Action</th>
       </tr>
       </thead>
       <tbody>
-        @foreach($agents as $agent)
+        @foreach($users as $user)
         <tr >
             <td>
-              {{ $agent->agent_id }}
+              {{ $user->name }}
             </td>
             <td>
-              <a href="" wire:click.prevent="$emit('displayAgent', {{ $agent }})" class="text-dark">
-                {{ $agent->name }}
-              </a>
+              {{ $user->role }}
             </td>
             <td>
-                @livewire('agent-balance-display', ['agent' => $agent], key(rand() * $agent->agent_id))
+              {{ $user->email }}
             </td>
             <td>
-              <span class="btn btn-tool btn-sm" wire:click="$emit('updateAgent', {{ $agent }})">
+              <span class="btn btn-tool btn-sm" wire:click="">
                 <i class="fas fa-pencil-alt text-primary mr-3"></i>
               </span>
               @can ('delete-models')
                 <span class="btn btn-tool btn-sm">
-                  <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>
+                  <i class="fas fa-trash text-danger mr-3" wire:click=""></i>
                 </span>
               @endcan
             </td>
@@ -37,7 +35,6 @@
         @endforeach
       </tbody>
     </table>
-    {{ $agents->links() }}
   </div>
 </div>
 <!-- /.card -->

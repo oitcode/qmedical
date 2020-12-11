@@ -25,8 +25,8 @@
             </span>
           </td>
           <td>
-            <span class="btn btn-tool btn-sm">
-              <i class="fas fa-pencil-alt mr-2 text-primary" wire:click="$emit('updateExpense', {{ $expense }})"></i>
+            <span class="btn btn-tool btn-sm" wire:click="$emit('updateExpense', {{ $expense }})">
+              <i class="fas fa-pencil-alt mr-2 text-primary"></i>
             </span>
             @can ('delete-models')
               <span class="btn btn-tool btn-sm">

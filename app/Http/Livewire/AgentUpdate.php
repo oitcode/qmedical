@@ -38,14 +38,15 @@ class AgentUpdate extends Component
     {
         $validatedData = $this->validate([
             'name' => 'required',
-            'sex' => 'required',
-            'email' => 'required',
-            'contact_number' => 'required',
+            'sex' => 'nullable',
+            'email' => 'nullable|email',
+            'contact_number' => 'nullable|regex:/^[0-9]*$/',
             'comment' => 'nullable',
         ]);
 
         $this->agent->update($validatedData);
 
+        $this->emitUp('agentUpdated');
         $this->emit('toggleAgentUpdateModal');
     }
 }

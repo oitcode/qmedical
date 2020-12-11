@@ -33,6 +33,7 @@ class AgentComponent extends Component
         'agentSettlementAdded' => 'exitSettlementMode',
         /* Better to update settlingAgent rather than just exit. */
         'destroyAgentSettlementCreate' => 'exitSettlementMode',
+        'agentUpdated' => 'finishUpdate',
     ];
 
     public function render()
@@ -134,5 +135,10 @@ class AgentComponent extends Component
     {
         $this->settlingAgent = $agent;
         $this->enterSettlementMode();
+    }
+
+    public function finishUpdate()
+    {
+        $this->emit('dataAdded');
     }
 }

@@ -15,7 +15,7 @@
         </h3>
 
         <div class="row">
-          <div class="col-sm-4 bg-info text-light">
+          <div class="col-sm-4">
             Date
           </div>
           <div class="col-sm-8">
@@ -25,7 +25,7 @@
 
         <div class="row">
           <div class="col-sm-4">
-            Total
+            Amount
           </div>
           <div class="col-sm-8">
             {{ $expense->amount }}

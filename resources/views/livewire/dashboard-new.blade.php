@@ -22,6 +22,11 @@
     <div class="col-md-6">
       @livewire('expense-component')
       @livewire('agent-component')
+
+      @can ('view-user-component')
+        @livewire('user-component')
+      @endcan
+
       @if ($displayingComponent !== null)
         {{--
         @livewire($displayingComponent, [$modelName => $model, 'compDisplayMode' => 'normal',])

@@ -101,7 +101,6 @@
    /* Destroy the modal on hide */
    $('#expenseCreateModal').on('hidden.bs.modal', function () {
        window.livewire.emit('destroyExpenseCreate');
-       console.log('Hiding');
    });
 
 </script>
