@@ -16,7 +16,7 @@
 
 <form>
     {{-- Name field --}}
-    <div class="input-group mb-3">
+    <div class="input-group m">
         <input type="text" wire:model.defer="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
                placeholder="Name" autofocus>
         <div class="input-group-append">
@@ -32,7 +32,7 @@
     </div>
 
     {{-- Email field --}}
-    <div class="input-group mb-3">
+    <div class="input-group">
         <input type="email" wire:model.defer="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
                placeholder="Email">
         <div class="input-group-append">
@@ -48,7 +48,7 @@
     </div>
 
     {{-- Password field --}}
-    <div class="input-group mb-3">
+    <div class="input-group">
         <input type="password" wire:model.defer="password"
                class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                placeholder="Password">
@@ -65,7 +65,7 @@
     </div>
 
     {{-- Confirm password field --}}
-    <div class="input-group mb-3">
+    <div class="input-group">
         <input type="password" wire:model.defer="passwordConfirm"
                class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}"
                placeholder="Password Confirm">
