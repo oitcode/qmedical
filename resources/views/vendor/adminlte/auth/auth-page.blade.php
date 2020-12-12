@@ -21,8 +21,13 @@
         {{-- Logo --}}
         <div class="{{ $auth_type ?? 'login' }}-logo">
             <a href="{{ $dashboard_url }}">
-                <img src="{{ asset(config('adminlte.logo_img')) }}" height="50">
-                {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
+                <i class="fa fa-stethoscope text-success"></i>
+                OMed
+                {{-- TODO --}}
+                @if (false)
+                  <img src="{{ asset(config('adminlte.logo_img')) }}" height="50">
+                  {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
+                @endif
             </a>
         </div>
 
