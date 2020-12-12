@@ -1,11 +1,24 @@
 <aside class="main-sidebar {{ config('adminlte.classes_sidebar', 'sidebar-dark-primary elevation-4') }}">
 
-    {{-- Sidebar brand logo --}}
-    @if(config('adminlte.logo_img_xl'))
-        @include('adminlte::partials.common.brand-logo-xl')
-    @else
-        @include('adminlte::partials.common.brand-logo-xs')
+    {{-- TODO --}}
+    @if (false)
+      {{-- Sidebar brand logo --}}
+      @if(config('adminlte.logo_img_xl'))
+          @include('adminlte::partials.common.brand-logo-xl')
+      @else
+          @include('adminlte::partials.common.brand-logo-xs')
+      @endif
     @endif
+    <a href="/dashboard">
+      <div class="p-3 bg-dark">
+        <i class="fas fa-stethoscope mr-2">
+        </i>
+        <span class="text-bold">
+          OMed
+        <span>
+
+      </div>
+    </a>
 
     {{-- Sidebar menu --}}
     <div class="sidebar">
