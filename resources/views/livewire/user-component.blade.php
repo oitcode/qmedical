@@ -8,6 +8,18 @@
         <i class="fas fa-plus"></i>
       </button>
 
+      @if ($seeUserList)
+        <button class="btn btn-sm text-danger" wire:click="hideUserList">
+          <i class="fas fa-power-off">
+          </i>
+        </button>
+      @else
+        <button class="btn btn-sm text-primary" wire:click="showUserList">
+          <i class="fas fa-ellipsis-h">
+          </i>
+        </button>
+      @endif
+
       <a href="#" class="btn btn-tool btn-sm">
         <i class="fas fa-download"></i>
       </a>
@@ -23,6 +35,8 @@
       @livewire('user-create')
     @endif
 
-    @livewire('user-list')
+    @if ($seeUserList)
+      @livewire('user-list')
+    @endif
   </div>
 </div>

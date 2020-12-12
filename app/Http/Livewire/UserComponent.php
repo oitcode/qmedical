@@ -7,6 +7,7 @@ use Livewire\Component;
 class UserComponent extends Component
 {
     public $createMode = false;
+    public $seeUserList = false;
 
     protected $listeners = [
         'userAdded' => 'finishCreate',
@@ -36,5 +37,15 @@ class UserComponent extends Component
     public function exitCreateMode()
     {
         $this->createMode = false;
+    }
+
+    public function showUserList()
+    {
+        $this->seeUserList = true;
+    }
+
+    public function hideUserList()
+    {
+        $this->seeUserList = false;
     }
 }

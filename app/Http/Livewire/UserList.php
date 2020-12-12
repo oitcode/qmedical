@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-use app\User;
+use App\User;
 
 class UserList extends Component
 {
