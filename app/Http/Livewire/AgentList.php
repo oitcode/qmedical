@@ -27,6 +27,6 @@ class AgentList extends Component
         //$this->agents = Agent::all()->sortByDesc('agent_id')->paginate(5);
 
         return view('livewire.agent-list')
-            ->with('agents', Agent::orderBy('agent_id', 'desc')->paginate(5));
+            ->with('agents', Agent::orderBy('agent_id', 'desc')->paginate(50));
     }
 }
