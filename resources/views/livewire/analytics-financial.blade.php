@@ -5,7 +5,7 @@
     <div class="col-md-2">
       <div class="form-group">
           <label for="name">Start Date</label>
-          <input type="text" class="form-control" id="" placeholder="Start Date" wire:model="startDate">
+          <input type="date" class="form-control" id="" placeholder="Start Date" wire:model="startDate">
       </div>
     </div>
     <!-- /.Start Date -->
@@ -14,7 +14,7 @@
     <div class="col-md-2">
       <div class="form-group">
           <label for="name">End Date</label>
-          <input type="text" class="form-control" id="" placeholder="End Date" wire:model="endDate">
+          <input type="date" class="form-control" id="" placeholder="End Date" wire:model="endDate">
       </div>
     </div>
     <!-- /.End Date -->

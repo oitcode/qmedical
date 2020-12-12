@@ -17,7 +17,7 @@
                       <i class="fas fa-user mr-3"></i>
                     </div>
                   </div>
-                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name" wire:model.defer="name">
+                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name" wire:model.defer="name" autofocus>
                   @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
