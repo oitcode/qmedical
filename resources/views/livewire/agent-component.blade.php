@@ -8,6 +8,18 @@
         <i class="fas fa-plus"></i>
       </button>
 
+      @if ($seeAgentList)
+        <button class="btn btn-sm text-danger" wire:click="hideAgentList">
+          <i class="fas fa-power-off">
+          </i>
+        </button>
+      @else
+        <button class="btn btn-sm text-primary" wire:click="">
+          <i class="fas fa-ellipsis-h">
+          </i>
+        </button>
+      @endif
+
       <a href="#" class="btn btn-tool btn-sm">
         <i class="fas fa-download"></i>
       </a>
@@ -15,7 +27,12 @@
       <a href="#" class="btn btn-tool btn-sm">
         <i class="fas fa-bars"></i>
       </a>
-
+      <span class="">
+          <input type="text" wire:model.defer="agentSearchName" class="">
+          <button class="btn btn-sm text-success text-bold" wire:click="search">
+            Go
+          </button>
+      </span>
     </div>
   </div>
   <div class="card-body p-0">
@@ -39,7 +56,9 @@
       @livewire('agent-settlement-create', ['agent' => $settlingAgent])
     @endif
 
-    {{-- Show agent list --}}
-    @livewire('agent-list')
+    @if ($seeAgentList)
+      {{-- Show agent list --}}
+      @livewire('agent-list')
+    @endif
   </div>
 </div>

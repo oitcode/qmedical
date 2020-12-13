@@ -6,27 +6,28 @@ use Livewire\Component;
 
 use App\Agent;
 
-//use Livewire\WithPagination;
-
 class AgentList extends Component
 {
-    //use WithPagination;
-
-    protected $paginationTheme = 'bootstrap';
-
     protected $listeners = [
         'dataAdded' => 'render',
         //'updateList' => 'render',
+        'searchAgent' => 'search',
     ];
 
-    //public $agents = null;
+    public $agents = null;
+
+    // public function mount()
+    // {
+    //     $this->agents = Agent::all();
+    // }
 
     public function render()
     {
-        //$this->agents = null;
-        //$this->agents = Agent::all()->sortByDesc('agent_id')->paginate(5);
+        return view('livewire.agent-list');
+    }
 
-        return view('livewire.agent-list')
-            ->with('agents', Agent::orderBy('agent_id', 'desc')->paginate(50));
+    public function search($agentSearchName)
+    {
+        $this->agents = Agent::where('name', 'like', '%'.$agentSearchName.'%')->get();
     }
 }

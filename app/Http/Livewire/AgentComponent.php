@@ -21,6 +21,10 @@ class AgentComponent extends Component
     public $settlementMode = false;
     public $settlingAgent = null;
 
+    public $seeAgentList = false;
+
+    public $agentSearchName = "";
+
     protected $listeners = [
         'agentAdded' => 'finishCreate',
         'destroyAgentCreate' => 'exitCreateMode',
@@ -140,5 +144,22 @@ class AgentComponent extends Component
     public function finishUpdate()
     {
         $this->emit('dataAdded');
+    }
+
+    public function showAgentList()
+    {
+        $this->seeAgentList = true;
+    }
+
+    public function hideAgentList()
+    {
+        $this->seeAgentList = false;
+    }
+
+    public function search()
+    {
+        $this->showAgentList();
+
+        $this->emit('searchAgent', $this->agentSearchName);
     }
 }

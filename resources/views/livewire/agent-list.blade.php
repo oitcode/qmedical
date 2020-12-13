@@ -10,34 +10,38 @@
       </tr>
       </thead>
       <tbody>
-        @foreach($agents as $agent)
-        <tr >
-            <td>
-              {{ $agent->agent_id }}
-            </td>
-            <td>
-              <a href="" wire:click.prevent="$emit('displayAgent', {{ $agent }})" class="text-dark">
-                {{ $agent->name }}
-              </a>
-            </td>
-            <td>
-                @livewire('agent-balance-display', ['agent' => $agent], key(rand() * $agent->agent_id))
-            </td>
-            <td>
-              <span class="btn btn-tool btn-sm" wire:click="$emit('updateAgent', {{ $agent }})">
-                <i class="fas fa-pencil-alt text-primary mr-3"></i>
-              </span>
-              @can ('delete-models')
-                <span class="btn btn-tool btn-sm">
-                  <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>
+        @if ($agents !== null && count($agents) > 0)
+          @foreach($agents as $agent)
+          <tr >
+              <td>
+                {{ $agent->agent_id }}
+              </td>
+              <td>
+                <a href="" wire:click.prevent="$emit('displayAgent', {{ $agent }})" class="text-dark">
+                  {{ $agent->name }}
+                </a>
+              </td>
+              <td>
+                  @livewire('agent-balance-display', ['agent' => $agent], key(rand() * $agent->agent_id))
+              </td>
+              <td>
+                <span class="btn btn-tool btn-sm" wire:click="$emit('updateAgent', {{ $agent }})">
+                  <i class="fas fa-pencil-alt text-primary mr-3"></i>
                 </span>
-              @endcan
-            </td>
-        </tr>
-        @endforeach
+                @can ('delete-models')
+                  <span class="btn btn-tool btn-sm">
+                    <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteAgent', {{ $agent->agent_id }})"></i>
+                  </span>
+                @endcan
+              </td>
+          </tr>
+          @endforeach
+        @endif
       </tbody>
     </table>
+    {{--
     {{ $agents->links() }}
+    --}}
   </div>
 </div>
 <!-- /.card -->
