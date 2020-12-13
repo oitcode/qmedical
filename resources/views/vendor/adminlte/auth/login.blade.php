@@ -25,7 +25,7 @@
   @section('auth_header')
     <div class="my-3">
       <span class="text-primary text-bold">
-        Perfect Diagonostic Clinic
+        Perfect Diagonostic Center
       </span>
       <span class="badge badge-secondary shadow-sm">
         Ktm
