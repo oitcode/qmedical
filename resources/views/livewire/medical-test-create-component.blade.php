@@ -13,6 +13,7 @@
 
         <form>
 
+          <!-- Date and Test type -->
           <div class="form-group form-inline m-0">
             <div class="input-group w-100">
               <div class="input-group-prepend w-25">
@@ -47,10 +48,11 @@
               @enderror
             </div>
           </div>
-          <!-- /.Top row -->
+          <!-- /.Date and Test type -->
 
 
           @include('partials.sleek-input', ['mName' => 'patientName', 'pName' => 'Patient Name',])
+
 
           <!-- Biometric Detail -->
           <div class="form-group form-inline m-0">
@@ -105,97 +107,103 @@
           <!-- Billing -->
           @include('partials.sleek-input', ['mName' => 'price', 'pName' => 'Price',])
 
-          <div class="form-group form-inline m-0">
-            <div class="input-group w-100">
-              <div class="input-group-prepend w-25">
-                <div class="input-group-text w-100">
-                  Paid By
-                </div>
-              </div>
-
-              <select class="custom-select" wire:model.defer="paymentStatus">
-                <option>---</option>
-                  <option>Pending</option>
-                  <option>Paid</option>
-              </select>
-              @error('paymentStatus')
-                <div class="text-danger">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-
-
           <!-- Agent -->
           <div class="form-group form-inline m-0">
             <div class="input-group w-100">
               <div class="input-group-prepend w-25">
                 <div class="input-group-text w-100">
-                  Agent
+                  Agent ?
                 </div>
               </div>
 
-              <select class="custom-select" wire:model.defer="selectedAgentId" wire:change.defer="selectAgent">
+              <select class="custom-select" wire:model="agentFlag">
                 <option>---</option>
-                @if(count($agents) > 0)
-                  @foreach($agents as $agent)
-                    <option value="{{ $agent->agent_id }}">{{ $agent->name }}</option>
-                  @endforeach
-                @endif
+                <option>Yes</option>
+                <option>No</option>
               </select>
-              @error('selectedAgentId')
-                  <div class="text-danger">{{ $message }}</div>
+              @error('agentFlag')
+                <div class="text-danger">{{ $message }}</div>
               @enderror
             </div>
           </div>
 
-          @if($selectedAgent and false)
-            <div class="mb-3">
-            <h2 class="lead"><b>{{ $selectedAgent->name }}</b></h2>
-              <ul class="ml-4 mb-0 fa-ul text-muted">
-                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> {{ $selectedAgent->contact_number }}</li>
-              </ul>
+          @if (strtolower($agentFlag) === 'yes')
+            <div class="form-group form-inline m-0">
+              <div class="input-group w-100">
+                <div class="input-group-prepend w-25">
+                  <div class="input-group-text w-100">
+                    Agent
+                  </div>
+                </div>
+
+                <select class="custom-select" wire:model="selectedAgentId" wire:change="selectAgent">
+                  <option>---</option>
+                  @if(count($agents) > 0)
+                    @foreach($agents as $agent)
+                      <option value="{{ $agent->agent_id }}">{{ $agent->name }}</option>
+                    @endforeach
+                  @endif
+                </select>
+                @error('selectedAgentId')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+
+            @if($selectedAgent)
+              <div class="mb-3">
+              <h2 class="lead"><b>{{ $selectedAgent->name }}</b></h2>
+                <ul class="ml-4 mb-0 fa-ul text-muted">
+                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> {{ $selectedAgent->contact_number }}</li>
+                </ul>
+              </div>
+            @endif
+
+            @include('partials.sleek-input', ['mName' => 'agentCommission', 'pName' => 'Amount',])
+
+            <div class="form-group form-inline m-0">
+              <div class="input-group w-100">
+                <div class="input-group-prepend w-25">
+                  <div class="input-group-text w-100">
+                    Paid By
+                  </div>
+                </div>
+
+                <select class="custom-select" wire:model.defer="paymentStatus">
+                  <option>---</option>
+                    <option>Pending</option>
+                    <option>Paid</option>
+                </select>
+                @error('paymentStatus')
+                  <div class="text-danger">{{ $message }}</div>
+                @enderror
+              </div>
             </div>
           @endif
 
-          @include('partials.sleek-input', ['mName' => 'agentCommission', 'pName' => 'Amount',])
 
-          <div class="form-group form-inline m-0">
-            <div class="input-group w-100">
-              <div class="input-group-prepend w-25">
-                <div class="input-group-text w-100">
-                  Agent
+
+          <!-- Credit or not -->
+          @if (strtolower($agentFlag) !== 'yes')
+            <div class="form-group form-inline m-0">
+              <div class="input-group w-100">
+                <div class="input-group-prepend w-25">
+                  <div class="input-group-text w-100">
+                    Credit
+                  </div>
                 </div>
+                <select class="custom-select" wire:model="creditFlag">
+                  <option>---</option>
+                    <option>No</option>
+                    <option>Yes</option>
+                </select>
+                @error('creditFlag')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
               </div>
-              <select class="custom-select" wire:model.defer="agentCommissionStatus">
-                <option>---</option>
-                  <option>Pending</option>
-                  <option>Paid</option>
-              </select>
-              @error('agentCommissionStatus')
-                  <div class="text-danger">{{ $message }}</div>
-              @enderror
             </div>
-          </div>
+          @endif
 
-          <div class="form-group form-inline m-0">
-            <div class="input-group w-100">
-              <div class="input-group-prepend w-25">
-                <div class="input-group-text w-100">
-                  Agent Commission Status
-                </div>
-              </div>
-
-              <select class="custom-select" wire:model.defer="agentCommissionStatus">
-                <option>---</option>
-                  <option>Pending</option>
-                  <option>Paid</option>
-              </select>
-              @error('agentCommissionStatus')
-                  <div class="text-danger">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <!-- Billing -->
 
           <div class="p-2">
             <button wire:click.prevent="store()" class="btn btn-success">Save</button>
