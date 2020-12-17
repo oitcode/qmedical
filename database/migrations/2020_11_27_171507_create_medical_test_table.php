@@ -24,18 +24,20 @@ class CreateMedicalTestTable extends Migration
                 ->references('patient_id')->on('patient');
 
             /*
+             * Foreign key to medical_test_type table.
+             */
+            $table->unsignedBigInteger('medical_test_type_id');
+            $table->foreign('medical_test_type_id', 'fk_medical_test_medical_test_type')
+                ->references('medical_test_type_id')->on('medical_test_type');
+
+            /*
              * Foreign key to agent table.
              */
             $table->unsignedBigInteger('agent_id')->nullable();
             $table->foreign('agent_id', 'fk_medical_test_agent')
                 ->references('agent_id')->on('agent');
 
-            /*
-             * Foreign key to medical_test_type table.
-             */
-            $table->unsignedBigInteger('medical_test_type_id');
-            $table->foreign('medical_test_type_id', 'fk_medical_test_medical_test_type')
-                ->references('medical_test_type_id')->on('medical_test_type');
+            $table->integer('agent_commission')->nullable();
 
             $table->date('date');
             $table->string('status');
@@ -45,9 +47,7 @@ class CreateMedicalTestTable extends Migration
             /* Billing */
             $table->integer('price');
             $table->string('payment_status');
-
-            $table->integer('agent_commission')->nullable();
-            $table->string('agent_commission_status')->nullable();
+            $table->string('paid_by');
 
             $table->string('comment', 255)->nullable();
             $table->timestamps();

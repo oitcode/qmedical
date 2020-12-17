@@ -132,6 +132,26 @@
               <div class="input-group w-100">
                 <div class="input-group-prepend w-25">
                   <div class="input-group-text w-100">
+                    Paid By
+                  </div>
+                </div>
+
+                <select class="custom-select" wire:model="payBy">
+                  <option>---</option>
+                    <option>Agent</option>
+                    <option>Self</option>
+                </select>
+                @error('payBy')
+                  <div class="text-danger">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+
+
+            <div class="form-group form-inline m-0">
+              <div class="input-group w-100">
+                <div class="input-group-prepend w-25">
+                  <div class="input-group-text w-100">
                     Agent
                   </div>
                 </div>
@@ -150,7 +170,7 @@
               </div>
             </div>
 
-            @if($selectedAgent)
+            @if($selectedAgent && false)
               <div class="mb-3">
               <h2 class="lead"><b>{{ $selectedAgent->name }}</b></h2>
                 <ul class="ml-4 mb-0 fa-ul text-muted">
@@ -161,30 +181,16 @@
 
             @include('partials.sleek-input', ['mName' => 'agentCommission', 'pName' => 'Amount',])
 
-            <div class="form-group form-inline m-0">
-              <div class="input-group w-100">
-                <div class="input-group-prepend w-25">
-                  <div class="input-group-text w-100">
-                    Paid By
-                  </div>
-                </div>
-
-                <select class="custom-select" wire:model.defer="paymentStatus">
-                  <option>---</option>
-                    <option>Pending</option>
-                    <option>Paid</option>
-                </select>
-                @error('paymentStatus')
-                  <div class="text-danger">{{ $message }}</div>
-                @enderror
-              </div>
-            </div>
           @endif
 
 
 
           <!-- Credit or not -->
-          @if (strtolower($agentFlag) !== 'yes')
+          @if (strtolower($agentFlag) !== 'yes'
+            ||
+            (strtolower($agentFlag) === 'yes' && strtolower($payBy) === 'self')
+
+          )
             <div class="form-group form-inline m-0">
               <div class="input-group w-100">
                 <div class="input-group-prepend w-25">

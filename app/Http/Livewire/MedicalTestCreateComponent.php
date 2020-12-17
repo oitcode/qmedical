@@ -53,6 +53,8 @@ class MedicalTestCreateComponent extends Component
     public $agentFlag = 'no';
     public $creditFlag = 'no';
 
+    public $payBy;
+
     public function mount()
     {
         if ($this->editMode) {
