@@ -94,7 +94,7 @@
           <!-- Contact Detail -->
           @include('partials.sleek-input', ['mName' => 'patientAddress', 'pName' => 'Address',])
           @include('partials.sleek-input', ['mName' => 'patientContactNumber', 'pName' => 'Phone',])
-          @include('partials.sleek-input', ['mName' => 'email', 'pName' => 'Email',])
+          @include('partials.sleek-input', ['mName' => 'patientEmail', 'pName' => 'Email',])
 
           @include('partials.sleek-input', ['mName' => 'patientPassportNumber', 'pName' => 'Passport Number',])
           @include('partials.sleek-input', ['mName' => 'patientPassportExpiryDate', 'pName' => 'Passport Expiry Date',])

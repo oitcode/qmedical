@@ -117,12 +117,14 @@ class MedicalTestCreateComponent extends Component
 
             /* Billing Info */
             'price' => 'required|integer',
-            'paymentStatus' => 'required',
+            'creditFlag' => 'required|string',
 
             /* Agent Info */
-            'selectedAgentId' => 'required|integer|exists:agent,agent_id',
+            'selectedAgentId' => 'nullable|integer|exists:agent,agent_id',
             'agentCommission' => 'nullable|integer',
-            'agentCommissionStatus' => 'required_with:agentCommission',
+
+            /* PayBy */
+            'payBy' => 'required|string',
         ]);
 
 
@@ -172,24 +174,68 @@ class MedicalTestCreateComponent extends Component
         $medicalTest->status = $this->medicalTestStatus;
 
         $medicalTest->patient_id = $patient->patient_id;
-        $medicalTest->agent_id = $this->selectedAgent->agent_id;
+        if ($this->selectedAgent) {
+            $medicalTest->agent_id = $this->selectedAgent->agent_id;
+        }
 
         $medicalTest->price = $this->price;
         $medicalTest->payment_status = $this->paymentStatus;
+        $medicalTest->pay_by = $this->payBy;
 
-        $medicalTest->agent_commission = $this->agentCommission;
-        $medicalTest->agent_commission_status = $this->agentCommissionStatus;
+        if ($this->agentFlag === 'yes' && $this->selectedAgent) {
+
+            /*
+             * Agent Case
+             */
+
+            $medicalTest->agent_commission = $this->agentCommission;
+
+            $transactionAmount = $this->agentCommission;
+
+            if (strtolower($this->payBy) === 'agent') {
+                $transactionAmount -= $this->price;
+                if ($transactionAmount < 0) {
+                    $transactionAmount *= -1;
+                    if ($transactionAmount <= $this->getAgentBalance($this->selectedAgent)) {
+                        $medicalTest->payment_status = 'paid';
+                    } else {
+                        $medicalTest->payment_status = 'pending';
+                    }
+                }
+            } else if (strtolower($this->payBy) === 'self') {
+                if ($this->creditFlag === 'yes') {
+                    $medicalTest->payment_status = 'pending';
+                } else {
+                    $medicalTest->payment_status = 'paid';
+                }
+            } else {
+                // TODO: Cancel the creation. Something is wrong!
+            }
+
+
+        } else {
+
+            /*
+             * No Agent Case
+             */
+
+            if (strtolower($this->creditFlag === 'yes')) {
+                $medicalTest->payment_status = 'pending';
+            } else {
+                $medicalTest->payment_status = 'paid';
+            }
+        }
 
         $medicalTest->save();
 
         /* Create agent_transaction if agent involved */
-        if($this->selectedAgentId) {
+        if($this->selectedAgent) {
             /* calculate amount to give/receive */
             $amount = 0;
             $direction = 'in';
 
             $amount = $this->agentCommission;
-            if ($medicalTest->payment_status === 'Pending') {
+            if (strtolower($this->payBy) === 'agent') {
                 $amount -= $this->price;
             }
 
