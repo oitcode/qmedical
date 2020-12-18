@@ -6,9 +6,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Agent Detail</h5>
+
+
         <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">
           <i class="fas fa-times"></i>
         </button>
+
       </div>
 
 
@@ -16,6 +19,46 @@
 
       <div class="modal-body p-0">
 @endif
+        <div class="text-right m-2">
+          <button class="btn btn-sm btn-outline-success px-3" wire:click="">
+            <i class="fas fa-plus"></i>
+            Transaction
+          </button>
+
+          @if ($viewOfficialPendingsFalg === false)
+            <button class="btn btn-sm text-danger" wire:click="viewOfficialPendings">
+              <i class="fas fa-exclamation-circle">
+              </i>
+                View Pending
+            </button>
+          @else
+            <button class="btn btn-sm text-danger" wire:click="noviewOfficialPendings">
+              <i class="fas fa-exclamation-circle">
+              </i>
+                Close Pending
+            </button>
+          @endif
+
+          <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+
+          <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="">
+            <i class="fas fa-arrow-right"></i>
+          </a>
+
+          @if (false)
+          <span class="">
+              <input type="text" wire:model.defer="" wire:keydown.enter="" class="">
+              <button class="btn btn-sm text-success text-bold" wire:click="">
+                Go
+              </button>
+          </span>
+          @endif
+        </div>
+
+
+
         <div class="m-2">
           <h3 class="text-secondary"><i class="fas fa-user mr-3"></i>{{ $agent->name}}</h3>
           <ul class="list-unstyled">
@@ -117,8 +160,35 @@
         @else
           <p class="text-info m-3">
             No Transactions
-          </>
-        @endisset
+          </p>
+        @endif
+
+        @if ($viewOfficialPendingsFalg)
+          <hr />
+          <h3 class="h5 m-3">Official Pending</h3>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover text-nowrap">
+              <thead>
+              </thead>
+              <tbody>
+                @foreach ($officialPendings as $medicalTest)
+                  <td>
+                    {{ $medicalTest->date }}
+                  </td>
+                  <td>
+                    {{ $medicalTest->patient->name }}
+                  </td>
+                  <td>
+                    {{ $medicalTest->price - $medicalTest->agent_commission }}
+                  </td>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        @endif
+
+
+
       @if ($compDisplayMode === 'normal')
       </div>
       @else

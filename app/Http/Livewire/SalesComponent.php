@@ -9,8 +9,13 @@ use Carbon\Carbon;
 
 class SalesComponent extends Component
 {
-    public $sales = null;
     public $searchDate;
+
+    public $cashSales = null;
+    public $cashSalesTotal;
+    public $creditSales = null;
+    public $creditSalesTotal;
+
     public $salesTotal;
 
     public function mount()
@@ -20,10 +25,16 @@ class SalesComponent extends Component
 
     public function render()
     {
-        $this->sales = MedicalTest::where('payment_status' , 'paid')
+        $this->cashSales = MedicalTest::where('payment_status' , 'paid')
             ->whereDate('date', '=', $this->searchDate)->get();
 
-        $this->salesTotal = $this->getTotalSales($this->sales);
+        $this->creditSales = MedicalTest::where('payment_status' , 'pending')
+            ->whereDate('date', '=', $this->searchDate)->get();
+
+        $this->cashSalesTotal = $this->getTotalSales($this->cashSales);
+        $this->creditSalesTotal = $this->getTotalSales($this->creditSales);
+
+        $this->salesTotal = $this->cashSalesTotal + $this->creditSalesTotal;
 
         return view('livewire.sales-component');
     }

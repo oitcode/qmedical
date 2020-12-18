@@ -30,6 +30,9 @@ class AgentDetail extends Component
     public $viewPrevious = false;
     public $allMedicalTests = null;
 
+    public $viewOfficialPendingsFalg = false;
+    public $officialPendings = null;
+
     protected $listeners = [
         'closeAgentSettlement' => 'closeSettlementComponent',
         'agentTransactionAdded' => 'exitAgentTransactionMode',
@@ -163,5 +166,20 @@ class AgentDetail extends Component
     public function exitAgentTransactionMode()
     {
         $this->agentTransactionMode = false;
+    }
+
+    public function viewOfficialPendings()
+    {
+        $this->viewOfficialPendingsFalg = true;
+        $this->officialPendings =
+            $this->agent->medicalTests()
+            ->where('payment_status', 'pending')
+            ->get();
+    }
+
+    public function noviewOfficialPendings()
+    {
+        $this->viewOfficialPendingsFalg = false;
+        $this->officialPendings = null;
     }
 }

@@ -38,8 +38,9 @@
 @endsection
 
 @section('cardBody')
-  <div class="row bg-info py-2" style="margin:auto;">
-    <div class="col-md-6 px-2">
+  @if (true)
+  <div class="row bg-success py-2" style="margin:auto;">
+    <div class="col-md-3 px-2">
       @if ($searchDate == \Carbon\Carbon::today())
         Today
       @elseif ($searchDate == \Carbon\Carbon::yesterday())
@@ -48,20 +49,35 @@
         {{ $searchDate->toDateString() }}
       @endif
     </div>
-    <div class="col-md-6 px-2">
+    <div class="col-md-3 px-2">
       Total: {{ $salesTotal }}
     </div>
+    <div class="col-md-3 px-2">
+      Cash: {{ $cashSalesTotal }}
+    </div>
+    <div class="col-md-3 px-2">
+      Credit: {{ $creditSalesTotal }}
+    </div>
   </div>
+  @endif
 
-  <div class="card-body table-responsive p-0">
+  <div class="row bg-info py-2" style="margin:auto;">
+    <div class="col-md-6 px-2">
+      Cash
+    </div>
+    <div class="col-md-6 px-2">
+      Total: {{ $cashSalesTotal }}
+    </div>
+  </div>
+  <div class="table-responsive">
     <table class="table table-striped table-hover table-valign-middle">
       <thead>
         <tr class="sr-only">
         </tr>
       </thead>
       <tbody>
-        @if (count($sales) > 0)
-          @foreach($sales as $medicalTest)
+        @if (count($cashSales) > 0)
+          @foreach($cashSales as $medicalTest)
           <tr >
               <td>
                 {{ $medicalTest->medical_test_id }}
@@ -90,7 +106,62 @@
           </tr>
           @endforeach
         @else
-          No Sales
+          <div class="p-3 text-info">
+            No Cash Sales
+          </div>
+        @endif
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row bg-info py-2" style="margin:auto;">
+    <div class="col-md-6 px-2">
+      Credit
+    </div>
+    <div class="col-md-6 px-2">
+      Total: {{ $creditSalesTotal }}
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-valign-middle">
+      <thead>
+        <tr class="sr-only">
+        </tr>
+      </thead>
+      <tbody>
+        @if (count($creditSales) > 0)
+          @foreach($creditSales as $medicalTest)
+          <tr >
+              <td>
+                {{ $medicalTest->medical_test_id }}
+              </td>
+              <td>
+                <a href="" wire:click.prevent="" class="text-dark">
+                  {{ $medicalTest->patient->name }}
+                </a>
+              </td>
+              <td>
+                {{ $medicalTest->medicalTestType->name }}
+              </td>
+              <td>
+                {{ $medicalTest->price }}
+              </td>
+              <td>
+                <span class="btn btn-tool btn-sm" wire:click="">
+                  <i class="fas fa-pencil-alt text-primary mr-3"></i>
+                </span>
+                @can ('delete-models')
+                  <span class="btn btn-tool btn-sm">
+                    <i class="fas fa-trash text-danger mr-3" wire:click=""></i>
+                  </span>
+                @endcan
+              </td>
+          </tr>
+          @endforeach
+        @else
+          <div class="p-3 text-info">
+            No Credit Sales
+          </div>
         @endif
       </tbody>
     </table>
