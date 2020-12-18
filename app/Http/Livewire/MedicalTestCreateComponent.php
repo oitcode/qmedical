@@ -124,7 +124,7 @@ class MedicalTestCreateComponent extends Component
             'agentCommission' => 'nullable|integer',
 
             /* PayBy */
-            'payBy' => 'required|string',
+            'payBy' => 'required_if:agentFlag,Yes',
         ]);
 
 
@@ -182,7 +182,7 @@ class MedicalTestCreateComponent extends Component
         $medicalTest->payment_status = $this->paymentStatus;
         $medicalTest->pay_by = $this->payBy;
 
-        if ($this->agentFlag === 'yes' && $this->selectedAgent) {
+        if (strtolower($this->agentFlag) === 'yes' && $this->selectedAgent) {
 
             /*
              * Agent Case
@@ -193,16 +193,18 @@ class MedicalTestCreateComponent extends Component
             $transactionAmount = $this->agentCommission;
 
             if (strtolower($this->payBy) === 'agent') {
+                $medicalTest->pay_by = 'agent';
                 $transactionAmount -= $this->price;
                 if ($transactionAmount < 0) {
                     $transactionAmount *= -1;
-                    if ($transactionAmount <= $this->getAgentBalance($this->selectedAgent)) {
-                        $medicalTest->payment_status = 'paid';
-                    } else {
+                    if ($transactionAmount > $this->getAgentBalance($this->selectedAgent)) {
                         $medicalTest->payment_status = 'pending';
+                    } else {
+                        $medicalTest->payment_status = 'paid';
                     }
                 }
             } else if (strtolower($this->payBy) === 'self') {
+                $medicalTest->pay_by = 'self';
                 if ($this->creditFlag === 'yes') {
                     $medicalTest->payment_status = 'pending';
                 } else {
@@ -219,7 +221,9 @@ class MedicalTestCreateComponent extends Component
              * No Agent Case
              */
 
-            if (strtolower($this->creditFlag === 'yes')) {
+            $medicalTest->pay_by = 'self';
+
+            if (strtolower($this->creditFlag) === 'yes') {
                 $medicalTest->payment_status = 'pending';
             } else {
                 $medicalTest->payment_status = 'paid';
@@ -269,5 +273,22 @@ class MedicalTestCreateComponent extends Component
     public function showModal()
     {
         $this->emit('show');
+    }
+
+    public function getAgentBalance(Agent $agent)
+    {
+        $transactions = $agent->agentTransactions;
+
+        $total = 0;
+
+        foreach ($transactions as $transaction) {
+            if ($transaction->direction === 'in') {
+                $total += $transaction->amount;
+            } else {
+                $total -= $transaction->amount;
+            }
+        }
+
+        return $total;
     }
 }

@@ -32,6 +32,19 @@
               {{ $medicalTest->medicalTestType->name }}
             </span>
           </td>
+
+          <td>
+            @if (strtolower($medicalTest->payment_status) === 'paid')
+              <span class="badge badge-success badge-pill">
+                P
+              </span>
+            @else
+              <span class="badge badge-danger badge-pill">
+                {{ $medicalTest->payment_status }}
+              </span>
+            @endif
+          </td>
+
           <td>
             @if ($medicalTest->status === 'Waiting')
               <span class="badge badge-danger badge-pill">

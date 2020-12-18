@@ -47,7 +47,7 @@ class CreateMedicalTestTable extends Migration
             /* Billing */
             $table->integer('price');
             $table->string('payment_status');
-            $table->string('paid_by');
+            $table->string('pay_by');
 
             $table->string('comment', 255)->nullable();
             $table->timestamps();
