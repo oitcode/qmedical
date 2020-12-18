@@ -61,6 +61,7 @@
   </div>
   @endif
 
+  <!-- Cash Sales -->
   <div class="row bg-info py-2" style="margin:auto;">
     <div class="col-md-6 px-2">
       Cash
@@ -69,6 +70,7 @@
       Total: {{ $cashSalesTotal }}
     </div>
   </div>
+
   <div class="table-responsive">
     <table class="table table-striped table-hover table-valign-middle">
       <thead>
@@ -114,6 +116,8 @@
     </table>
   </div>
 
+
+  <!-- Credit Sales -->
   <div class="row bg-info py-2" style="margin:auto;">
     <div class="col-md-6 px-2">
       Credit
@@ -122,6 +126,7 @@
       Total: {{ $creditSalesTotal }}
     </div>
   </div>
+
   <div class="table-responsive">
     <table class="table table-striped table-hover table-valign-middle">
       <thead>
