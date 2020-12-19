@@ -172,6 +172,7 @@
               </thead>
               <tbody>
                 @foreach ($officialPendings as $medicalTest)
+                <tr>
                   <td>
                     {{ $medicalTest->date }}
                   </td>
@@ -181,6 +182,7 @@
                   <td>
                     {{ $medicalTest->price - $medicalTest->agent_commission }}
                   </td>
+                </tr>
                 @endforeach
               </tbody>
             </table>

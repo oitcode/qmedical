@@ -193,7 +193,6 @@ class MedicalTestCreateComponent extends Component
             $transactionAmount = $this->agentCommission;
 
             if (strtolower($this->payBy) === 'agent') {
-                $medicalTest->pay_by = 'agent';
                 $transactionAmount -= $this->price;
                 if ($transactionAmount < 0) {
                     $transactionAmount *= -1;
