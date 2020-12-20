@@ -7,21 +7,62 @@
           <i class="fas fa-times"></i>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body p-0">
 
-        <!-- Patient Detail -->
-        <div class="mb-3">
-          <h2 class="lead mb-4"><b>{{ $medicalTest->patient->name }}</b></h2>
-          <ul class="ml-4 mb-0 fa-ul text-muted">
-            <li class="small">
-              <i class="fas fa-lg fa-building mr-3 mb-3"></i>
-              Address: Demo Street 123, Demo City 04312, NJ
-            </li>
-            <li class="small">
-              <i class="fas fa-lg fa-phone mr-3 mb-3"></i>
-              9851000000
-            </li>
-          </ul>
+        <div class="mb-3 px-3">
+          <div class="text-right">
+            <a href="#" class="mr-3">SMS Invoice</a>
+            <i class="fas fa-exclamation-circle text-danger mr-2"></i>
+            <a href="#" class="">Report</a>
+          </div>
+
+          <div class="text-left mb-3">
+            <span class="text-muted mr-2">
+              Test Num:
+            </span>
+            <span class="mr-3">
+              {{ $medicalTest->medical_test_id}}
+            </span>
+            <span class="text-info">
+              <i class="fas fa-calendar mr-2"></i>
+              {{ $medicalTest->date }}
+            </span>
+          </div>
+
+          <!-- Patient Detail -->
+          <div class="">
+            <i class="fas fa-user mr-3 mb-3"></i>
+            {{ $medicalTest->patient->name }}
+          </div>
+
+          <div class="">
+            <i class="fas fa-map-marker-alt mr-3 mb-2"></i>
+            @if ($medicalTest->patient->address)
+              {{ $medicalTest->patient->address}}
+            @else
+              <span class="text-muted">
+                <small>
+                  Not Available
+                </small>
+              </span>
+            @endif
+          </div>
+
+          <div class="">
+            <i class="fas fa-phone mr-3"></i>
+            @if ($medicalTest->patient->address)
+              {{ $medicalTest->patient->contact_number}}
+            @else
+              <span class="text-muted">
+                <small>
+                  Not Available
+                </small>
+              </span>
+            @endif
+          </div>
+
+
+
           {{-- Dont need this for now
           <div class="card-footer">
             <div class="text-right">
@@ -38,36 +79,56 @@
         <!-- /.Patient Detail -->
 
         <!-- Test Detail -->
-        <p>
-          <span class="text-bold mr-3"> Test Type</span>
-          Foreign Medical
-        </p>
-        <p>
-          <span class="text-bold mr-3"> Result</span>
-          Fit
-        </p>
+        <div class="p-3 bg-light border">
+          <p>
+            <span class="text-bold mr-3"> Test Type</span>
+            {{ $medicalTest->medicalTestType->name }}
+          </p>
+          <p>
+            <span class="text-bold mr-3"> Result</span>
+            @if (strtolower($medicalTest->status) === 'waiting')
+              <span class="text-danger">
+                Waiting
+              </span>
+            @else
+              <span class="text-info">
+                {{ $medicalTest->result }}
+              </span>
+            @endif
+            {{ $medicalTest->result }}
+          </p>
+        </div>
         <!-- /.Test Detail -->
 
-        <h3 class="h5 mt-4">Billing</h3>
-        <div class="table-responsive">
-          <table class="table table-sm text-muted text-sm">
-            <tr>
-              <th style="width:50%">Charge</th>
-              <td>{{ $medicalTest->price }}</td>
-            </tr>
-            <tr>
-              <th>Agent</th>
-              <td>{{ $medicalTest->agent_commission}}</td>
-            </tr>
-            <tr>
-              <th>Total</th>
-              <td>{{ $medicalTest->price - $medicalTest->agent_commission}}</td>
-            </tr>
-          </table>
-        </div>
-        <div class="text-left">
-          <a href="#" class="btn btn-sm btn-primary">SMS Invoice</a>
-          <a href="#" class="btn btn-sm btn-warning">Report</a>
+        <!-- Billing -->
+        <div class="p-3">
+          <h3 class="h5 mb-4">Billing</h3>
+          <div>
+            <i class="fas fa-rupee-sign mr-3"></i>
+            {{ $medicalTest->price }}
+          </div>
+          <div>
+            <i class="fas fa-tag mr-3"></i>
+            @if (strtolower($medicalTest->payment_status) === 'paid')
+              <span class="text-success">
+                Paid
+              </span>
+            @elseif (strtolower($medicalTest->payment_status) === 'pending')
+              <span class="text-danger">
+                Pending
+              </span>
+            @elseif (strtolower($medicalTest->payment_status) === 'partially_paid')
+              <span class="text-danger">
+                Partially Paid
+              </span>
+
+              <div>
+                @foreach ($medicalTest->partialPayments as $partialPayment)
+                    {{ $partialPayment->amount }}
+                @endforeach
+              </div>
+            @endif
+          </div>
         </div>
 
 

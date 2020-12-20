@@ -1,5 +1,5 @@
 <div>
-  @if (true)
+  @if (false)
   <div class="row">
     <div class="col-md-3 col-6">
       @livewire('info-card-patient')

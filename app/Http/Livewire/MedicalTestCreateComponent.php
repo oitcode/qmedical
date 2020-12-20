@@ -10,6 +10,7 @@ use App\MedicalTest;
 use App\MedicalTestType;
 use App\MedicalTestBill;
 use App\AgentTransaction;
+use App\PartialPayment;
 
 class MedicalTestCreateComponent extends Component
 {
@@ -127,7 +128,12 @@ class MedicalTestCreateComponent extends Component
             'payBy' => 'required_if:agentFlag,Yes',
         ]);
 
+        /* Just in case this is needed. */
+        $partialPayment = null;
 
+        /* In case where commission received will help clear previous dues. */
+        $balanceTopup = false;
+        $topupAmount = 0;
 
         $patient = new Patient;
 
@@ -197,13 +203,26 @@ class MedicalTestCreateComponent extends Component
                 $transactionAmount -= $this->price;
                 if ($transactionAmount < 0) {
                     $transactionAmount *= -1;
-                    if ($transactionAmount > $this->getAgentBalance($this->selectedAgent)) {
-                        $medicalTest->payment_status = 'pending';
-                    } else {
+
+                    if ($transactionAmount <= $this->getAgentBalance($this->selectedAgent)) {
                         $medicalTest->payment_status = 'paid';
+                    } else if ($transactionAmount > $this->getAgentBalance($this->selectedAgent)
+                               && $this->getAgentBalance($this->selectedAgent) > 0) {
+                        /* Create partial payment */
+                        $partialPayment = new PartialPayment;
+                        $partialPayment->amount = $this->getAgentBalance($this->selectedAgent);
+
+                        $medicalTest->payment_status = 'partially_paid';
+                    } else {
+                        $medicalTest->payment_status = 'pending';
                     }
                 }
             } else if (strtolower($this->payBy) === 'self') {
+
+                /*
+                 * There is agent but pay by self
+                 */
+
                 $medicalTest->pay_by = 'self';
                 if ($this->creditFlag === 'yes') {
                     $medicalTest->payment_status = 'pending';
@@ -232,6 +251,11 @@ class MedicalTestCreateComponent extends Component
 
         $medicalTest->save();
 
+        if ($partialPayment) {
+            $partialPayment->medical_test_id = $medicalTest->medical_test_id;
+            $partialPayment->save();
+        }
+
         /* Create agent_transaction if agent involved */
         if($this->selectedAgent) {
             /* calculate amount to give/receive */
@@ -258,7 +282,20 @@ class MedicalTestCreateComponent extends Component
             $agentTransaction->comment = 'medical test';
 
             $agentTransaction->save();
+
+            if ($agentTransaction->direction === 'in') {
+                $balanceTopup = true;
+                $topupAmount = $agentTransaction->amount;
+            }
         }
+
+        /* Clear any pending payment if possible */
+        if ($balanceTopup === true) {
+            if ($this->hasOfficialDue($this->selectedAgent)) {
+                $this->clearOfficialDues($this->selectedAgent, $topupAmount);
+            }
+        }
+
 
         $this->emitUp('medicalTestAdded');
         $this->emit('toggleMedicalTestCreateModal');
@@ -290,5 +327,102 @@ class MedicalTestCreateComponent extends Component
         }
 
         return $total;
+    }
+
+    public function hasOfficialDue(Agent $agent)
+    {
+        if ($agent->medicalTests()
+            ->whereIn('payment_status', ['pending', 'partially_paid',])
+            ->get()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function clearOfficialDues(Agent $agent, $topup)
+    {
+        $dues = $agent->medicalTests()
+            ->whereIn('payment_status', ['pending', 'partially_paid',])
+            ->get();
+
+        foreach ($dues as $medicalTest) {
+            if ($topup > 0) {
+                $topup = $this->payDue($medicalTest, $topup);
+            } else {
+                /* No more balance to pay. */
+                break;
+            }
+        }
+    }
+
+    public function payDue(MedicalTest $medicalTest, $topup)
+    {
+        if ($topup >= $this->getDueAmount($medicalTest)) {
+            if ($medicalTest->payment_status === 'partially_paid') {
+
+                /*
+                 * Already partially paid case.
+                 */
+                
+                $topup -= $this->getDueAmount($medicalTest);
+
+                /* Create remaining partial payment. */
+                $partialPayment = new PartialPayment;
+
+                $partialPayment->medical_test_id = $medicalTest->medical_test_id;
+                $partialPayment->amount = $this->getDueAmount($medicalTest);
+
+                $partialPayment->save();
+            } else {
+
+                /*
+                 * No previous partial payments.
+                 */
+                
+                $topup -= $this->getDueAmount($medicalTest);
+            }
+
+            $medicalTest->payment_status = 'paid';
+            $medicalTest->save();
+        } else {
+            /* Not enough topup to pay fully. Make a partial payment. */
+
+            $partialPayment = new PartialPayment;
+
+            $partialPayment->medical_test_id = $medicalTest->medical_test_id;
+            $partialPayment->amount = $topup;
+
+            $partialPayment->save();
+
+            $medicalTest->payment_status = 'partially_paid';
+            $medicalTest->save();
+
+            $topup = 0;
+        }
+
+        return $topup;
+    }
+
+    public function getDueAmount(MedicalTest $medicalTest)
+    {
+        $dueAmount = $medicalTest->price - $medicalTest->agent_commission;
+
+        if ($medicalTest->payment_status === 'partially_paid') {
+            $dueAmount -= $this->getPartiallyPaidAmount($medicalTest);
+        }
+
+        return $dueAmount;
+    }
+
+    public function getPartiallyPaidAmount(MedicalTest $medicalTest)
+    {
+        $amount = 0;
+
+        foreach ($medicalTest->partialPayments as $partialPayment) {
+            $amount += $partialPayment->amount;
+        }
+
+        return $amount;
     }
 }

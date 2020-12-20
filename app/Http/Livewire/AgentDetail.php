@@ -171,9 +171,10 @@ class AgentDetail extends Component
     public function viewOfficialPendings()
     {
         $this->viewOfficialPendingsFalg = true;
+
         $this->officialPendings =
             $this->agent->medicalTests()
-            ->where('payment_status', 'pending')
+            ->whereIn('payment_status', ['pending', 'partially_paid',])
             ->get();
     }
 

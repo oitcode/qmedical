@@ -20,10 +20,18 @@
       <div class="modal-body p-0">
 @endif
         <div class="text-right m-2">
-          <button class="btn btn-sm btn-outline-success px-3" wire:click="">
-            <i class="fas fa-plus"></i>
-            Transaction
-          </button>
+          @if (!$agentTransactionMode)
+            <button class="btn">
+              <span wire:click="enterAgentTransactionMode" class="text-primary">
+                <i class="fas fa-plus"></i>
+                New Transaction
+              </span>
+            </button>
+          @else
+            <span wire:click="exitAgentTransactionMode" class="btn btn-sm btn-success">
+              Cancel Transaction
+            </span>
+          @endif
 
           @if ($viewOfficialPendingsFalg === false)
             <button class="btn btn-sm text-danger" wire:click="viewOfficialPendings">
@@ -84,21 +92,6 @@
         </div>
 
 
-        <div class="m-2">
-          <!-- Transaction button -->
-          @if (!$agentTransactionMode)
-            <button class="btn">
-              <span wire:click="enterAgentTransactionMode" class="text-primary">
-                New Transaction
-              </span>
-            </button>
-          @else
-            <span wire:click="exitAgentTransactionMode" class="btn btn-sm btn-success">
-              Cancel Transaction
-            </span>
-          @endif
-        </div>
-
 
         @if ($agentTransactionMode)
             @livewire('agent-transaction-create', ['agent' => $agent,], key(rand() * $agent->agent_id))
@@ -107,60 +100,62 @@
 
 
         <!-- Recent transactions -->
-        <h3 class="h5 m-3">Transactions</h3>
-        @if (count($agentTransactions))
-          <div class="table-responsive text-muted">
-            <table class="table table-sm table-hover text-nowrap">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>In</th>
-                  <th>Out</th>
-                  <th>Comment</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($agentTransactions as $agentTransaction)
-                  @if($agentTransaction->medicalTest)
+        @if (false)
+          <h3 class="h5 m-3">Transactions</h3>
+          @if (count($agentTransactions))
+            <div class="table-responsive text-muted">
+              <table class="table table-sm table-hover text-nowrap">
+                <thead>
                   <tr>
-                  @else
-                  <tr class="">
-                  @endif
-                    <td>
-                      {{ $agentTransaction->created_at->format('Y-d-m') }}
-                    </td>
-                    <td>
-                      @if ($agentTransaction->direction === 'in')
-                        <span class="text-success">
-                          {{ $agentTransaction->amount }}
-                        </span>
-                      @endif
-                    </td>
-                    <td>
-                      @if ($agentTransaction->direction === 'out')
-                        <span class="text-danger">
-                          {{ $agentTransaction->amount }}
-                        </span>
-                      @endif
-                    </td>
-                    <td>
-                      {{ $agentTransaction->comment }}
-                    </td>
-                    <td>
-                      @if ($agentTransaction->medicalTest)
-                        {{ $agentTransaction->medicalTest->patient->name }}
-                      @endif
-                    </td>
+                    <th>Date</th>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th>Comment</th>
+                    <th></th>
                   </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
-        @else
-          <p class="text-info m-3">
-            No Transactions
-          </p>
+                </thead>
+                <tbody>
+                  @foreach ($agentTransactions as $agentTransaction)
+                    @if($agentTransaction->medicalTest)
+                    <tr>
+                    @else
+                    <tr class="">
+                    @endif
+                      <td>
+                        {{ $agentTransaction->created_at->format('Y-d-m') }}
+                      </td>
+                      <td>
+                        @if ($agentTransaction->direction === 'in')
+                          <span class="text-success">
+                            {{ $agentTransaction->amount }}
+                          </span>
+                        @endif
+                      </td>
+                      <td>
+                        @if ($agentTransaction->direction === 'out')
+                          <span class="text-danger">
+                            {{ $agentTransaction->amount }}
+                          </span>
+                        @endif
+                      </td>
+                      <td>
+                        {{ $agentTransaction->comment }}
+                      </td>
+                      <td>
+                        @if ($agentTransaction->medicalTest)
+                          {{ $agentTransaction->medicalTest->patient->name }}
+                        @endif
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          @else
+            <p class="text-info m-3">
+              No Transactions
+            </p>
+          @endif
         @endif
 
         @if ($viewOfficialPendingsFalg)
@@ -171,17 +166,27 @@
               <thead>
               </thead>
               <tbody>
-                @foreach ($officialPendings as $medicalTest)
-                  <td>
-                    {{ $medicalTest->date }}
-                  </td>
-                  <td>
-                    {{ $medicalTest->patient->name }}
-                  </td>
-                  <td>
-                    {{ $medicalTest->price - $medicalTest->agent_commission }}
-                  </td>
-                @endforeach
+                  @foreach ($officialPendings as $medicalTest)
+                    <tr>
+                      <td>
+                        {{ $loop->iteration }}
+                      </td>
+                      <td>
+                        {{ $medicalTest->date }}
+                      </td>
+                      <td>
+                        {{ $medicalTest->patient->name }}
+                      </td>
+                      <td>
+                        <span class="badge badge-pill badge-danger">
+                          {{ $medicalTest->payment_status }}
+                        </span>
+                      </td>
+                      <td>
+                        {{ $medicalTest->price - $medicalTest->agent_commission }}
+                      </td>
+                    </tr>
+                  @endforeach
               </tbody>
             </table>
           </div>

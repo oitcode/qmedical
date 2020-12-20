@@ -38,6 +38,10 @@
               <span class="badge badge-success badge-pill">
                 P
               </span>
+            @elseif (strtolower($medicalTest->payment_status) === 'partially_paid')
+              <span class="badge badge-warning badge-pill">
+                Partial
+              </span>
             @else
               <span class="badge badge-danger badge-pill">
                 {{ $medicalTest->payment_status }}
