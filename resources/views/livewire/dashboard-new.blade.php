@@ -19,6 +19,7 @@
     <div class="col-md-6">
       @livewire('medical-test-component')
       @livewire('sales-component')
+      @livewire('due-received-component')
     </div>
     <div class="col-md-6">
       @livewire('expense-component')

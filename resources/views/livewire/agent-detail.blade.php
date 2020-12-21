@@ -84,7 +84,7 @@
             </li>
             <li>
               <a href="" class="btn-link text-secondary">
-                <i class="fas fa-dollar-sign mr-3"></i>
+                <i class="fas fa-rupee-sign mr-3"></i>
                 @livewire('agent-balance-display', ['agent' => $agent], key(rand() * $agent->agent_id))
               </a>
             </li>
@@ -100,7 +100,7 @@
 
 
         <!-- Recent transactions -->
-        @if (false)
+        @if (true)
           <h3 class="h5 m-3">Transactions</h3>
           @if (count($agentTransactions))
             <div class="table-responsive text-muted">
@@ -183,7 +183,25 @@
                         </span>
                       </td>
                       <td>
-                        {{ $medicalTest->price - $medicalTest->agent_commission }}
+
+                        <!-- If partially paid -->
+                        @if ($medicalTest->partialPayments)
+                          @php
+                            $pendingAmount = $medicalTest->price;
+                          @endphp
+                          @foreach ($medicalTest->partialPayments as $partialPayment)
+                            @php
+                              $pendingAmount -= $partialPayment->amount;
+                            @endphp
+                          @endforeach
+                          @php
+                            $pendingAmount -= $medicalTest->agent_commission;
+                          @endphp
+
+                          {{ $pendingAmount }}
+                        @else
+                          {{ $medicalTest->price - $medicalTest->agent_commission }}
+                        @endif
                       </td>
                     </tr>
                   @endforeach
