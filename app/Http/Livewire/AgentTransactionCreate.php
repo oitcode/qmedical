@@ -11,7 +11,7 @@ use App\PartialPayment;
 
 class AgentTransactionCreate extends Component
 {
-    public Agent $agent; 
+    public $agent; 
 
     public $date = "";
     public $direction = "";
@@ -47,7 +47,7 @@ class AgentTransactionCreate extends Component
         $this->emit('agentTransactionAdded');
     }
 
-    public function hasOfficialDue(Agent $agent)
+    public function hasOfficialDue($agent)
     {
         if ($agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
@@ -58,7 +58,7 @@ class AgentTransactionCreate extends Component
         return false;
     }
 
-    public function clearOfficialDues(Agent $agent, $topup)
+    public function clearOfficialDues($agent, $topup)
     {
         $dues = $agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
