@@ -58,4 +58,13 @@ class Agent extends Model
     {
         return $this->hasMany('App\AgentTransaction', 'agent_id', 'agent_id');
     }
+
+    /*
+     * agent_commission table.
+     *
+     */
+    public function agentCommissions()
+    {
+        return $this->hasMany('App\AgentCommission', 'agent_id', 'agent_id');
+    }
 }

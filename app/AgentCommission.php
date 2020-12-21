@@ -21,7 +21,7 @@ class AgentCommission extends Model
     protected $primaryKey = 'agent_commission_id';
 
     protected $fillable = [
-         'amount', 'payment_status', 'medical_test_bill_id', 'comment',
+         'agent_id', 'medical_test_id', 'direction', 'amount', 'comment',
     ];
 
     /*-------------------------------------------------------------------------
@@ -34,8 +34,17 @@ class AgentCommission extends Model
      * medical_test table.
      *
      */
-    public function medicalTestBill()
+    public function medicalTest()
     {
-        return $this->belongsTo('App\MedicalTestBill', 'medical_test_bill_id', 'medical_test_bill_id');
+        return $this->belongsTo('App\MedicalTest', 'medical_test_id', 'medical_test_id');
+    }
+
+    /*
+     * agent table.
+     *
+     */
+    public function agent()
+    {
+        return $this->belongsTo('App\Agent', 'agent_id', 'agent_id');
     }
 }

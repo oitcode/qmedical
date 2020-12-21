@@ -84,4 +84,9 @@ class MedicalTest extends Model
     {
         return $this->hasMany('App\PartialPayment', 'medical_test_id', 'medical_test_id');
     }
+
+    public function agentCommission()
+    {
+        return $this->hasOne('App\AgentCommission', 'medical_test_id', 'medical_test_id');
+    }
 }

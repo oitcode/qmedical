@@ -100,7 +100,7 @@
 
 
         <!-- Recent transactions -->
-        @if (true)
+        @if (false)
           <h3 class="h5 m-3">Transactions</h3>
           @if (count($agentTransactions))
             <div class="table-responsive text-muted">

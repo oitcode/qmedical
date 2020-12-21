@@ -33,22 +33,36 @@ class AgentDetail extends Component
     public $viewOfficialPendingsFalg = false;
     public $officialPendings = null;
 
+    public $agentCommissions = null;
+
     protected $listeners = [
         'closeAgentSettlement' => 'closeSettlementComponent',
         'agentTransactionAdded' => 'exitAgentTransactionMode',
     ];
 
 
-    public function render()
+    public function renderBak()
     {
         $this->agentTransactions = $this->agent->agentTransactions;
         $this->getLastSettlementInfo();
+
 
         $this->amountToPay = $this->calculateAmountToPay();
         $this->amountToReceive = $this->calculateAmountToReceive();
         $this->setRecentMedicalTests();
 
         $this->calculateNetBalane();
+
+        return view('livewire.agent-detail');
+    }
+
+    public function render()
+    {
+        $this->agentCommissions = $this->agent->agentCommissions;
+        $this->officialPendings =
+            $this->agent->medicalTests()
+            ->whereIn('payment_status', ['pending', 'partially_paid',])
+            ->get();
 
         return view('livewire.agent-detail');
     }
