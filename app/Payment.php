@@ -4,24 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PartialPayment extends Model
+class Payment extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'partial_payment';
+    protected $table = 'payment';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'partial_payment_id';
+    protected $primaryKey = 'payment_id';
 
     protected $fillable = [
-         'medical_test_id', 'amount', 'comment',
+         'medical_test_id', 'amount', 'type', 'comment',
     ];
 
     /*-------------------------------------------------------------------------

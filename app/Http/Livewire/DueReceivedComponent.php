@@ -6,9 +6,13 @@ use Livewire\Component;
 
 use Carbon\Carbon;
 
+use App\Payment;
+
 class DueReceivedComponent extends Component
 {
     public $searchDate;
+
+    public $duesReceived = null;
 
     public function mount()
     {
@@ -17,6 +21,10 @@ class DueReceivedComponent extends Component
 
     public function render()
     {
+        $this->duesReceived = Payment::where('type', 'due')
+            ->whereDate('created_at', $this->searchDate)
+            ->get();
+
         return view('livewire.due-received-component');
     }
 }

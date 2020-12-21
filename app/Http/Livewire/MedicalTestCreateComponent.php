@@ -10,7 +10,7 @@ use App\MedicalTest;
 use App\MedicalTestType;
 use App\MedicalTestBill;
 use App\AgentTransaction;
-use App\PartialPayment;
+use App\Payment;
 use App\AgentCommission;
 
 class MedicalTestCreateComponent extends Component
@@ -94,6 +94,9 @@ class MedicalTestCreateComponent extends Component
 
     public function store()
     {
+        /* For payment */
+        $payment = null;
+
         /* Validate form data */
 
         $validatedData = $this->validate([
@@ -189,6 +192,7 @@ class MedicalTestCreateComponent extends Component
         $medicalTest->payment_status = $this->paymentStatus;
         $medicalTest->pay_by = $this->payBy;
 
+
         if (strtolower($this->agentFlag) === 'yes' && $this->selectedAgent) {
 
             /*
@@ -206,13 +210,21 @@ class MedicalTestCreateComponent extends Component
 
                     if ($transactionAmount <= $this->getAgentBalance($this->selectedAgent)) {
                         $medicalTest->payment_status = 'paid';
+
+                        /* Create a payment_record */
+                        $payment = new Payment;
+                        $payment->amount = $this->price - $this->agentCommission;
+                        $payment->type = 'cash';
+
                     } else if ($transactionAmount > $this->getAgentBalance($this->selectedAgent)
                                && $this->getAgentBalance($this->selectedAgent) > 0) {
-                        /* Create partial payment */
-                        $partialPayment = new PartialPayment;
-                        $partialPayment->amount = $this->getAgentBalance($this->selectedAgent);
 
                         $medicalTest->payment_status = 'partially_paid';
+
+                        /* Create payment */
+                        $payment = new Payment;
+                        $payment->amount = $this->getAgentBalance($this->selectedAgent);
+                        $payment->type = 'cash';
                     } else {
                         $medicalTest->payment_status = 'pending';
                     }
@@ -228,6 +240,11 @@ class MedicalTestCreateComponent extends Component
                     $medicalTest->payment_status = 'pending';
                 } else {
                     $medicalTest->payment_status = 'paid';
+
+                    /*  Create payment_record */
+                    $payment = new Payment;
+                    $payment->amount = $this->price - $this->agentCommission;
+                    $payment->type = 'cash';
                 }
             } else {
                 // TODO: Cancel the creation. Something is wrong!
@@ -246,14 +263,19 @@ class MedicalTestCreateComponent extends Component
                 $medicalTest->payment_status = 'pending';
             } else {
                 $medicalTest->payment_status = 'paid';
+                /* Create payment record */
+                $payment = new Payment;
+                $payment->amount = $this->price;
+                $payment->type = 'cash';
             }
         }
 
         $medicalTest->save();
 
-        if ($partialPayment) {
-            $partialPayment->medical_test_id = $medicalTest->medical_test_id;
-            $partialPayment->save();
+        /* Save payment record. */
+        if ($payment) {
+            $payment->medical_test_id = $medicalTest->medical_test_id;
+            $payment->save();
         }
 
         /* Create agent_transaction if agent involved */
@@ -359,41 +381,26 @@ class MedicalTestCreateComponent extends Component
     public function payDue(MedicalTest $medicalTest, $topup)
     {
         if ($topup >= $this->getDueAmount($medicalTest)) {
-            if ($medicalTest->payment_status === 'partially_paid') {
+            /* Create payment. */
+            $payment = new Payment;
 
-                /*
-                 * Already partially paid case.
-                 */
-                
-                $topup -= $this->getDueAmount($medicalTest);
-
-                /* Create remaining partial payment. */
-                $partialPayment = new PartialPayment;
-
-                $partialPayment->medical_test_id = $medicalTest->medical_test_id;
-                $partialPayment->amount = $this->getDueAmount($medicalTest);
-
-                $partialPayment->save();
-            } else {
-
-                /*
-                 * No previous partial payments.
-                 */
-                
-                $topup -= $this->getDueAmount($medicalTest);
-            }
+            $payment->medical_test_id = $medicalTest->medical_test_id;
+            $payment->amount = $this->getDueAmount($medicalTest);
+            $payment->type = 'due';
+            $payment->save();
 
             $medicalTest->payment_status = 'paid';
             $medicalTest->save();
+
+            $topup -= $this->getDueAmount($medicalTest);
         } else {
             /* Not enough topup to pay fully. Make a partial payment. */
 
-            $partialPayment = new PartialPayment;
-
-            $partialPayment->medical_test_id = $medicalTest->medical_test_id;
-            $partialPayment->amount = $topup;
-
-            $partialPayment->save();
+            $payment = new Payment;
+            $payment->medical_test_id = $medicalTest->medical_test_id;
+            $payment->amount = $topup;
+            $payment->type = 'due';
+            $payment->save();
 
             $medicalTest->payment_status = 'partially_paid';
             $medicalTest->save();
@@ -408,19 +415,19 @@ class MedicalTestCreateComponent extends Component
     {
         $dueAmount = $medicalTest->price - $medicalTest->agent_commission;
 
-        if ($medicalTest->payment_status === 'partially_paid') {
-            $dueAmount -= $this->getPartiallyPaidAmount($medicalTest);
+        if ($medicalTest->payments !== null) {
+            $dueAmount -= $this->getPaidAmount($medicalTest);
         }
 
         return $dueAmount;
     }
 
-    public function getPartiallyPaidAmount(MedicalTest $medicalTest)
+    public function getPaidAmount(MedicalTest $medicalTest)
     {
         $amount = 0;
 
-        foreach ($medicalTest->partialPayments as $partialPayment) {
-            $amount += $partialPayment->amount;
+        foreach ($medicalTest->payments as $payment) {
+            $amount += $payment->amount;
         }
 
         return $amount;

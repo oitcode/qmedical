@@ -139,7 +139,7 @@
                 <select class="custom-select" wire:model="payBy">
                   <option>---</option>
                     <option>Agent</option>
-                    <option>Self</option>
+                    <option value="Self">Patient</option>
                 </select>
                 @error('payBy')
                   <div class="text-danger">{{ $message }}</div>

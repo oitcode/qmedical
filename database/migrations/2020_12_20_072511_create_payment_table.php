@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePartialPaymentTable extends Migration
+class CreatePaymentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,18 @@ class CreatePartialPaymentTable extends Migration
      */
     public function up()
     {
-        Schema::create('partial_payment', function (Blueprint $table) {
-            $table->bigIncrements('partial_payment_id');
+        Schema::create('payment', function (Blueprint $table) {
+            $table->bigIncrements('payment_id');
 
             /*
              * Foreign key to medical_test table.
              */
             $table->unsignedBigInteger('medical_test_id');
-            $table->foreign('medical_test_id', 'fk_partial_payment_medical_test')
+            $table->foreign('medical_test_id', 'fk_payment_medical_test')
                 ->references('medical_test_id')->on('medical_test');
 
             $table->integer('amount');
+            $table->string('type');
 
             $table->string('comment', 255)->nullable();
             $table->timestamps();
@@ -37,6 +38,6 @@ class CreatePartialPaymentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('partial_payment');
+        Schema::dropIfExists('payment');
     }
 }
