@@ -93,7 +93,11 @@
                 {{ $medicalTest->medicalTestType->name }}
               </td>
               <td>
-                {{ $medicalTest->price }}
+                @if ($medicalTest->agent_id)
+                  {{ $medicalTest->price - $medicalTest->agent_commission }}
+                @else
+                  {{ $medicalTest->price }}
+                @endif
               </td>
               <td>
                 <span class="btn btn-tool btn-sm" wire:click="">
@@ -149,7 +153,11 @@
                 {{ $medicalTest->medicalTestType->name }}
               </td>
               <td>
-                {{ $medicalTest->price }}
+                @if ($medicalTest->agent_id)
+                  {{ $medicalTest->price - $medicalTest->agent_commission }}
+                @else
+                  {{ $medicalTest->price }}
+                @endif
               </td>
               <td>
                 <span class="btn btn-tool btn-sm" wire:click="">

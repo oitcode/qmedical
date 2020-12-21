@@ -166,45 +166,45 @@
               <thead>
               </thead>
               <tbody>
-                  @foreach ($officialPendings as $medicalTest)
-                    <tr>
-                      <td>
-                        {{ $loop->iteration }}
-                      </td>
-                      <td>
-                        {{ $medicalTest->date }}
-                      </td>
-                      <td>
-                        {{ $medicalTest->patient->name }}
-                      </td>
-                      <td>
-                        <span class="badge badge-pill badge-danger">
-                          {{ $medicalTest->payment_status }}
-                        </span>
-                      </td>
-                      <td>
+                @foreach ($officialPendings as $medicalTest)
+                  <tr>
+                    <td>
+                      {{ $loop->iteration }}
+                    </td>
+                    <td>
+                      {{ $medicalTest->date }}
+                    </td>
+                    <td>
+                      {{ $medicalTest->patient->name }}
+                    </td>
+                    <td>
+                      <span class="badge badge-pill badge-danger">
+                        {{ $medicalTest->payment_status }}
+                      </span>
+                    </td>
+                    <td>
 
-                        <!-- If partially paid -->
-                        @if ($medicalTest->partialPayments)
+                      <!-- If partially paid -->
+                      @if ($medicalTest->partialPayments)
+                        @php
+                          $pendingAmount = $medicalTest->price;
+                        @endphp
+                        @foreach ($medicalTest->partialPayments as $partialPayment)
                           @php
-                            $pendingAmount = $medicalTest->price;
+                            $pendingAmount -= $partialPayment->amount;
                           @endphp
-                          @foreach ($medicalTest->partialPayments as $partialPayment)
-                            @php
-                              $pendingAmount -= $partialPayment->amount;
-                            @endphp
-                          @endforeach
-                          @php
-                            $pendingAmount -= $medicalTest->agent_commission;
-                          @endphp
+                        @endforeach
+                        @php
+                          $pendingAmount -= $medicalTest->agent_commission;
+                        @endphp
 
-                          {{ $pendingAmount }}
-                        @else
-                          {{ $medicalTest->price - $medicalTest->agent_commission }}
-                        @endif
-                      </td>
-                    </tr>
-                  @endforeach
+                        {{ $pendingAmount }}
+                      @else
+                        {{ $medicalTest->price - $medicalTest->agent_commission }}
+                      @endif
+                    </td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
