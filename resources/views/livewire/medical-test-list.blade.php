@@ -25,6 +25,9 @@
         @foreach($medicalTests as $medicalTest)
         <tr>
           <td>
+               {{ $medicalTest->medical_test_id }}
+          </td>
+          <td>
             <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
                {{ $medicalTest->patient->name }}
             </a>

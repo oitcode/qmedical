@@ -161,53 +161,59 @@
         @if ($viewOfficialPendingsFalg)
           <hr />
           <h3 class="h5 m-3">Official Pending</h3>
-          <div class="table-responsive">
-            <table class="table table-sm table-hover text-nowrap">
-              <thead>
-              </thead>
-              <tbody>
-                @foreach ($officialPendings as $medicalTest)
-                  <tr>
-                    <td>
-                      {{ $loop->iteration }}
-                    </td>
-                    <td>
-                      {{ $medicalTest->date }}
-                    </td>
-                    <td>
-                      {{ $medicalTest->patient->name }}
-                    </td>
-                    <td>
-                      <span class="badge badge-pill badge-danger">
-                        {{ $medicalTest->payment_status }}
-                      </span>
-                    </td>
-                    <td>
+          @if (count($officialPendings) > 0)
+            <div class="table-responsive">
+              <table class="table table-sm table-hover text-nowrap">
+                <thead>
+                </thead>
+                <tbody>
+                  @foreach ($officialPendings as $medicalTest)
+                    <tr>
+                      <td>
+                        {{ $loop->iteration }}
+                      </td>
+                      <td>
+                        {{ $medicalTest->date }}
+                      </td>
+                      <td>
+                        {{ $medicalTest->patient->name }}
+                      </td>
+                      <td>
+                        <span class="badge badge-pill badge-danger">
+                          {{ $medicalTest->payment_status }}
+                        </span>
+                      </td>
+                      <td>
 
-                      <!-- If partially paid -->
-                      @if ($medicalTest->partialPayments)
-                        @php
-                          $pendingAmount = $medicalTest->price;
-                        @endphp
-                        @foreach ($medicalTest->partialPayments as $partialPayment)
+                        <!-- If partially paid -->
+                        @if ($medicalTest->payments)
                           @php
-                            $pendingAmount -= $partialPayment->amount;
+                            $pendingAmount = $medicalTest->price;
                           @endphp
-                        @endforeach
-                        @php
-                          $pendingAmount -= $medicalTest->agent_commission;
-                        @endphp
+                          @foreach ($medicalTest->payments as $payment)
+                            @php
+                              $pendingAmount -= $payment->amount;
+                            @endphp
+                          @endforeach
+                          @php
+                            $pendingAmount -= $medicalTest->agent_commission;
+                          @endphp
 
-                        {{ $pendingAmount }}
-                      @else
-                        {{ $medicalTest->price - $medicalTest->agent_commission }}
-                      @endif
-                    </td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
+                          {{ $pendingAmount }}
+                        @else
+                          {{ $medicalTest->price - $medicalTest->agent_commission }}
+                        @endif
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          @else
+            <div class="text-info p-3">
+              No official pending
+            </div>
+          @endif
         @endif
 
 

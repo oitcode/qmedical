@@ -25,6 +25,12 @@ class DueReceivedComponent extends Component
             ->whereDate('created_at', $this->searchDate)
             ->get();
 
+        // foreach ($this->duesReceived as $key => $value) {
+        //     if ($value->medicalTest->date === $this->searchDate->toDateString()) {
+        //         $this->duesReceived->forget($key);
+        //     }
+        // }
+
         return view('livewire.due-received-component');
     }
 }

@@ -79,25 +79,21 @@
       </thead>
       <tbody>
         @if (count($cashSales) > 0)
-          @foreach($cashSales as $medicalTest)
+          @foreach($cashSales as $payment)
           <tr >
               <td>
-                {{ $medicalTest->medical_test_id }}
+                {{ $payment->medicalTest->medical_test_id }}
               </td>
               <td>
                 <a href="" wire:click.prevent="" class="text-dark">
-                  {{ $medicalTest->patient->name }}
+                  {{ $payment->medicalTest->patient->name }}
                 </a>
               </td>
               <td>
-                {{ $medicalTest->medicalTestType->name }}
+                {{ $payment->medicalTest->medicalTestType->name }}
               </td>
               <td>
-                @if ($medicalTest->agent_id)
-                  {{ $medicalTest->price - $medicalTest->agent_commission }}
-                @else
-                  {{ $medicalTest->price }}
-                @endif
+                {{ $payment->amount }}
               </td>
               <td>
                 <span class="btn btn-tool btn-sm" wire:click="">
@@ -152,13 +148,31 @@
               <td>
                 {{ $medicalTest->medicalTestType->name }}
               </td>
+
               <td>
-                @if ($medicalTest->agent_id)
-                  {{ $medicalTest->price - $medicalTest->agent_commission }}
+                @if (strtolower($medicalTest->payment_status) === 'pending')
+                  @if ($medicalTest->agent_id)
+                    {{ $medicalTest->price - $medicalTest->agent_commission }}
+                  @else
+                    {{ $medicalTest->price }}
+                  @endif
+                @elseif (strtolower($medicalTest->payment_status) === 'partially_paid')
+                  @php
+                    $pendingAmount = $medicalTest->price;
+                    if ($medicalTest->agent_id) {
+                        $pendingAmount -= $medicalTest->agent_commission;
+                    }
+                    $partialPayments = $medicalTest->payments;
+                    foreach ($partialPayments as $payment ) {
+                        $pendingAmount -= $payment->amount;
+                    }
+                  @endphp
+                  {{ $pendingAmount }}
                 @else
-                  {{ $medicalTest->price }}
+                  {{-- Somethings wrong --}}
                 @endif
               </td>
+
               <td>
                 <span class="btn btn-tool btn-sm" wire:click="">
                   <i class="fas fa-pencil-alt text-primary mr-3"></i>

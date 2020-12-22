@@ -16,6 +16,9 @@
           @foreach ($duesReceived as $payment)
             <tr>
               <td>
+                {{ $payment->medicalTest->medical_test_id }}
+              </td>
+              <td>
                 {{ $payment->medicalTest->patient->name }}
               </td>
               <td>

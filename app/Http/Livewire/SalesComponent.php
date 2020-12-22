@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 
 use App\MedicalTest;
+use App\Payment;
 use Carbon\Carbon;
 
 class SalesComponent extends Component
@@ -25,14 +26,19 @@ class SalesComponent extends Component
 
     public function render()
     {
-        $this->cashSales = MedicalTest::where('payment_status' , 'paid')
-            ->whereDate('date', '=', $this->searchDate)->get();
+        $this->cashSales = Payment::whereDate('created_at', '=', $this->searchDate)
+            ->where('type', 'cash')
+            ->get();
 
-        $this->creditSales = MedicalTest::where('payment_status' , 'pending')
-            ->whereDate('date', '=', $this->searchDate)->get();
+        $this->creditSales = MedicalTest::whereDate('date', '=', $this->searchDate)
+            ->where(function ($query) {
+              $query->where('payment_status', 'pending')
+                  ->orWhere('payment_status', 'partially_paid');
+            })
+            ->get();
 
-        $this->cashSalesTotal = $this->getTotalSales($this->cashSales);
-        $this->creditSalesTotal = $this->getTotalSales($this->creditSales);
+        $this->cashSalesTotal = $this->getTotalCashSales($this->cashSales);
+        $this->creditSalesTotal = $this->getTotalCreditSales($this->creditSales);
 
         $this->salesTotal = $this->cashSalesTotal + $this->creditSalesTotal;
 
@@ -49,18 +55,45 @@ class SalesComponent extends Component
         $this->searchDate = $this->searchDate->subDay();
     }
 
-    public function getTotalSales($sales)
+    public function getTotalCashSales($sales)
+    {
+        $total = 0;
+
+        foreach ($sales as $payment) {
+            $total += $payment->amount;
+        }
+
+        return $total;
+    }
+
+    public function getTotalCreditSales($sales)
     {
         $total = 0;
 
         foreach ($sales as $medicalTest) {
-            $total += $medicalTest->price;
 
-            if ($medicalTest->agent) {
-              $total -= $medicalTest->agent_commission;  
+            $creditAmount = $medicalTest->price;
+            if ($medicalTest->agent_id) {
+                $creditAmount -= $medicalTest->agent_commission;
             }
+
+            if (strtolower($medicalTest->payment_status) === 'partially_paid') {
+                $creditAmount -= $this->getPaidAmount($medicalTest);
+            }
+
+            $total += $creditAmount;
         }
 
+        return $total;
+    }
+
+    public function getPaidAmount($medicalTest)
+    {
+        $total = 0;
+
+        foreach ($medicalTest->payments as $payment) {
+            $total += $payment->amount;
+        }
 
         return $total;
     }

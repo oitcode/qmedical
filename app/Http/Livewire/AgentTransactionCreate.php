@@ -7,7 +7,7 @@ use Livewire\Component;
 use App\AgentTransaction;
 use App\Agent;
 use App\MedicalTest;
-use App\PartialPayment;
+use App\Payment;
 
 class AgentTransactionCreate extends Component
 {
@@ -76,48 +76,30 @@ class AgentTransactionCreate extends Component
 
     public function payDue($medicalTest, $topup)
     {
+        $payment = new Payment;
+        $payment->medical_test_id = $medicalTest->medical_test_id;
+
         if ($topup >= $this->getDueAmount($medicalTest)) {
-            if ($medicalTest->payment_status === 'partially_paid') {
 
-                /*
-                 * Already partially paid case.
-                 */
-                
-                $topup -= $this->getDueAmount($medicalTest);
+            /*
+             * If sufficient balance.
+             */
 
-                /* Create remaining partial payment. */
-                $partialPayment = new PartialPayment;
-
-                $partialPayment->medical_test_id = $medicalTest->medical_test_id;
-                $partialPayment->amount = $this->getDueAmount($medicalTest);
-
-                $partialPayment->save();
-            } else {
-
-                /*
-                 * No previous partial payments.
-                 */
-                
-                $topup -= $this->getDueAmount($medicalTest);
-            }
-
+            $payment->amount = $this->getDueAmount($medicalTest);
+            $topup -= $this->getDueAmount($medicalTest);
             $medicalTest->payment_status = 'paid';
-            $medicalTest->save();
         } else {
             /* Not enough topup to pay fully. Make a partial payment. */
 
-            $partialPayment = new PartialPayment;
-
-            $partialPayment->medical_test_id = $medicalTest->medical_test_id;
-            $partialPayment->amount = $topup;
-
-            $partialPayment->save();
-
+            $payment->amount = $topup;
             $medicalTest->payment_status = 'partially_paid';
-            $medicalTest->save();
-
             $topup = 0;
         }
+
+        $payment->type = 'due';
+        $payment->save();
+
+        $medicalTest->save();
 
         return $topup;
     }
@@ -127,18 +109,18 @@ class AgentTransactionCreate extends Component
         $dueAmount = $medicalTest->price - $medicalTest->agent_commission;
 
         if ($medicalTest->payment_status === 'partially_paid') {
-            $dueAmount -= $this->getPartiallyPaidAmount($medicalTest);
+            $dueAmount -= $this->getPaidAmount($medicalTest);
         }
 
         return $dueAmount;
     }
 
-    public function getPartiallyPaidAmount($medicalTest)
+    public function getPaidAmount($medicalTest)
     {
         $amount = 0;
 
-        foreach ($medicalTest->partialPayments as $partialPayment) {
-            $amount += $partialPayment->amount;
+        foreach ($medicalTest->payments as $payment) {
+            $amount += $payment->amount;
         }
 
         return $amount;

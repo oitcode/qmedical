@@ -123,8 +123,8 @@
               </span>
 
               <div>
-                @foreach ($medicalTest->partialPayments as $partialPayment)
-                    {{ $partialPayment->amount }}
+                @foreach ($medicalTest->payments as $payment)
+                    {{ $payment->amount }}
                 @endforeach
               </div>
             @endif
