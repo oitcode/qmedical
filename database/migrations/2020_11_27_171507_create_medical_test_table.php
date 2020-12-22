@@ -49,6 +49,9 @@ class CreateMedicalTestTable extends Migration
             $table->string('payment_status');
             $table->string('pay_by');
 
+            /* Credit sales */
+            $table->integer('credit_amount')->nullable();
+
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

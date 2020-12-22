@@ -31,10 +31,7 @@ class SalesComponent extends Component
             ->get();
 
         $this->creditSales = MedicalTest::whereDate('date', '=', $this->searchDate)
-            ->where(function ($query) {
-              $query->where('payment_status', 'pending')
-                  ->orWhere('payment_status', 'partially_paid');
-            })
+            ->whereNotNull('credit_amount')
             ->get();
 
         $this->cashSalesTotal = $this->getTotalCashSales($this->cashSales);
@@ -71,17 +68,7 @@ class SalesComponent extends Component
         $total = 0;
 
         foreach ($sales as $medicalTest) {
-
-            $creditAmount = $medicalTest->price;
-            if ($medicalTest->agent_id) {
-                $creditAmount -= $medicalTest->agent_commission;
-            }
-
-            if (strtolower($medicalTest->payment_status) === 'partially_paid') {
-                $creditAmount -= $this->getPaidAmount($medicalTest);
-            }
-
-            $total += $creditAmount;
+            $total += $medicalTest->credit_amount;
         }
 
         return $total;

@@ -150,27 +150,7 @@
               </td>
 
               <td>
-                @if (strtolower($medicalTest->payment_status) === 'pending')
-                  @if ($medicalTest->agent_id)
-                    {{ $medicalTest->price - $medicalTest->agent_commission }}
-                  @else
-                    {{ $medicalTest->price }}
-                  @endif
-                @elseif (strtolower($medicalTest->payment_status) === 'partially_paid')
-                  @php
-                    $pendingAmount = $medicalTest->price;
-                    if ($medicalTest->agent_id) {
-                        $pendingAmount -= $medicalTest->agent_commission;
-                    }
-                    $partialPayments = $medicalTest->payments;
-                    foreach ($partialPayments as $payment ) {
-                        $pendingAmount -= $payment->amount;
-                    }
-                  @endphp
-                  {{ $pendingAmount }}
-                @else
-                  {{-- Somethings wrong --}}
-                @endif
+                {{ $medicalTest->credit_amount }}
               </td>
 
               <td>

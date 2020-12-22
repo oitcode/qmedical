@@ -225,8 +225,14 @@ class MedicalTestCreateComponent extends Component
                         $payment = new Payment;
                         $payment->amount = $this->getAgentBalance($this->selectedAgent);
                         $payment->type = 'cash';
+
+                        /* Store credit info */
+                        $medicalTest->credit_amount = $this->price - $this->agent_commission - $payment->amount;
                     } else {
                         $medicalTest->payment_status = 'pending';
+
+                        /* Store credit info */
+                        $medicalTest->credit_amount = $this->price - $this->agent_commission;
                     }
                 }
             } else if (strtolower($this->payBy) === 'self') {
@@ -238,6 +244,7 @@ class MedicalTestCreateComponent extends Component
                 $medicalTest->pay_by = 'self';
                 if ($this->creditFlag === 'yes') {
                     $medicalTest->payment_status = 'pending';
+                    /* TODO: But client says this will never be true. */
                 } else {
                     $medicalTest->payment_status = 'paid';
 
@@ -261,6 +268,7 @@ class MedicalTestCreateComponent extends Component
 
             if (strtolower($this->creditFlag) === 'yes') {
                 $medicalTest->payment_status = 'pending';
+                /* TODO: But client says this will never be true. */
             } else {
                 $medicalTest->payment_status = 'paid';
                 /* Create payment record */
