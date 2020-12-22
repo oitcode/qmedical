@@ -232,7 +232,7 @@ class MedicalTestCreateComponent extends Component
                         $medicalTest->payment_status = 'pending';
 
                         /* Store credit info */
-                        $medicalTest->credit_amount = $this->price - $this->agent_commission;
+                        $medicalTest->credit_amount = $this->price - $this->agentCommission;
                     }
                 }
             } else if (strtolower($this->payBy) === 'self') {
