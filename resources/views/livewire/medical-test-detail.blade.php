@@ -1,4 +1,4 @@
-<div class="modal fade" id="detailModal" data-backdrop="static">
+<div wire:ignore.self class="modal fade" id="detailModal" data-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -80,22 +80,61 @@
 
         <!-- Test Detail -->
         <div class="p-3 bg-light border">
+
           <p>
             <span class="text-bold mr-3"> Test Type</span>
             {{ $medicalTest->medicalTestType->name }}
           </p>
+
           <p>
-            <span class="text-bold mr-3"> Result</span>
+            Status: 
             @if (strtolower($medicalTest->status) === 'waiting')
-              <span class="text-danger">
-                Waiting
+              @if ($statusUpdateMode === false)
+                <span class="text-danger mr-3">
+                  Waiting
+                </span>
+              @else
+                <select wire:model="newStatus">
+                  <option>{{ $medicalTest->status}}</option>
+                  <option>Completed</option>
+                </select>
+              @endif
+
+              @if ($statusUpdateMode === false)
+                <span class="badge badge-pill badge-primary p-2" wire:click="updateStatus">
+                  <i class="fas fa-pencil-alt"></i>
+                </span>
+              @else
+                <button class="btn btn-sm btn-success mr-3" wire:click="saveNewStatus">
+                  Save
+                </button>
+                <button class="btn btn-sm btn-danger" wire:click="exitUpdateStatus">
+                  Cancel
+                </button>
+              @endif
+
+            @elseif (strtolower($medicalTest->status) === 'completed')
+              <span class="text-success">
+                {{ $medicalTest->status }}
               </span>
             @else
+              <span class="text-info">
+                {{ $medicalTest->status }}
+              </span>
+            @endif
+          </p>
+
+          <p>
+            @if (strtolower($medicalTest->status) === 'waiting')
+              @if ($statusUpdateMode === true && strtolower($this->newStatus) === 'completed')
+                @include ('partials.sleek-input', ['mName' => 'result', 'pName' => 'Result',])
+              @endif
+            @else
+              Result: 
               <span class="text-info">
                 {{ $medicalTest->result }}
               </span>
             @endif
-            {{ $medicalTest->result }}
           </p>
         </div>
         <!-- /.Test Detail -->
