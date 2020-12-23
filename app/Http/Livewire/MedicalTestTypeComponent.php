@@ -34,8 +34,10 @@ class MedicalTestTypeComponent extends Component
         ]);
 
         MedicalTestType::create($validatedData);
-        session()->flash('message', 'Medical Test Type Created Successfully.');
         $this->resetInputFields();
+
+        $this->emitUp('medicalTestTypeAdded');
+        $this->emit('toggleMedicalTestTypeCreateModal');
     }
 
     public function edit($id)

@@ -7,20 +7,36 @@ use App\MedicalTest;
 
 class MedicalTestList extends Component
 {
-    //public $medicalTests;
     public $createMode = false;
 
+    public $medicalTests = null;
+
     protected $listeners = [
-        'dataAdded' => 'render',
-        'updateList' => 'render',
-        'refreshMedicalTestList' => 'render',
+        'dataAdded' => 'mount',
+        'updateList' => 'mount',
+        'refreshMedicalTestList' => 'mount',
+        'searchMedicalTestByPatientName' => 'searchByPatientName',
     ];
+
+    public function mount()
+    {
+        $this->medicalTests = MedicalTest::all()->sortByDesc('medical_test_id');
+    }
 
     public function render()
     {
-        //$this->medicalTests = MedicalTest::all()->sortByDesc('medical_test_id');
-
         return view('livewire.medical-test-list')
           ->with('medicalTests', MedicalTest::orderBy('medical_test_id', 'desc')->paginate(5));
+    }
+
+    public function searchByPatientName($patientSearchName)
+    {
+        $searchName = $patientSearchName;
+
+        $this->medicalTests = MedicalTest::whereHas('patient',
+        function ($query) use ($searchName) {
+            $query->where('name', 'like', '%' . $searchName .'%');
+        })
+        ->get();
     }
 }

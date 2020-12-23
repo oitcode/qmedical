@@ -10,77 +10,79 @@
         </div>
       @endif
     </div>
-    <table class="table table-striped table-hover table-valign-middle">
-      @if (false)
-      <thead>
-        <tr class="text-secondary">
-          <th>Patient</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      @endif
 
-      <tbody>
-        @foreach($medicalTests as $medicalTest)
-        <tr>
-          <td>
-               {{ $medicalTest->medical_test_id }}
-          </td>
-          <td>
-            <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
-               {{ $medicalTest->patient->name }}
-            </a>
-            <span class="text-muted ml-3 font-sm">
-              {{ $medicalTest->medicalTestType->name }}
-            </span>
-          </td>
+    @if (!is_null($medicalTests) && count($medicalTests) > 0)
+      <table class="table table-striped table-hover table-valign-middle">
+        @if (false)
+        <thead>
+          <tr class="text-secondary">
+            <th>Patient</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        @endif
 
-          <td>
-            @if (strtolower($medicalTest->payment_status) === 'paid')
-              <span class="badge badge-success badge-pill">
-                P
+        <tbody>
+          @foreach($medicalTests as $medicalTest)
+          <tr>
+            <td>
+                 {{ $medicalTest->medical_test_id }}
+            </td>
+            <td>
+              <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
+                 {{ $medicalTest->patient->name }}
+              </a>
+              <span class="text-muted ml-3 font-sm">
+                {{ $medicalTest->medicalTestType->name }}
               </span>
-            @elseif (strtolower($medicalTest->payment_status) === 'partially_paid')
-              <span class="badge badge-warning badge-pill">
-                Partial
-              </span>
-            @else
-              <span class="badge badge-danger badge-pill">
-                {{ $medicalTest->payment_status }}
-              </span>
-            @endif
-          </td>
+            </td>
 
-          <td>
-            @if ($medicalTest->status === 'Waiting')
-              <span class="badge badge-danger badge-pill">
-                W
-              </span>
-            @elseif ($medicalTest->status === 'Completed')
-              <span class="badge badge-success badge-pill">
-                C
-              </span>
-            @else
-              <span class="">
-                {{ $medicalTest->status }}
-              </span>
-            @endif
-          </td>
-          <td>
-            <span class="btn btn-tool btn-sm">
-              <i class="fas fa-pencil-alt text-primary mr-3" wire:click="$emit('updateMedicalTest', {{ $medicalTest }})"></i>
-            </span>
+            <td>
+              @if (strtolower($medicalTest->payment_status) === 'paid')
+                <span class="badge badge-success badge-pill">
+                  P
+                </span>
+              @elseif (strtolower($medicalTest->payment_status) === 'partially_paid')
+                <span class="badge badge-warning badge-pill">
+                  Partial
+                </span>
+              @else
+                <span class="badge badge-danger badge-pill">
+                  {{ $medicalTest->payment_status }}
+                </span>
+              @endif
+            </td>
 
-            @can ('delete-models')
-              <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
-            @endcan
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-    {{ $medicalTests->links() }}
+            <td>
+              @if ($medicalTest->status === 'Waiting')
+                <span class="badge badge-danger badge-pill">
+                  W
+                </span>
+              @elseif ($medicalTest->status === 'Completed')
+                <span class="badge badge-success badge-pill">
+                  C
+                </span>
+              @else
+                <span class="">
+                  {{ $medicalTest->status }}
+                </span>
+              @endif
+            </td>
+            <td>
+              <span class="btn btn-tool btn-sm">
+                <i class="fas fa-pencil-alt text-primary mr-3" wire:click="$emit('updateMedicalTest', {{ $medicalTest }})"></i>
+              </span>
+
+              @can ('delete-models')
+                <i class="fas fa-trash text-danger mr-3" wire:click="$emit('deleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
+              @endcan
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    @endif
   </div>
   @if ($createMode)
     @livewire('medical-test-create-component')

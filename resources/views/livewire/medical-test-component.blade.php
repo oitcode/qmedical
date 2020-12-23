@@ -8,17 +8,16 @@
         <i class="fas fa-plus"></i>
       </button>
 
-      <button class="btn btn-sm btn-outline-success px-3" wire:click="">
+      <button class="btn btn-sm btn-outline-success px-3" wire:click="enterMedicalTestTypeCreateMode">
         <i class="fas fa-folder-plus"></i>
       </button>
 
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-download"></i>
-      </a>
-
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-bars"></i>
-      </a>
+      <span class="">
+          <input type="text" wire:model.defer="patientSearchName" wire:keydown.enter="search" class="">
+          <button class="btn btn-sm text-success text-bold" wire:click="">
+            Go
+          </button>
+      </span>
     </div>
   </div>
 
@@ -34,6 +33,10 @@
 
     @if ($updateMode)
       @livewire('medical-test-update', ['medicalTest' => $updatingMedicalTest])
+    @endif
+
+    @if ($medicalTestTypeCreateMode)
+      @livewire('medical-test-type-component')
     @endif
   
     @livewire('medical-test-list')

@@ -39,8 +39,8 @@
 
 @section('cardBody')
   @if (true)
-  <div class="row bg-success py-2" style="margin:auto;">
-    <div class="col-md-3 px-2">
+  <div class="row py-2" style="margin:auto;">
+    <div class="col-md-6 px-2 text-info">
       @if ($searchDate == \Carbon\Carbon::today())
         Today
       @elseif ($searchDate == \Carbon\Carbon::yesterday())
@@ -49,25 +49,25 @@
         {{ $searchDate->toDateString() }}
       @endif
     </div>
-    <div class="col-md-3 px-2">
-      Total: {{ $salesTotal }}
-    </div>
-    <div class="col-md-3 px-2">
-      Cash: {{ $cashSalesTotal }}
-    </div>
-    <div class="col-md-3 px-2">
-      Credit: {{ $creditSalesTotal }}
+    <div class="col-md-6 px-2">
+      <strong>
+        {{ $salesTotal }}
+      </strong>
     </div>
   </div>
   @endif
 
   <!-- Cash Sales -->
-  <div class="row bg-info py-2" style="margin:auto;">
-    <div class="col-md-6 px-2">
-      Cash
+  <div class="row py-2" style="margin:auto;">
+    <div class="col-md-6 px-2 text-success">
+      <strong>
+        Cash
+      </strong>
     </div>
     <div class="col-md-6 px-2">
-      Total: {{ $cashSalesTotal }}
+      <strong>
+        {{ $cashSalesTotal }}
+      </strong>
     </div>
   </div>
 
@@ -118,12 +118,16 @@
 
 
   <!-- Credit Sales -->
-  <div class="row bg-info py-2" style="margin:auto;">
-    <div class="col-md-6 px-2">
-      Credit
+  <div class="row bg-light py-2" style="margin:auto;">
+    <div class="col-md-6 px-2 text-danger">
+      <strong>
+        Credit
+      </strong>
     </div>
     <div class="col-md-6 px-2">
-      Total: {{ $creditSalesTotal }}
+      <strong>
+        {{ $creditSalesTotal }}
+      </strong>
     </div>
   </div>
 

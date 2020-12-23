@@ -15,6 +15,10 @@ class MedicalTestComponent extends Component
     public $displayedMedicalTest = null;
     public $updateMode = false;
     public $updatingMedicalTest = null;
+    public $medicalTestTypeCreateMode = false;
+
+    public $patientSearchName = "";
+
 
     protected $listeners = [
         'destroyCreate' => 'exitCreateMode',
@@ -27,7 +31,8 @@ class MedicalTestComponent extends Component
         'deleteMedicalTest',
         'updateMedicalTest',
         'destroyMedicalTestUpdate' => 'exitUpdateMode',
-        'medicalTestUpdated' => 'refreshList'
+        'medicalTestUpdated' => 'refreshList',
+        'destroyMedicalTestTypeCreate' => 'exitMedicalTestTypeCreateMode',
     ];
 
     public function render()
@@ -97,5 +102,20 @@ class MedicalTestComponent extends Component
     {
         $this->updatingMedicalTest = null;
         $this->updateMode = false;
+    }
+
+    public function search()
+    {
+        $this->emit('searchMedicalTestByPatientName', $this->patientSearchName);
+    }
+
+    public function enterMedicalTestTypeCreateMode()
+    {
+        $this->medicalTestTypeCreateMode = true;
+    }
+
+    public function exitMedicalTestTypeCreateMode()
+    {
+        $this->medicalTestTypeCreateMode = false;
     }
 }
