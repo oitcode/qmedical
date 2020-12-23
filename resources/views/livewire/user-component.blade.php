@@ -20,14 +20,6 @@
         </button>
       @endif
 
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-download"></i>
-      </a>
-
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-bars"></i>
-      </a>
-
     </div>
   </div>
   <div class="card-body p-0">

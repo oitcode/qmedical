@@ -23,6 +23,11 @@ class SalesComponent extends Component
 
     public $salesTotal;
 
+    protected $listeners = [
+        'medicalTestAdded' => 'render',
+        'agentTransactionAdded' => 'render',
+    ];
+
     public function mount()
     {
         $this->searchDate = Carbon::today();

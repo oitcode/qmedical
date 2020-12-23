@@ -20,13 +20,6 @@
         </button>
       @endif
 
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-download"></i>
-      </a>
-
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-bars"></i>
-      </a>
       <span class="">
           <input type="text" wire:model.defer="agentSearchName" wire:keydown.enter="search" class="">
           <button class="btn btn-sm text-success text-bold" wire:click="search">

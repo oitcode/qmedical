@@ -52,7 +52,7 @@ class ExpenseCreate extends Component
 
         Expense::create($validatedData);
 
-        $this->emitUp('expenseAdded');
+        $this->emit('expenseAdded');
         $this->emit('toggleExpenseCreateModal');
     }
 }

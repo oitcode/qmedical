@@ -3,29 +3,28 @@
 @section('cardTitle', 'Sales')
 
 @section ('cardTools')
-  <button class="btn btn-sm btn-outline-success px-3" wire:click="">
-    <i class="fas fa-plus"></i>
-  </button>
+  @if (false)
+    <button class="btn btn-sm btn-outline-success px-3" wire:click="">
+      <i class="fas fa-plus"></i>
+    </button>
 
-  @if (true)
     <button class="btn btn-sm text-danger" wire:click="">
       <i class="fas fa-power-off">
       </i>
     </button>
-  @else
     <button class="btn btn-sm text-primary" wire:click="">
       <i class="fas fa-ellipsis-h">
       </i>
     </button>
   @endif
 
-  <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="previousDay">
+  <button class="btn btn-light btn-sm border" wire:click.prevent="previousDay">
     <i class="fas fa-arrow-left"></i>
-  </a>
+  </button>
 
-  <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="nextDay">
+  <button class="btn btn-light btn-sm border" wire:click.prevent="nextDay">
     <i class="fas fa-arrow-right"></i>
-  </a>
+  </button>
 
   @if (false)
   <span class="">

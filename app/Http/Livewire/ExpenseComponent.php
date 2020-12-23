@@ -153,4 +153,14 @@ class ExpenseComponent extends Component
     {
         $this->createCategoryMode = false;
     }
+
+    public function previousDay()
+    {
+        $this->emit('navigateDayForExpense', 'previous');
+    }
+
+    public function nextDay()
+    {
+        $this->emit('navigateDayForExpense', 'next');
+    }
 }

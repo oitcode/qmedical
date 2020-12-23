@@ -10,8 +10,9 @@ use App\Expense;
 class ExpenseList extends Component
 {
     protected $listeners = [
-        // 'dataAdded' => 'render',
         'updateList' => 'render',
+        'navigateDayForExpense' => 'navigateDay',
+        'expenseAdded' => 'render',
     ];
 
     public $expenses;
@@ -42,5 +43,15 @@ class ExpenseList extends Component
         }
 
         return $total;
+    }
+
+    public function navigateDay($day)
+    {
+        if ($day === 'previous') {
+            $this->searchDate->subDay();
+        }
+        else if ($day === 'next') {
+            $this->searchDate->addDay();
+        }
     }
 }

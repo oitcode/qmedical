@@ -9,18 +9,18 @@
       </button>
 
       @can ('create-expense-category')
-        <button class="btn btn-sm btn-outline-success px-3" wire:click="enterCreateCategoryMode">
+        <button class="btn btn-sm btn-outline-success px-3 mr-3" wire:click="enterCreateCategoryMode">
           <i class="fas fa-folder-plus"></i>
         </button>
       @endcan
 
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-download"></i>
-      </a>
+      <button class="btn btn-light btn-sm border" wire:click.prevent="previousDay">
+        <i class="fas fa-arrow-left"></i>
+      </button>
 
-      <a href="#" class="btn btn-tool btn-sm">
-        <i class="fas fa-bars"></i>
-      </a>
+      <span class="btn btn-light btn-sm border" wire:click.prevent="nextDay">
+        <i class="fas fa-arrow-right"></i>
+      </span>
 
     </div>
   </div>

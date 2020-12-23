@@ -12,7 +12,9 @@
         @endif
       </div>
       <div class="col-md-3 px-2">
-        Total: {{ $expenseTotal }}
+        <strong>
+          {{ $expenseTotal }}
+        </strong>
       </div>
       <div class="col-md-3 px-2">
       </div>
@@ -35,6 +37,11 @@
         <tbody>
           @foreach($expenses as $expense)
           <tr>
+            <td>
+              <span class="text-dark">
+                {{ $expense->expenseCategory->name }}
+              </span>
+            </td>
             <td>
               <a href="" wire:click.prevent="$emit('displayExpense', {{ $expense }})" class="text-dark">
                 {{ $expense->name }}

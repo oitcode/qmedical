@@ -327,7 +327,7 @@ class MedicalTestCreateComponent extends Component
         }
 
 
-        $this->emitUp('medicalTestAdded');
+        $this->emit('medicalTestAdded');
         $this->emit('toggleMedicalTestCreateModal');
     }
 

@@ -10,16 +10,11 @@ class AgentList extends Component
 {
     protected $listeners = [
         'dataAdded' => 'render',
-        //'updateList' => 'render',
         'searchAgent' => 'search',
+        'agentTransactionAdded' => 'render',
     ];
 
     public $agents = null;
-
-    // public function mount()
-    // {
-    //     $this->agents = Agent::all();
-    // }
 
     public function render()
     {
