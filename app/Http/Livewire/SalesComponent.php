@@ -14,8 +14,12 @@ class SalesComponent extends Component
 
     public $cashSales = null;
     public $cashSalesTotal;
+
     public $creditSales = null;
     public $creditSalesTotal;
+
+    public $duesReceived = null;
+    public $dueReceivedTotal;
 
     public $salesTotal;
 
@@ -34,22 +38,41 @@ class SalesComponent extends Component
             ->whereNotNull('credit_amount')
             ->get();
 
+        $this->duesReceived = Payment::where('type', 'due')
+            ->whereDate('created_at', $this->searchDate)
+            ->get();
+
         $this->cashSalesTotal = $this->getTotalCashSales($this->cashSales);
         $this->creditSalesTotal = $this->getTotalCreditSales($this->creditSales);
+        $this->dueReceivedTotal = $this->getTotalDueReceived($this->duesReceived);
 
         $this->salesTotal = $this->cashSalesTotal + $this->creditSalesTotal;
 
         return view('livewire.sales-component');
     }
 
+    public function getTotalDueReceived($duesReceived)
+    {
+        $total = 0;
+
+        foreach ($duesReceived as $dueReceived) {
+            $total += $dueReceived->amount;
+        }
+
+        return $total;
+    }
+
     public function nextDay()
     {
-        $this->searchDate = $this->searchDate->addDay();
+        // $this->searchDate = $this->searchDate->addDay();
+        $this->emit('refreshDeuReceivedList', $this->searchDate->addDay());
     }
 
     public function previousDay()
     {
-        $this->searchDate = $this->searchDate->subDay();
+        // $this->searchDate = $this->searchDate->subDay();
+        // $this->emit('refreshDeuReceivedList', $this->searchDate);
+        $this->emit('refreshDeuReceivedList', $this->searchDate->subDay());
     }
 
     public function getTotalCashSales($sales)

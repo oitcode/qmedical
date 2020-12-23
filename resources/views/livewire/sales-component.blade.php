@@ -50,9 +50,11 @@
       @endif
     </div>
     <div class="col-md-6 px-2">
-      <strong>
-        {{ $salesTotal }}
-      </strong>
+      @if (false)
+        <strong>
+          {{ $salesTotal }}
+        </strong>
+      @endif
     </div>
   </div>
   @endif
@@ -177,4 +179,53 @@
       </tbody>
     </table>
   </div>
+
+  @if (false)
+    @livewire('due-received-component', ['searchDate' => $searchDate])
+  @endif
+
+  <!-- DUES RECEIVED -->
+  <div class="row p-3">
+    <div class="col-md-6 text-success">
+      <strong>
+        Dues Received
+      </strong>
+    </div>
+    <div class="col-md-6">
+      <strong>
+        {{ $dueReceivedTotal }}
+      </strong>
+    </div>
+  </div>
+  @if (count($duesReceived) > 0)
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      </thead>
+      <tbody>
+        @foreach ($duesReceived as $payment)
+          <tr>
+            <td>
+              {{ $payment->medicalTest->medical_test_id }}
+            </td>
+            <td>
+              {{ $payment->medicalTest->patient->name }}
+            </td>
+            <td>
+              {{ $payment->medicalTest->date }}
+            </td>
+            <td>
+              {{ $payment->amount }}
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
+  @else
+    <div class="text-info p-3">
+      No dues received
+    </div>
+  @endif
+
 @endsection

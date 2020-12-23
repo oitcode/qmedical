@@ -1,12 +1,26 @@
 <div class="card">
-  <div class="card-header">
-    <h3 class="card-title">
-      Dues Received
-    </h3>
-    <div class="card-tools">
+  @if (false)
+    <div class="card-header">
+      <h3 class="card-title">
+        Dues Received
+      </h3>
+      <div class="card-tools">
+      </div>
     </div>
-  </div>
+  @endif
   <div class="card-body p-0">
+    <div class="row p-3">
+      <div class="col-md-6 text-success">
+        <strong>
+          Dues Received
+        </strong>
+      </div>
+      <div class="col-md-6">
+        <strong>
+          {{ $dueReceivedTotal }}
+        </strong>
+      </div>
+    </div>
     @if (count($duesReceived) > 0)
     <div class="table-responsive">
       <table class="table">
@@ -37,5 +51,6 @@
         No dues received
       </div>
     @endif
+    Date: {{ $searchDate }}
   </div>
 </div>
