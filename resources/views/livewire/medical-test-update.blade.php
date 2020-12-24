@@ -234,7 +234,7 @@
           </div>
           <!-- /.row -->
 
-            <button wire:click.prevent="update" class="btn btn-success">Update</button>
+            <button wire:click.prevent="" class="btn btn-success">Update</button>
             <button wire:click.prevent="$emit('toggleMedicalTestUpdateModal')" class="btn btn-danger">Cancel</button>
       </form>
 
