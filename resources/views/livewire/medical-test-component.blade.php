@@ -14,7 +14,7 @@
 
       <span class="">
           <input type="text" wire:model.defer="patientSearchName" wire:keydown.enter="search" class="">
-          <button class="btn btn-sm text-success text-bold" wire:click="">
+          <button class="btn btn-sm text-success text-bold" wire:click="search">
             Go
           </button>
       </span>
