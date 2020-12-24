@@ -41,5 +41,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-user-component', function ($user) {
             return $user->role === 'admin';
         });
+
+        Gate::define('create-medical-test-type', function ($user) {
+            return $user->role === 'admin';
+        });
     }
 }

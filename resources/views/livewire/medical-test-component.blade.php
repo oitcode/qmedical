@@ -8,9 +8,11 @@
         <i class="fas fa-plus"></i>
       </button>
 
-      <button class="btn btn-sm btn-outline-success px-3" wire:click="enterMedicalTestTypeCreateMode">
-        <i class="fas fa-folder-plus"></i>
-      </button>
+      @can ('create-medical-test-type')
+        <button class="btn btn-sm btn-outline-success px-3" wire:click="enterMedicalTestTypeCreateMode">
+          <i class="fas fa-folder-plus"></i>
+        </button>
+      @endcan
 
       <span class="">
           <input type="text" wire:model.defer="patientSearchName" wire:keydown.enter="search" class="">
