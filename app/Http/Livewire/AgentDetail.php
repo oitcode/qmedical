@@ -35,6 +35,10 @@ class AgentDetail extends Component
 
     public $agentCommissions = null;
 
+    public $agentMedicalTests = null;
+    public $agentPendingMedicalTests = null;
+    public $showOnlyPending = true;
+
     protected $listeners = [
         'closeAgentSettlement' => 'closeSettlementComponent',
         'agentTransactionAdded' => 'exitAgentTransactionMode',
@@ -58,7 +62,12 @@ class AgentDetail extends Component
 
     public function render()
     {
-        $this->agentCommissions = $this->agent->agentCommissions;
+        $this->agentMedicalTests = $this->agent->medicalTests;
+
+        $this->agentPendingMedicalTests = $this->agent->medicalTests()
+            ->whereIn('payment_status', ['pending', 'partially_paid',])
+            ->get();
+
         $this->officialPendings =
             $this->agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
@@ -196,5 +205,15 @@ class AgentDetail extends Component
     {
         $this->viewOfficialPendingsFalg = false;
         $this->officialPendings = null;
+    }
+
+    public function viewOnlyPendingMedicalTests()
+    {
+        $this->showOnlyPending = true;
+    }
+
+    public function viewAllMedicalTests()
+    {
+        $this->showOnlyPending = false;
     }
 }

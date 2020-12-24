@@ -17,6 +17,7 @@ class MedicalTestList extends Component
         'refreshMedicalTestList' => 'mount',
         'searchMedicalTestByPatientName' => 'searchByPatientName',
         'medicalTestStatusUpdated' => 'mount',
+        'agentTransactionAdded' => 'render',
     ];
 
     public function mount()

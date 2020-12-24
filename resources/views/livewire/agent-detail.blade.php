@@ -33,19 +33,6 @@
             </span>
           @endif
 
-          @if ($viewOfficialPendingsFalg === false)
-            <button class="btn btn-sm text-danger" wire:click="viewOfficialPendings">
-              <i class="fas fa-exclamation-circle">
-              </i>
-                View Pending
-            </button>
-          @else
-            <button class="btn btn-sm text-danger" wire:click="noviewOfficialPendings">
-              <i class="fas fa-exclamation-circle">
-              </i>
-                Close Pending
-            </button>
-          @endif
 
           <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="">
             <i class="fas fa-arrow-left"></i>
@@ -158,7 +145,7 @@
           @endif
         @endif
 
-        @if ($viewOfficialPendingsFalg)
+        @if ($viewOfficialPendingsFalg && false)
           <hr />
           <h3 class="h5 m-3">Official Pending</h3>
           @if (count($officialPendings) > 0)
@@ -215,6 +202,93 @@
             </div>
           @endif
         @endif
+
+
+
+        <hr />
+
+        <div class="clearfix text-right px-3">
+          <div class="float-left">
+            <h4 class="h5 mx-3">Medical Tests</h4>
+          </div>
+          <div class="float-right">
+            @if ($showOnlyPending === false)
+              <button class="btn btn-sm text-danger" wire:click="viewOnlyPendingMedicalTests">
+                <i class="fas fa-exclamation-circle"></i>
+                  Only Pending
+              </button>
+            @else
+              <button class="btn btn-sm text-info" wire:click="viewAllMedicalTests">
+                <i class="fas fa-ellipsis-h mr-2"></i>
+                  View All
+              </button>
+            @endif
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-sm table-hover text-nowrap">
+            <thead>
+            </thead>
+            <tbody>
+              @if ($showOnlyPending)
+                @php
+                  $tests = $agentPendingMedicalTests;
+                @endphp
+              @else
+                @php
+                  $tests = $agentMedicalTests;
+                @endphp
+              @endif
+
+              @foreach ($tests as $medicalTest)
+                <tr>
+                  <td>
+                    {{ $medicalTest->medical_test_id }}
+                  </td>
+                  <td>
+                    {{ $medicalTest->date }}
+                  </td>
+                  <td>
+                    {{ $medicalTest->patient->name }}
+                  </td>
+                  <td>
+                    @if ($medicalTest->payment_status === 'paid')
+                      <span class="badge badge-pill badge-success">
+                        {{ $medicalTest->payment_status }}
+                      </span>
+                    @else
+                      <span class="badge badge-pill badge-danger">
+                        {{ $medicalTest->payment_status }}
+                      </span>
+                    @endif
+                  </td>
+                  <td>
+
+                    <!-- If partially paid -->
+                    @if ($medicalTest->payments)
+                      @php
+                        $pendingAmount = $medicalTest->price;
+                      @endphp
+                      @foreach ($medicalTest->payments as $payment)
+                        @php
+                          $pendingAmount -= $payment->amount;
+                        @endphp
+                      @endforeach
+                      @php
+                        $pendingAmount -= $medicalTest->agent_commission;
+                      @endphp
+
+                      {{ $pendingAmount }}
+                    @else
+                      {{ $medicalTest->price - $medicalTest->agent_commission }}
+                    @endif
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
 
 
 
