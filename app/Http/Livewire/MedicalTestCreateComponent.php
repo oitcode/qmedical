@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Patient;
 use App\Agent;
 use App\MedicalTest;
@@ -97,6 +99,14 @@ class MedicalTestCreateComponent extends Component
         /* For payment */
         $payment = null;
 
+        /* Just in case this is needed. */
+        $partialPayment = null;
+
+        /* In case where commission received will help clear previous dues. */
+        $balanceTopup = false;
+        $topupAmount = 0;
+
+
         /* Validate form data */
 
         $validatedData = $this->validate([
@@ -132,199 +142,196 @@ class MedicalTestCreateComponent extends Component
             'payBy' => 'required_if:agentFlag,Yes',
         ]);
 
-        /* Just in case this is needed. */
-        $partialPayment = null;
+        DB::transaction(function ()
+            use ($partialPayment, $balanceTopup, $topupAmount, $payment) {
+            $patient = new Patient;
 
-        /* In case where commission received will help clear previous dues. */
-        $balanceTopup = false;
-        $topupAmount = 0;
+            $patient->name = $this->patientName;
+            $patient->sex = $this->patientSex;
+            $patient->dob = $this->patientDob;
 
-        $patient = new Patient;
+            if($this->patientAddress) {
+                $patient->address = $this->patientAddress;
+            }
 
-        $patient->name = $this->patientName;
-        $patient->sex = $this->patientSex;
-        $patient->dob = $this->patientDob;
+            if($this->patientContactNumber) {
+                $patient->contact_number = $this->patientContactNumber;
+            }
 
-        if($this->patientAddress) {
-            $patient->address = $this->patientAddress;
-        }
+            if($this->patientEmail) {
+                $patient->email = $this->patientEmail;
+            }
 
-        if($this->patientContactNumber) {
-            $patient->contact_number = $this->patientContactNumber;
-        }
+            if($this->patientPassportNumber) {
+                $patient->passport_number = $this->patientPassportNumber;
+            }
 
-        if($this->patientEmail) {
-            $patient->email = $this->patientEmail;
-        }
+            if($this->patientPassportExpiryDate) {
+                $patient->passport_expiry_date = $this->patientPassportExpiryDate;
+            }
 
-        if($this->patientPassportNumber) {
-            $patient->passport_number = $this->patientPassportNumber;
-        }
+            if($this->patientPassportIssuePlace) {
+                $patient->passport_issue_place = $this->patientPassportIssuePlace;
+            }
 
-        if($this->patientPassportExpiryDate) {
-            $patient->passport_expiry_date = $this->patientPassportExpiryDate;
-        }
-
-        if($this->patientPassportIssuePlace) {
-            $patient->passport_issue_place = $this->patientPassportIssuePlace;
-        }
-
-        if($this->patientNationality) {
-            $patient->nationality = $this->patientNationality;
-        }
+            if($this->patientNationality) {
+                $patient->nationality = $this->patientNationality;
+            }
 
 
-        $patient->save();
+            $patient->save();
 
 
-        $medicalTest = new MedicalTest;
+            $medicalTest = new MedicalTest;
 
-        $medicalTest->date = $this->medicalTestDate;
-        $medicalTest->medical_test_type_id = $this->medicalTestTypeId;
-        $medicalTest->status = $this->medicalTestStatus;
+            $medicalTest->date = $this->medicalTestDate;
+            $medicalTest->medical_test_type_id = $this->medicalTestTypeId;
+            $medicalTest->status = $this->medicalTestStatus;
 
-        $medicalTest->patient_id = $patient->patient_id;
-        if ($this->selectedAgent) {
-            $medicalTest->agent_id = $this->selectedAgent->agent_id;
-        }
+            $medicalTest->patient_id = $patient->patient_id;
+            if ($this->selectedAgent) {
+                $medicalTest->agent_id = $this->selectedAgent->agent_id;
+            }
 
-        $medicalTest->price = $this->price;
-        $medicalTest->payment_status = $this->paymentStatus;
-        $medicalTest->pay_by = $this->payBy;
+            $medicalTest->price = $this->price;
+            $medicalTest->payment_status = $this->paymentStatus;
+            $medicalTest->pay_by = $this->payBy;
 
 
-        if (strtolower($this->agentFlag) === 'yes' && $this->selectedAgent) {
+            if (strtolower($this->agentFlag) === 'yes' && $this->selectedAgent) {
 
-            /*
-             * Agent Case
-             */
+                /*
+                 * Agent Case
+                 */
 
-            $medicalTest->agent_commission = $this->agentCommission;
+                $medicalTest->agent_commission = $this->agentCommission;
 
-            $transactionAmount = $this->agentCommission;
+                $transactionAmount = $this->agentCommission;
 
-            if (strtolower($this->payBy) === 'agent') {
-                $transactionAmount -= $this->price;
-                if ($transactionAmount < 0) {
-                    $transactionAmount *= -1;
+                if (strtolower($this->payBy) === 'agent') {
+                    $transactionAmount -= $this->price;
+                    if ($transactionAmount < 0) {
+                        $transactionAmount *= -1;
 
-                    if ($transactionAmount <= $this->getAgentBalance($this->selectedAgent)) {
+                        if ($transactionAmount <= $this->getAgentBalance($this->selectedAgent)) {
+                            $medicalTest->payment_status = 'paid';
+
+                            /* Create a payment_record */
+                            $payment = new Payment;
+                            $payment->amount = $this->price - $this->agentCommission;
+                            $payment->type = 'cash';
+
+                        } else if ($transactionAmount > $this->getAgentBalance($this->selectedAgent)
+                                   && $this->getAgentBalance($this->selectedAgent) > 0) {
+
+                            $medicalTest->payment_status = 'partially_paid';
+
+                            /* Create payment */
+                            $payment = new Payment;
+                            $payment->amount = $this->getAgentBalance($this->selectedAgent);
+                            $payment->type = 'cash';
+
+                            /* Store credit info */
+                            $medicalTest->credit_amount = $this->price - $this->agent_commission - $payment->amount;
+                        } else {
+                            $medicalTest->payment_status = 'pending';
+
+                            /* Store credit info */
+                            $medicalTest->credit_amount = $this->price - $this->agentCommission;
+                        }
+                    }
+                } else if (strtolower($this->payBy) === 'self') {
+
+                    /*
+                     * There is agent but pay by self
+                     */
+
+                    $medicalTest->pay_by = 'self';
+                    if ($this->creditFlag === 'yes') {
+                        $medicalTest->payment_status = 'pending';
+                        /* TODO: But client says this will never be true. */
+                    } else {
                         $medicalTest->payment_status = 'paid';
 
-                        /* Create a payment_record */
+                        /*  Create payment_record */
                         $payment = new Payment;
                         $payment->amount = $this->price - $this->agentCommission;
                         $payment->type = 'cash';
-
-                    } else if ($transactionAmount > $this->getAgentBalance($this->selectedAgent)
-                               && $this->getAgentBalance($this->selectedAgent) > 0) {
-
-                        $medicalTest->payment_status = 'partially_paid';
-
-                        /* Create payment */
-                        $payment = new Payment;
-                        $payment->amount = $this->getAgentBalance($this->selectedAgent);
-                        $payment->type = 'cash';
-
-                        /* Store credit info */
-                        $medicalTest->credit_amount = $this->price - $this->agent_commission - $payment->amount;
-                    } else {
-                        $medicalTest->payment_status = 'pending';
-
-                        /* Store credit info */
-                        $medicalTest->credit_amount = $this->price - $this->agentCommission;
                     }
+                } else {
+                    // TODO: Cancel the creation. Something is wrong!
                 }
-            } else if (strtolower($this->payBy) === 'self') {
+
+
+            } else {
 
                 /*
-                 * There is agent but pay by self
+                 * No Agent Case
                  */
 
                 $medicalTest->pay_by = 'self';
-                if ($this->creditFlag === 'yes') {
+
+                if (strtolower($this->creditFlag) === 'yes') {
                     $medicalTest->payment_status = 'pending';
                     /* TODO: But client says this will never be true. */
                 } else {
                     $medicalTest->payment_status = 'paid';
-
-                    /*  Create payment_record */
+                    /* Create payment record */
                     $payment = new Payment;
-                    $payment->amount = $this->price - $this->agentCommission;
+                    $payment->amount = $this->price;
                     $payment->type = 'cash';
                 }
-            } else {
-                // TODO: Cancel the creation. Something is wrong!
             }
 
+            $medicalTest->save();
 
-        } else {
-
-            /*
-             * No Agent Case
-             */
-
-            $medicalTest->pay_by = 'self';
-
-            if (strtolower($this->creditFlag) === 'yes') {
-                $medicalTest->payment_status = 'pending';
-                /* TODO: But client says this will never be true. */
-            } else {
-                $medicalTest->payment_status = 'paid';
-                /* Create payment record */
-                $payment = new Payment;
-                $payment->amount = $this->price;
-                $payment->type = 'cash';
-            }
-        }
-
-        $medicalTest->save();
-
-        /* Save payment record. */
-        if ($payment) {
-            $payment->medical_test_id = $medicalTest->medical_test_id;
-            $payment->save();
-        }
-
-        /* Create agent_transaction if agent involved */
-        if($this->selectedAgent) {
-            /* calculate amount to give/receive */
-            $amount = 0;
-            $direction = 'in';
-
-            $amount = $this->agentCommission;
-            if (strtolower($this->payBy) === 'agent') {
-                $amount -= $this->price;
+            /* Save payment record. */
+            if ($payment) {
+                $payment->medical_test_id = $medicalTest->medical_test_id;
+                $payment->save();
             }
 
-            if ($amount < 0) {
-                $direction = 'out';
-                $amount *= -1;
+            /* Create agent_transaction if agent involved */
+            if($this->selectedAgent) {
+                /* calculate amount to give/receive */
+                $amount = 0;
+                $direction = 'in';
+
+                $amount = $this->agentCommission;
+                if (strtolower($this->payBy) === 'agent') {
+                    $amount -= $this->price;
+                }
+
+                if ($amount < 0) {
+                    $direction = 'out';
+                    $amount *= -1;
+                }
+
+                
+                $agentTransaction = new AgentTransaction;
+
+                $agentTransaction->medical_test_id = $medicalTest->medical_test_id;
+                $agentTransaction->agent_id = $this->selectedAgentId;
+                $agentTransaction->amount = $amount;
+                $agentTransaction->direction = $direction;
+                $agentTransaction->comment = 'medical test';
+
+                $agentTransaction->save();
+
+                if ($agentTransaction->direction === 'in') {
+                    $balanceTopup = true;
+                    $topupAmount = $agentTransaction->amount;
+                }
             }
 
-            
-            $agentTransaction = new AgentTransaction;
-
-            $agentTransaction->medical_test_id = $medicalTest->medical_test_id;
-            $agentTransaction->agent_id = $this->selectedAgentId;
-            $agentTransaction->amount = $amount;
-            $agentTransaction->direction = $direction;
-            $agentTransaction->comment = 'medical test';
-
-            $agentTransaction->save();
-
-            if ($agentTransaction->direction === 'in') {
-                $balanceTopup = true;
-                $topupAmount = $agentTransaction->amount;
+            /* Clear any pending payment if possible */
+            if ($balanceTopup === true) {
+                if ($this->hasOfficialDue($this->selectedAgent)) {
+                    $this->clearOfficialDues($this->selectedAgent, $topupAmount);
+                }
             }
-        }
-
-        /* Clear any pending payment if possible */
-        if ($balanceTopup === true) {
-            if ($this->hasOfficialDue($this->selectedAgent)) {
-                $this->clearOfficialDues($this->selectedAgent, $topupAmount);
-            }
-        }
+        
+        });
 
 
         $this->emit('medicalTestAdded');

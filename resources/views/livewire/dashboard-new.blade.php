@@ -16,8 +16,13 @@
   </div>
   @endif
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       @livewire('medical-test-component')
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
       @livewire('sales-component')
     </div>
     <div class="col-md-6">

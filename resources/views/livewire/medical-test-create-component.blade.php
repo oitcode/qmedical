@@ -186,11 +186,14 @@
 
 
           <!-- Credit or not -->
+          @if (false)
+          {{-- TODO
           @if (strtolower($agentFlag) !== 'yes'
             ||
             (strtolower($agentFlag) === 'yes' && strtolower($payBy) === 'self')
 
           )
+          --}}
             <div class="form-group form-inline m-0">
               <div class="input-group w-100">
                 <div class="input-group-prepend w-25">

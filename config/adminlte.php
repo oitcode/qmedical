@@ -283,22 +283,28 @@ return [
             'icon' => 'fas fa-fw fa-rupee-sign',
         ],
 
-        [
-            'text'    => 'Report',
-            'icon'    => 'fas fa-fw fa-chart-line',
-            'submenu' => [
-                [
-                    'text' => 'Medical',
-                    'url'  => '/analytics/medical',
-                    'icon' => 'fas fa-fw fa-plus',
-                ],
-                [
-                    'text' => 'Financial',
-                    'url'  => '/analytics/financial',
-                    'icon' => 'fas fa-fw fa-list',
-                ],
-            ],
-        ],
+
+        /*---------------------------------------------------------------------
+         * DONT NEED THIS - FOR NOW
+         *---------------------------------------------------------------------
+         */
+
+        // [
+        //     'text'    => 'Report',
+        //     'icon'    => 'fas fa-fw fa-chart-line',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Medical',
+        //             'url'  => '/analytics/medical',
+        //             'icon' => 'fas fa-fw fa-plus',
+        //         ],
+        //         [
+        //             'text' => 'Financial',
+        //             'url'  => '/analytics/financial',
+        //             'icon' => 'fas fa-fw fa-list',
+        //         ],
+        //     ],
+        // ],
 
 
         /*---------------------------------------------------------------------

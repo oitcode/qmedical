@@ -39,6 +39,14 @@
             </td>
 
             <td>
+              @if ($medicalTest->agent)
+                <span class="badge badge-info badge-pill">
+                  A
+                </span>
+              @endif
+            </td>
+
+            <td>
               @if (strtolower($medicalTest->payment_status) === 'paid')
                 <span class="badge badge-success badge-pill">
                   P
