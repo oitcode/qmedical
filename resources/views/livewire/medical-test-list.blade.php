@@ -83,7 +83,9 @@
               </span>
 
               @can ('delete-models')
+              <span class="btn btn-tool btn-sm">
                 <i class="fas fa-trash text-danger mr-3" wire:click="$emit('confirmDeleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
+              </span>
               @endcan
             </td>
           </tr>

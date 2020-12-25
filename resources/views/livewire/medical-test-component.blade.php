@@ -54,10 +54,16 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Really Delete?</h5>
+              <h5 class="modal-title">
+                <i class="fas fa-exclamation-triangle text-danger mr-2"></i>
+                Confirm Delete
+              </h5>
+              {{-- TODO --}}
+              @if (false)
               <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">
                 <i class="fas fa-times"></i>
               </button>
+              @endif
             </div>
       
             <div class="modal-body p-0">
@@ -69,8 +75,8 @@
                   Medical Test Id: {{ $deletingMedicalTest->medical_test_id }}
                 </p>
               </div>
-              <div class="mx-2 my-4">
-                <button wire:click="deleteMedicalTest({{ $deletingMedicalTest->medical_test_id }})" class="btn btn-sm btn-danger mr-3">Delete</button>
+              <div class="mx-2 mb-3">
+                <button wire:click="deleteMedicalTest({{ $deletingMedicalTest->medical_test_id }})" class="btn btn-sm btn-danger mr-3" data-dismiss="modal">Delete</button>
                 <button wire:click="exitDeleteMode" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
               </div>
       
@@ -85,37 +91,7 @@
           $(document).ready(function () {
              $('#medicalTestDeleteConfirmModal').modal('show');
           });
-      
-          // /* Toggle the modal.  */
-          // window.livewire.on('toggleExpenseCategoryCreateModal', () => {
-          //     $('#expenseCategoryCreateModal').modal('hide');
-          // });
-      
-      
-          // /* Destroy the modal on hide */
-          // $('#expenseCategoryCreateModal').on('hidden.bs.modal', function () {
-          //     window.livewire.emit('destroyExpenseCategoryCreate');
-          //     console.log('Hiding');
-          // });
-      
       </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @endif
   </div>
