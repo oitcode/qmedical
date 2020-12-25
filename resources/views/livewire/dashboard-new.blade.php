@@ -23,10 +23,15 @@
 
   <div class="row">
     <div class="col-md-6">
-      @livewire('sales-component')
+      @livewire('sales-component', key(rand()))
     </div>
     <div class="col-md-6">
       @livewire('expense-component')
+
+      @if (false)
+        @livewire('pending-bill-list-component', key(rand()))
+      @endif
+
       @livewire('agent-component')
 
       @can ('view-user-component')

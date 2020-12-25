@@ -16,6 +16,8 @@ class MedicalTestComponent extends Component
     public $updateMode = false;
     public $updatingMedicalTest = null;
     public $medicalTestTypeCreateMode = false;
+    public $deleteMode = false;
+    public $deletingMedicalTest = null;
 
     public $patientSearchName = "";
 
@@ -28,6 +30,7 @@ class MedicalTestComponent extends Component
         'destroyDisplay' => 'exitDisplayMode',
         'displayCancelled' => 'exitDisplayMode',
         'createCancel' => 'exitCreateMode',
+        'confirmDeleteMedicalTest',
         'deleteMedicalTest',
         'updateMedicalTest',
         'destroyMedicalTestUpdate' => 'exitUpdateMode',
@@ -83,7 +86,21 @@ class MedicalTestComponent extends Component
 
     public function deleteMedicalTest($id)
     {
-        MedicalTest::findOrFail($id)->delete();
+        $medicalTest = MedicalTest::findOrFail($id);
+
+        /* Delete agent transactions if any */
+        if ($medicalTest->agentTransaction) {
+          $medicalTest->agentTransaction->delete();
+        }
+
+        /* Delete payments if any */
+        if ($medicalTest->payments) {
+          $medicalTest->payments()->delete();
+        }
+
+        $medicalTest->delete();
+
+        $this->exitDeleteMode();
         $this->emit('updateList');
     }
 
@@ -117,5 +134,23 @@ class MedicalTestComponent extends Component
     public function exitMedicalTestTypeCreateMode()
     {
         $this->medicalTestTypeCreateMode = false;
+    }
+
+    public function confirmDeleteMedicalTest($id)
+    {
+        $this->deleteMode = true;
+        $this->deletingMedicalTest = MedicalTest::findOrFail($id);
+    }
+
+    public function exitDeleteMode()
+    {
+        $this->deletingMedicalTest = null;
+        $this->deleteMode = false;
+    }
+
+    public function foo()
+    {
+        $i = 1;
+        $this->exitDeleteMode();
     }
 }
