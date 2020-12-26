@@ -50,7 +50,7 @@
     --}}
 
     @if ($deleteMode)
-      <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" id="medicalTestDeleteConfirmModal">
+      <div class="modal enter" tabindex="-1" role="dialog" data-backdrop="static" id="medicalTestDeleteConfirmModal">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -71,10 +71,24 @@
                 <p>
                   Do you really want to delete ?
                 </p>
-                <p>
-                  Medical Test Id: {{ $deletingMedicalTest->medical_test_id }}
-                </p>
+                <div class="row text-muted">
+                  <div class="col">
+                    <strong>
+                      Medical Test Id
+                    </strong>
+                    <br />
+                    {{ $deletingMedicalTest->medical_test_id }}
+                  </div>
+                  <div class="col">
+                    <strong>
+                      Patient
+                    </strong>
+                    <br />
+                    {{ $deletingMedicalTest->patient->name }}
+                  </div>
+                </div>
               </div>
+
               <div class="mx-2 mb-3">
                 <button wire:click="deleteMedicalTest({{ $deletingMedicalTest->medical_test_id }})" class="btn btn-sm btn-danger mr-3" data-dismiss="modal">Delete</button>
                 <button wire:click="exitDeleteMode" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
