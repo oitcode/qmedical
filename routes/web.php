@@ -50,3 +50,8 @@ Route::get('/expense', 'ExpenseController@index')->name('expense');
 /* Analytics */
 Route::get('/analytics/medical', 'Analytics\MedicalAnalyticsController@show')->name('medicalAnalytics');
 Route::get('/analytics/financial', 'Analytics\FinancialAnalyticsController@show')->name('financialAnalytics');
+
+/* About us */
+Route::get('/aboutus', 'AboutusController@index');
+
+Route::get('/clienttestimonial', 'ClientTestimonialController@store');

@@ -26,11 +26,11 @@
       @livewire('sales-component')
     </div>
     <div class="col-md-6">
-      @if (true)
+      @if (false)
       @livewire('expense-component')
       @endif
 
-      @if (false)
+      @if (true)
         @livewire('pending-bill-list-component')
       @endif
 
