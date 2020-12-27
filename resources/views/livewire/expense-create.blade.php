@@ -1,4 +1,4 @@
-<div wire:ignore.self class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" id="expenseCreateModal">
+<div wire:ignore.self class="modal" tabindex="-1" role="dialog" data-backdrop="static" id="expenseCreateModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

@@ -78,12 +78,17 @@
               @endif
             </td>
             <td>
+              {{-- TODO --}}
+              @if (false)
               <span class="btn btn-tool btn-sm">
                 <i class="fas fa-pencil-alt text-primary mr-3" wire:click="$emit('updateMedicalTest', {{ $medicalTest }})"></i>
               </span>
+              @endif
 
               @can ('delete-models')
+              <span class="btn btn-tool btn-sm">
                 <i class="fas fa-trash text-danger mr-3" wire:click="$emit('confirmDeleteMedicalTest', {{ $medicalTest->medical_test_id }})"></i>
+              </span>
               @endcan
             </td>
           </tr>
