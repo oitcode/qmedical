@@ -32,7 +32,7 @@
       @livewire('expense-component')
       @endif
 
-      @if (false)
+      @if (true)
         @livewire('pending-bill-list-component')
       @endif
 
