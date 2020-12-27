@@ -1,8 +1,14 @@
-<div class="card card-info">
+<div class="card card-outline card-info">
   <div class="card-header">
-    <h2 class="h4">
+    <h2 class="card-title h5">
       Counter Cash
     </h2>
+
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+    </div>
   </div>
 
   <div class="card-body py-1">
