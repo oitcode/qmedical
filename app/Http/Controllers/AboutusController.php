@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\ClientTestimonials;
 
 class AboutusController extends Controller
 {
@@ -23,10 +24,9 @@ class AboutusController extends Controller
      */
     public function index()
     {
-        $foo = 'john';
-
+        $clientTestimonials = ClientTestimonials::all();
 
         return view('aboutus')
-            ->with('name', $foo);
+            ->with('clientTestimonials' ,$clientTestimonials);
     }
 }

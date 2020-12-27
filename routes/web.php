@@ -54,4 +54,4 @@ Route::get('/analytics/financial', 'Analytics\FinancialAnalyticsController@show'
 /* About us */
 Route::get('/aboutus', 'AboutusController@index');
 
-Route::get('/clienttestimonial', 'ClientTestimonialController@store');
+Route::post('/clienttestimonial', 'ClientTestimonialController@store');

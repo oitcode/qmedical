@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\ClientTestimonials;
 
 class ClientTestimonialController extends Controller
 {
@@ -10,6 +11,13 @@ class ClientTestimonialController extends Controller
     {
         $name = $request->clientName;
 
-        return ('<h1>You passed: ' . $name . '<h1>');
+
+
+        $ct = new ClientTestimonials;
+
+        $ct->client_name = $name;
+        $ct->save();
+
+        return redirect('/aboutus');
     }
 }
