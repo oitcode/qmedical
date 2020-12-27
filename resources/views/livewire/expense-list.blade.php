@@ -1,7 +1,7 @@
 <div class="card shadow-none">
   <div class="card-body p-0">
 
-    <div class="row text-danger py-2" style="margin:auto;">
+    <div class="row text-dark py-2" style="margin:auto;">
       <div class="col-md-3 px-2">
         @if ($searchDate == \Carbon\Carbon::today())
           Today

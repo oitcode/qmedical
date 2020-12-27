@@ -1,20 +1,20 @@
-<div class="card">
+<div class="card card-outline card-info">
   <div class="card-header">
     <h3 class="card-title">
       Agent
     </h3>
     <div class="card-tools">
-      <button class="btn btn-sm btn-outline-success px-3" wire:click="create">
+      <button class="btn btn-sm btn-outline-info px-3" wire:click="create">
         <i class="fas fa-plus"></i>
       </button>
 
       @if ($seeAgentList)
-        <button class="btn btn-sm text-danger" wire:click="hideAgentList">
+        <button class="btn btn-sm text-info" wire:click="hideAgentList">
           <i class="fas fa-power-off">
           </i>
         </button>
       @else
-        <button class="btn btn-sm text-primary" wire:click="">
+        <button class="btn btn-sm text-info" wire:click="">
           <i class="fas fa-ellipsis-h">
           </i>
         </button>
@@ -22,7 +22,7 @@
 
       <span class="">
           <input type="text" wire:model.defer="agentSearchName" wire:keydown.enter="search" class="">
-          <button class="btn btn-sm text-success text-bold" wire:click="search">
+          <button class="btn btn-sm text-info text-bold" wire:click="search">
             Go
           </button>
       </span>

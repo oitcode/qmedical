@@ -1,4 +1,4 @@
-<div class="card card-outline card-info">
+<div class="card card-outline-x card-info">
   <div class="card-header">
     <h2 class="card-title h5">
       Counter Cash

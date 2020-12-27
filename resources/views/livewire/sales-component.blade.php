@@ -18,11 +18,11 @@
     </button>
   @endif
 
-  <button class="btn btn-light btn-sm border rounded-circle text-info" wire:click.prevent="previousDay">
+  <button class="btn btn-info btn-sm border rounded-circle" wire:click.prevent="previousDay">
     <i class="fas fa-arrow-left"></i>
   </button>
 
-  <button class="btn btn-light btn-sm border rounded-circle text-info" wire:click.prevent="nextDay">
+  <button class="btn btn-info btn-sm border rounded-circle" wire:click.prevent="nextDay">
     <i class="fas fa-arrow-right"></i>
   </button>
 
@@ -39,7 +39,7 @@
 @section('cardBody')
   @if (true)
   <div class="row py-2" style="margin:auto;">
-    <div class="col-md-6 px-2 text-info">
+    <div class="col-md-6 px-2 text-dark">
       @if ($searchDate == \Carbon\Carbon::today())
         Today
       @elseif ($searchDate == \Carbon\Carbon::yesterday())
@@ -59,8 +59,8 @@
   @endif
 
   <!-- Cash Sales -->
-  <div class="row py-2" style="margin:auto;">
-    <div class="col-md-6 px-2 text-success">
+  <div class="row py-2 bg-light border" style="margin:auto;">
+    <div class="col-md-6 px-2 text-dark">
       <strong>
         Cash
       </strong>
@@ -119,8 +119,8 @@
 
 
   <!-- Credit Sales -->
-  <div class="row bg-light py-2" style="margin:auto;">
-    <div class="col-md-6 px-2 text-danger">
+  <div class="row bg-light py-2 border" style="margin:auto;">
+    <div class="col-md-6 px-2 text-dark">
       <strong>
         Credit
       </strong>
@@ -184,8 +184,8 @@
   @endif
 
   <!-- DUES RECEIVED -->
-  <div class="row p-3">
-    <div class="col-md-6 text-success">
+  <div class="row bg-light p-2 border mx-0">
+    <div class="col-md-6 text-dark">
       <strong>
         Dues Received
       </strong>
