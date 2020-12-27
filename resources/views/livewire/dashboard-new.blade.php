@@ -1,17 +1,19 @@
 <div>
   @if (false)
   <div class="row">
-    <div class="col-md-3 col-6">
+    <div class="col-md-2 col-6">
       @livewire('info-card-patient')
     </div>
-    <div class="col-md-3 col-6">
+    <div class="col-md-2 col-6">
       @livewire('info-card-agent')
     </div>
-    <div class="col-md-3 col-6">
+    <div class="col-md-2 col-6">
       @livewire('info-card-medical-test')
     </div>
-    <div class="col-md-3 col-6">
+    <div class="col-md-2 col-6">
       @livewire('info-card-user')
+    </div>
+    <div class="col-md-4 col-6">
     </div>
   </div>
   @endif
@@ -33,6 +35,7 @@
       @endif
 
       @livewire('agent-component')
+      @livewire('counter-cash-component')
 
       @can ('view-user-component')
         @livewire('user-component')

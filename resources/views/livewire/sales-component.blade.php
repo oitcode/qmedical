@@ -18,11 +18,11 @@
     </button>
   @endif
 
-  <button class="btn btn-light btn-sm border" wire:click.prevent="previousDay">
+  <button class="btn btn-light btn-sm border rounded-circle text-info" wire:click.prevent="previousDay">
     <i class="fas fa-arrow-left"></i>
   </button>
 
-  <button class="btn btn-light btn-sm border" wire:click.prevent="nextDay">
+  <button class="btn btn-light btn-sm border rounded-circle text-info" wire:click.prevent="nextDay">
     <i class="fas fa-arrow-right"></i>
   </button>
 
