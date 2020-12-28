@@ -1,4 +1,4 @@
-<div class="card card-outline-x card-info">
+<div class="card card-outline card-info">
   <div class="card-header">
     <h2 class="card-title h5">
       Counter Cash
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="row text-success mx-0">
+    <div class="row text-dark mx-0">
       <div class="col-sm-3">
         Cash
       </div>
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <div class="row text-success mx-0">
+    <div class="row text-dark mx-0">
       <div class="col-sm-3">
         Due
       </div>
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="row text-danger border-bottom mx-0 pb-2">
+    <div class="row text-dark border-bottom mx-0 pb-2">
       <div class="col-sm-3">
         Expense
       </div>

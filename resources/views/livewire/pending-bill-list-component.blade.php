@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-outline card-danger">
   <div class="card-header">
     <div class="card-title">
       <h2 class="h5">Office Pending</h2>
