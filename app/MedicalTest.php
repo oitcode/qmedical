@@ -89,4 +89,25 @@ class MedicalTest extends Model
     {
         return $this->hasOne('App\AgentCommission', 'medical_test_id', 'medical_test_id');
     }
+
+
+    /*
+     * Methods
+     */
+    
+
+    public function getPendingAmount()
+    {
+        $pendingAmount = $this->price;
+        if ($this->agent) {
+            $pendingAmount -= $this->agent_commission;
+        }
+
+        foreach ($this->payments as $payment ) {
+            $pendingAmount -= $payment->amount;
+        }
+
+        return $pendingAmount;
+    }
+
 }

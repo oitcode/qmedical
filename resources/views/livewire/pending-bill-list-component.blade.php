@@ -17,6 +17,7 @@
         </button>
       @endif
 
+      @if (false)
       <button class="btn btn-light btn-sm border" wire:click.prevent="">
         <i class="fas fa-arrow-left"></i>
       </button>
@@ -25,7 +26,6 @@
         <i class="fas fa-arrow-right"></i>
       </button>
 
-      @if (false)
       <span class="">
           <input type="text" wire:model.defer="" wire:keydown.enter="" class="">
           <button class="btn btn-sm text-success text-bold" wire:click="">
@@ -39,41 +39,76 @@
       </button>
     </div>
   </div>
-  <div class="card-body">
+  <div class="card-body p-0">
 
-    <div class="form-inline">
-      <input type="date" class="form-control mb-2 mr-sm-2" wire:model.defer="startDate">
-      <input type="date" class="form-control mb-2 mr-sm-2" wire:model.defer="endDate">
-    
-      <div class="input-group mb-2 mr-sm-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">Test type</div>
-        </div>
-        <select class="custom-select" wire:model.defer="medicalTestTypeId">
-          <option selected>Choose...</option>
-          @foreach ($medicalTestTypes as $medicalTestType)
-            <option value="{{ $medicalTestType->medical_test_type_id }}">
-              {{ $medicalTestType->name }}
-            </option>
-          @endforeach
-        </select>
-      </div>
+    <div class="form-inline px-2">
+      <div class="form-row">
 
-      <div class="input-group mb-2 mr-sm-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">Agent</div>
+        <div class="col w-25">
+          <input type="date" class="form-control mb-2 mr-sm-2" wire:model.defer="startDate">
         </div>
-        <select class="custom-select" wire:model.defer="agentId">
-          <option selected>Choose...</option>
-          @foreach ($agents as $agent)
-            <option value="{{ $agent->agent_id }}">
-              {{ $agent->name }}
-            </option>
-          @endforeach
-        </select>
+
+        <div class="col w-25">
+          <input type="date" class="form-control mb-2 mr-sm-2" wire:model.defer="endDate">
+        </div>
+
+        <div class="col w-25 m-0">
+          <div class="input-group mb-0 mx-0" style="margin:0 !important; padding: 0 !important;">
+            @if (false)
+            <div class="input-group-prepend d-none">
+              <div class="input-group-text">Test type</div>
+            </div>
+            @endif
+            <select class="custom-select mx-0" wire:model.defer="medicalTestTypeId">
+              <option selected>Choose...</option>
+              @foreach ($medicalTestTypes as $medicalTestType)
+                <option value="{{ $medicalTestType->medical_test_type_id }}">
+                  {{ $medicalTestType->name }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+
+        <div class="col w-25 m-0">
+          <div class="input-group mb-2 mx-0">
+            @if (false)
+            <div class="input-group-prepend d-none">
+              <div class="input-group-text">Agent</div>
+            </div>
+            @endif
+            <select class="custom-select" wire:model.defer="agentId">
+              <option selected>Choose...</option>
+              @foreach ($agents as $agent)
+                <option value="{{ $agent->agent_id }}">
+                  {{ $agent->name }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+
       </div>
     
-      <button type="submit" class="btn btn-sm btn-primary mb-2" wire:click="search">Go</button>
+      <button type="submit" class="btn btn-sm btn-info mb-2" wire:click="search">Go</button>
+    </div>
+
+    <div class="row text-dark mx-0">
+      <div class="col-sm-3">
+        Count
+      </div>
+      <div class="col-sm-6">
+        {{ $pendingCount }}
+      </div>
+    </div>
+
+    <div class="row text-dark border-bottom mx-0 pb-2">
+      <div class="col-sm-3">
+        Amount
+      </div>
+      <div class="col-sm-6">
+        {{ $pendingAmountTotal }}
+      </div>
     </div>
 
     @if (!empty($medicalTests) && count($medicalTests) > 0)
@@ -93,12 +128,19 @@
             @foreach($medicalTests as $medicalTest)
             <tr>
               <td>
+                   {{ $medicalTest->date }}
+              </td>
+
+              <td>
                    {{ $medicalTest->medical_test_id }}
               </td>
+
               <td>
                 <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
                    {{ $medicalTest->patient->name }}
                 </a>
+              </td>
+              <td>
                 <span class="text-muted ml-3 font-sm">
                   {{ $medicalTest->medicalTestType->name }}
                 </span>
@@ -106,9 +148,7 @@
 
               <td>
                 @if ($medicalTest->agent)
-                  <span class="badge badge-info badge-pill">
-                    A
-                  </span>
+                  {{ $medicalTest->agent->name }}
                 @endif
               </td>
 
@@ -128,6 +168,7 @@
                 @endif
               </td>
 
+              @if (false)
               <td>
                 @if ($medicalTest->status === 'Waiting')
                   <span class="badge badge-danger badge-pill">
@@ -143,6 +184,12 @@
                   </span>
                 @endif
               </td>
+              @endif
+
+              <td>
+                {{ $medicalTest->getPendingAmount() }}
+              </td>
+
               <td>
                 {{-- TODO --}}
                 @if (false)
@@ -158,7 +205,7 @@
 
       </div>
     @else
-      <div class="text-info"> 
+      <div class="text-info p-2"> 
         No office pending
       </div>
     @endif
