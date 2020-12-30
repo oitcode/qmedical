@@ -50,7 +50,7 @@ class CounterCashComponent extends Component
                 ->get();
         } else if ($type === 'due') {
             $todayPayments = Payment::whereDate('created_at', '=', $this->searchDate)
-                ->where('type', 'due')
+                ->whereIn('type', ['due', 'loan',])
                 ->get();
         } else {
             //

@@ -38,4 +38,13 @@ class Payment extends Model
     {
         return $this->belongsTo('App\MedicalTest', 'medical_test_id', 'medical_test_id');
     }
+
+    /*
+     * agent_loan table.
+     *
+     */
+    public function agentLoan()
+    {
+        return $this->belongsTo('App\AgentLoan', 'agent_loan_id', 'agent_loan_id');
+    }
 }

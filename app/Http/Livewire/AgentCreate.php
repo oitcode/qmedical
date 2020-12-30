@@ -3,9 +3,11 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 use App\Agent;
 use App\AgentTransaction;
+use App\AgentLoan;
 
 class AgentCreate extends Component
 {
@@ -32,27 +34,37 @@ class AgentCreate extends Component
             'balance' => 'nullable|integer',
         ]);
 
-        $agent = Agent::create($validatedData);
+        DB::transaction(function ()
+            use ($validatedData) {
+            $agent = Agent::create($validatedData);
 
-        /* Create first agent_transaction if needed. */
-        if ($this->balance != null) {
-            $agentTransaction = new AgentTransaction;
+            /* Create first agent_transaction if needed. */
+            if ($this->balance != null) {
+                $agentTransaction = new AgentTransaction;
 
-            $agentTransaction->agent_id = $agent->agent_id;
+                $agentTransaction->agent_id = $agent->agent_id;
 
-            $direction = 'in';
-            $agentTransaction->amount = $this->balance;
+                $direction = 'in';
+                $agentTransaction->amount = $this->balance;
 
-            if ($this->balance < 0) {
-                $direction = 'out';
-                $agentTransaction->amount *= -1;
+                if ($this->balance < 0) {
+                    $direction = 'out';
+                    $agentTransaction->amount *= -1;
+
+                    /* Create agent_loan */
+                    $agentLoan = new AgentLoan;
+                    $agentLoan->agent_id = $agent->agent_id;
+                    $agentLoan->amount = $this->balance * (-1);
+                    $agentLoan->payment_status = 'pending';
+                    $agentLoan->save();
+                }
+
+                $agentTransaction->direction = $direction;
+                $agentTransaction->comment = 'opening';
+
+                $agentTransaction->save();
             }
-
-            $agentTransaction->direction = $direction;
-            $agentTransaction->comment = 'opening';
-
-            $agentTransaction->save();
-        }
+        });
 
         $this->emitUp('agentAdded');
         $this->emit('toggleAgentCreateModal');

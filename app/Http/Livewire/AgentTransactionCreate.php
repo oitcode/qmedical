@@ -3,11 +3,13 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 use App\AgentTransaction;
 use App\Agent;
 use App\MedicalTest;
 use App\Payment;
+use App\AgentLoan;
 
 class AgentTransactionCreate extends Component
 {
@@ -25,6 +27,8 @@ class AgentTransactionCreate extends Component
 
     public function store()
     {
+        $oldBalance = $this->agent->getBalance();
+
         /* Validate data */
         $validatedData = $this->validate([
             'date' => 'required|date',
@@ -35,20 +39,39 @@ class AgentTransactionCreate extends Component
 
         $validatedData['agent_id'] = $this->agent->agent_id;
 
-        AgentTransaction::create($validatedData);
+        DB::transaction(function ()
+            use ($oldBalance, $validatedData) {
 
-        /* Clear any official pending. */
-        if (strtolower($this->direction) === 'in') {
-            if ($this->hasOfficialDue($this->agent)) {
-                $this->clearOfficialDues($this->agent, $this->amount);
+            AgentTransaction::create($validatedData);
+
+            /* Clear any official pending if needed. */
+            if (strtolower($this->direction) === 'in') {
+                if ($this->hasOfficialDue($this->agent)) {
+                    $this->clearOfficialDues($this->agent, $this->amount);
+                }
             }
-        }
+
+            /* Create agent loan if needed. */
+            if (strtolower($this->direction) === 'out') {
+                if ($this->amount > $oldBalance) {
+                    if ($oldBalance <= 0) {
+                        $this->createAgentLoan($this->amount);
+                    } else {
+                        $this->createAgentLoan($this->amount - $oldBalance);
+                    }
+                }
+            }
+        });
 
         $this->emit('agentTransactionAdded');
     }
 
     public function hasOfficialDue($agent)
     {
+        if ($agent->agentLoans) {
+            return true;
+        }
+
         if ($agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
             ->get()) {
@@ -60,6 +83,21 @@ class AgentTransactionCreate extends Component
 
     public function clearOfficialDues($agent, $topup)
     {
+        /* First try to clear loans. */
+        $loans = $agent->agentLoans()
+            ->whereIn('payment_status', ['pending', 'partially_paid',])
+            ->get();
+
+        foreach ($loans as $loan) {
+            if ($topup > 0) {
+                $topup = $loan->receivePayment($topup);
+            } else {
+                /* No more balance to pay. */
+                break;
+            }
+        }
+
+        /* Second try to clear pending bills. */
         $dues = $agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
             ->get();
@@ -124,5 +162,16 @@ class AgentTransactionCreate extends Component
         }
 
         return $amount;
+    }
+
+    public function createAgentLoan($amount)
+    {
+        $agentLoan = new AgentLoan;
+
+        $agentLoan->agent_id = $this->agent->agent_id; 
+        $agentLoan->amount = $amount; 
+        $agentLoan->payment_status = 'pending'; 
+
+        $agentLoan->save();
     }
 }

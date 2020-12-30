@@ -204,12 +204,10 @@
         @endif
 
 
-
-        <hr />
-
-        <div class="clearfix text-right px-3">
+        <!-- Pending bills (medical_tests) -->
+        <div class="clearfix text-right px-3 pt-2 border-top bg-light">
           <div class="float-left">
-            <h4 class="h5 mx-3">Medical Tests</h4>
+            <h4 class="h6">Medical Tests</h4>
           </div>
           <div class="float-right">
             @if ($showOnlyPending === false)
@@ -229,6 +227,14 @@
         <div class="table-responsive">
           <table class="table table-sm table-hover text-nowrap">
             <thead>
+              <tr class="text-muted">
+                <th>Id</th>
+                <th>Date</th>
+                <th>Patient</th>
+                <th>Payment Status</th>
+                <th>Total</th>
+                <th>Due</th>
+              </tr>
             </thead>
             <tbody>
               @if ($showOnlyPending)
@@ -263,25 +269,18 @@
                       </span>
                     @endif
                   </td>
+
                   <td>
+                    {{ $medicalTest->getActualPrice() }}
+                  </td>
 
-                    <!-- If partially paid -->
-                    @if ($medicalTest->payments)
-                      @php
-                        $pendingAmount = $medicalTest->price;
-                      @endphp
-                      @foreach ($medicalTest->payments as $payment)
-                        @php
-                          $pendingAmount -= $payment->amount;
-                        @endphp
-                      @endforeach
-                      @php
-                        $pendingAmount -= $medicalTest->agent_commission;
-                      @endphp
-
-                      {{ $pendingAmount }}
+                  <td>
+                    @if ($medicalTest->getPendingAmount() > 0)
+                      <span class="text-danger">
+                        {{ $medicalTest->getPendingAmount() }}
+                      </span>
                     @else
-                      {{ $medicalTest->price - $medicalTest->agent_commission }}
+                      {{ $medicalTest->getPendingAmount() }}
                     @endif
                   </td>
                 </tr>
@@ -289,6 +288,72 @@
             </tbody>
           </table>
         </div>
+
+
+        <!-- Loans -->
+        @if ($agentLoans !== null && count($agentLoans) > 0)
+          <div class="clearfix text-right px-3 pt-2 border-top bg-light">
+            <div class="float-left">
+              <h4 class="h6">Previous Remaining</h4>
+            </div>
+            <div class="float-right">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-sm table-hover text-nowrap">
+              <thead>
+                <tr class="text-muted">
+                  <th>Date</th>
+                  <th>Payment Status</th>
+                  <th>Total</th>
+                  <th>Due</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($agentLoans as $agentLoan)
+                  <tr>
+                    <td>
+                      {{ $agentLoan->date }}
+                    </td>
+                    <td>
+                      @if ($agentLoan->payment_status === 'paid')
+                        <span class="badge badge-pill badge-success">
+                          {{ $agentLoan->payment_status }}
+                        </span>
+                      @elseif ($agentLoan->payment_status === 'partially_paid')
+                        <span class="badge badge-pill badge-warning">
+                          {{ $agentLoan->payment_status }}
+                        </span>
+                      @elseif ($agentLoan->payment_status === 'pending')
+                        <span class="badge badge-pill badge-danger">
+                          {{ $agentLoan->payment_status }}
+                        </span>
+                      @else
+                        {{-- TODO: is this needeed? --}}
+                      @endif
+                    </td>
+                    <td>
+                      {{ $agentLoan->amount }}
+                    </td>
+                    <td>
+                      <span class="text-danger">
+                        {{ $agentLoan->getPendingAmount() }}
+                      </span>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        @else
+          {{-- TODO --}}
+          @if (false)
+          <div class="p-2 text-info">
+            No loans
+          </div>
+          @endif
+        @endif
 
 
 

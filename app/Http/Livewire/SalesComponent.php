@@ -43,7 +43,7 @@ class SalesComponent extends Component
             ->whereNotNull('credit_amount')
             ->get();
 
-        $this->duesReceived = Payment::where('type', 'due')
+        $this->duesReceived = Payment::whereIn('type', ['due', 'loan',])
             ->whereDate('created_at', $this->searchDate)
             ->get();
 

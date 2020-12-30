@@ -110,4 +110,14 @@ class MedicalTest extends Model
         return $pendingAmount;
     }
 
+    public function getActualPrice()
+    {
+        $actualPrice = $this->price;
+
+        if ($this->agent) {
+            $actualPrice -= $this->agent_commission;
+        }
+
+        return $actualPrice;
+    }
 }

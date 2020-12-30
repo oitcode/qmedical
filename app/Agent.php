@@ -67,4 +67,33 @@ class Agent extends Model
     {
         return $this->hasMany('App\AgentCommission', 'agent_id', 'agent_id');
     }
+
+    /*
+     * agent_loan table.
+     *
+     */
+    public function agentLoans()
+    {
+        return $this->hasMany('App\AgentLoan', 'agent_id', 'agent_id');
+    }
+
+    /* Methods */
+
+    public function getBalance()
+    {
+        $balance = 0;
+
+
+        foreach ($this->agentTransactions as $agentTransaction) {
+            if (strtolower($agentTransaction->direction) === 'in') {
+                $balance += $agentTransaction->amount;
+            } else if (strtolower($agentTransaction->direction) === 'out') {
+                $balance -= $agentTransaction->amount;
+            } else {
+                // TODO: is this needed?
+            }
+        }
+
+        return $balance;
+    }
 }

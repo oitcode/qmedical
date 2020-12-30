@@ -72,16 +72,20 @@
     </div>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-valign-middle">
-      <thead>
-        <tr class="sr-only">
-        </tr>
-      </thead>
-      <tbody>
-        @if (count($cashSales) > 0)
-          @foreach($cashSales as $payment)
-          <tr >
+  @if (count($cashSales) > 0)
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-valign-middle">
+        <thead>
+          <tr class="text-muted">
+            <th>Id</th>
+            <th>Patient</th>
+            <th>Test type</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+            @foreach($cashSales as $payment)
+            <tr >
               <td>
                 {{ $payment->medicalTest->medical_test_id }}
               </td>
@@ -96,26 +100,16 @@
               <td>
                 {{ $payment->amount }}
               </td>
-              <td>
-                <span class="btn btn-tool btn-sm" wire:click="">
-                  <i class="fas fa-pencil-alt text-primary mr-3"></i>
-                </span>
-                @can ('delete-models')
-                  <span class="btn btn-tool btn-sm">
-                    <i class="fas fa-trash text-danger mr-3" wire:click=""></i>
-                  </span>
-                @endcan
-              </td>
-          </tr>
-          @endforeach
-        @else
-          <div class="p-3 text-info">
-            No Cash Sales
-          </div>
-        @endif
-      </tbody>
-    </table>
-  </div>
+            </tr>
+            @endforeach
+        </tbody>
+      </table>
+    </div>
+  @else
+    <div class="p-3 text-info">
+      No Cash Sales
+    </div>
+  @endif
 
 
   <!-- Credit Sales -->
@@ -132,16 +126,20 @@
     </div>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-valign-middle">
-      <thead>
-        <tr class="sr-only">
-        </tr>
-      </thead>
-      <tbody>
-        @if (count($creditSales) > 0)
-          @foreach($creditSales as $medicalTest)
-          <tr >
+  @if (count($creditSales) > 0)
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-valign-middle">
+        <thead>
+          <tr class="text-muted">
+            <th>Id</th>
+            <th>Patient</th>
+            <th>Test type</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+            @foreach($creditSales as $medicalTest)
+            <tr >
               <td>
                 {{ $medicalTest->medical_test_id }}
               </td>
@@ -157,27 +155,16 @@
               <td>
                 {{ $medicalTest->credit_amount }}
               </td>
-
-              <td>
-                <span class="btn btn-tool btn-sm" wire:click="">
-                  <i class="fas fa-pencil-alt text-primary mr-3"></i>
-                </span>
-                @can ('delete-models')
-                  <span class="btn btn-tool btn-sm">
-                    <i class="fas fa-trash text-danger mr-3" wire:click=""></i>
-                  </span>
-                @endcan
-              </td>
-          </tr>
-          @endforeach
-        @else
-          <div class="p-3 text-info">
-            No Credit Sales
-          </div>
-        @endif
-      </tbody>
-    </table>
-  </div>
+            </tr>
+            @endforeach
+        </tbody>
+      </table>
+    </div>
+  @else
+    <div class="p-3 text-info">
+      No Credit Sales
+    </div>
+  @endif
 
   @if (false)
     @livewire('due-received-component', ['searchDate' => $searchDate])
@@ -196,6 +183,7 @@
       </strong>
     </div>
   </div>
+
   @if (count($duesReceived) > 0)
   <div class="table-responsive">
     <table class="table">
@@ -205,13 +193,28 @@
         @foreach ($duesReceived as $payment)
           <tr>
             <td>
-              {{ $payment->medicalTest->medical_test_id }}
+              @if ($payment->medicalTest)
+                {{ $payment->medicalTest->medical_test_id }}
+              @endif
+              @if ($payment->agentLoan)
+                Loan
+              @endif
             </td>
             <td>
-              {{ $payment->medicalTest->patient->name }}
+              @if ($payment->medicalTest)
+                {{ $payment->medicalTest->patient->name }}
+              @endif
+              @if ($payment->agentLoan)
+                {{ $payment->agentLoan->agent->name }}
+                <span class="badge badge-pill badge-primary">
+                  A
+                </span>
+              @endif
             </td>
             <td>
-              {{ $payment->medicalTest->date }}
+              @if ($payment->medicalTest)
+                {{ $payment->medicalTest->date }}
+              @endif
             </td>
             <td>
               {{ $payment->amount }}

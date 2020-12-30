@@ -368,6 +368,10 @@ class MedicalTestCreateComponent extends Component
 
     public function hasOfficialDue(Agent $agent)
     {
+        if ($agent->agentLoans) {
+            return true;
+        }
+
         if ($agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
             ->get()) {
@@ -379,6 +383,21 @@ class MedicalTestCreateComponent extends Component
 
     public function clearOfficialDues(Agent $agent, $topup)
     {
+        /* First try to clear loans. */
+        $loans = $agent->agentLoans()
+            ->whereIn('payment_status', ['pending', 'partially_paid',])
+            ->get();
+
+        foreach ($loans as $loan) {
+            if ($topup > 0) {
+                $topup = $loan->receivePayment($topup);
+            } else {
+                /* No more balance to pay. */
+                break;
+            }
+        }
+
+        /* Second try to clear pending bills. */
         $dues = $agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
             ->get();
