@@ -54,9 +54,10 @@ class AgentLoan extends Model
     public function receivePayment($amount)
     {
         $topup = $amount;
-        // DB::transaction(function ()
-        //     use ($amount, $topup) {
 
+        DB::beginTransaction();
+
+        try {
             $pendingAmount = $this->getPendingAmount();
 
             $payment = new Payment;
@@ -76,7 +77,11 @@ class AgentLoan extends Model
             $payment->save();
 
             $this->save();
-        // });
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
 
         return $topup;
     }
