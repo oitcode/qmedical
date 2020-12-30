@@ -1,5 +1,9 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><i class="fas
-fa-phone"></i></a></p>
+<p align="center">
+
+  <a href="https://oit.com.np"><img src="https://cdn.pixabay.com/photo/2014/04/02/14/08/mouse-306274_960_720.png" alt="OMed Logo OIT">
+  </a>
+
+</p>
 
 <!-- 
 <p align="center">
