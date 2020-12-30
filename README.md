@@ -1,6 +1,8 @@
 <p align="center">
 
-  <a href="https://oit.com.np"><img src="https://cdn.pixabay.com/photo/2014/04/02/14/08/mouse-306274_960_720.png" alt="OMed Logo OIT">
+  <a href="https://oit.com.np"><img
+  src="https://cdn.pixabay.com/photo/2014/04/02/14/08/mouse-306274_960_720.png"
+  alt="OMed Logo OIT" width="40;">
   </a>
 
 </p>
