@@ -24,26 +24,19 @@ Users get the below options:
 - [Sales Entry](https://laravel.com/docs/routing).
 - [Purchase Entry](https://laravel.com/docs/queues).
 - [Expense entry ](https://laravel.com/docs/container).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
 - [Fast search on your records](https://laravel.com/docs/broadcasting).
+- Get [Latest Release](https://laravel.com/docs/migrations).
 
 OMed is accessible, powerful, and provides tools required for large, efficient operation.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
 
 ## Contributing
 
 Thank you for considering contributing to OMed! Please fork this project and make changes and send pull request.
 
-## Security Vulnerabilities
+## Issues
 
-If you discover a security vulnerability within OMed, please send an e-mail to
-us via [support@omed.oit.com.np](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+If you discover any issue within OMed, please send an e-mail to
+us via [support@omed.oit.com.np](mailto:taylor@laravel.com). All issue will be addressed.
 
 ## License
 
