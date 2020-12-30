@@ -34,6 +34,7 @@
           @endif
 
 
+          @if (false)
           <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="">
             <i class="fas fa-arrow-left"></i>
           </a>
@@ -41,6 +42,7 @@
           <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="">
             <i class="fas fa-arrow-right"></i>
           </a>
+          @endif
 
           @if (false)
           <span class="">
@@ -294,7 +296,7 @@
         @if ($agentLoans !== null && count($agentLoans) > 0)
           <div class="clearfix text-right px-3 pt-2 border-top bg-light">
             <div class="float-left">
-              <h4 class="h6">Previous Remaining</h4>
+              <h4 class="h6">Opening Remaining</h4>
             </div>
             <div class="float-right">
             </div>
@@ -304,7 +306,6 @@
             <table class="table table-sm table-hover text-nowrap">
               <thead>
                 <tr class="text-muted">
-                  <th>Date</th>
                   <th>Payment Status</th>
                   <th>Total</th>
                   <th>Due</th>
@@ -313,9 +314,6 @@
               <tbody>
                 @foreach ($agentLoans as $agentLoan)
                   <tr>
-                    <td>
-                      {{ $agentLoan->date }}
-                    </td>
                     <td>
                       @if ($agentLoan->payment_status === 'paid')
                         <span class="badge badge-pill badge-success">

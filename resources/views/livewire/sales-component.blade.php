@@ -79,7 +79,9 @@
           <tr class="text-muted">
             <th>Id</th>
             <th>Patient</th>
+            @if (false)
             <th>Test type</th>
+            @endif
             <th>Amount</th>
           </tr>
         </thead>
@@ -94,9 +96,11 @@
                   {{ $payment->medicalTest->patient->name }}
                 </a>
               </td>
+              @if (false)
               <td>
                 {{ $payment->medicalTest->medicalTestType->name }}
               </td>
+              @endif
               <td>
                 {{ $payment->amount }}
               </td>
@@ -133,7 +137,9 @@
           <tr class="text-muted">
             <th>Id</th>
             <th>Patient</th>
+            @if (false)
             <th>Test type</th>
+            @endif
             <th>Amount</th>
           </tr>
         </thead>
@@ -148,9 +154,11 @@
                   {{ $medicalTest->patient->name }}
                 </a>
               </td>
+              @if (false)
               <td>
                 {{ $medicalTest->medicalTestType->name }}
               </td>
+              @endif
 
               <td>
                 {{ $medicalTest->credit_amount }}
@@ -185,45 +193,103 @@
   </div>
 
   @if (count($duesReceived) > 0)
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-      </thead>
-      <tbody>
-        @foreach ($duesReceived as $payment)
-          <tr>
-            <td>
-              @if ($payment->medicalTest)
-                {{ $payment->medicalTest->medical_test_id }}
+    @php
+      $showDuePayment = false;
+      $showLoanPayment = false;
+
+      foreach ($duesReceived as $payment) {
+          if ($payment->medicalTest) {
+              $showDuePayment = true;
+              break;
+          }
+      }
+
+      foreach ($duesReceived as $payment) {
+          if ($payment->agentLoan) {
+              $showLoanPayment = true;
+              break;
+          }
+      }
+    @endphp
+
+    @if ($showDuePayment)
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr class="text-muted">
+              <th>Date</th>
+              <th>Id</th>
+              <th>Patient</th>
+              @if (false)
+              <th>Test type</th>
               @endif
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($duesReceived as $payment)
               @if ($payment->agentLoan)
-                Loan
+                @continue
               @endif
-            </td>
-            <td>
+              <tr>
+                <td>
+                  {{ $payment->medicalTest->date }}
+                </td>
+                <td>
+                  {{ $payment->medicalTest->medical_test_id }}
+                </td>
+                <td>
+                  {{ $payment->medicalTest->patient->name }}
+                </td>
+
+                @if (false)
+                <td>
+                </td>
+                @endif
+
+                <td>
+                  {{ $payment->amount }}
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    @endif
+
+    @if ($showLoanPayment)
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr class="text-muted">
+              <th></th>
+              <th>Agent</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($duesReceived as $payment)
               @if ($payment->medicalTest)
-                {{ $payment->medicalTest->patient->name }}
+                @continue
               @endif
-              @if ($payment->agentLoan)
-                {{ $payment->agentLoan->agent->name }}
-                <span class="badge badge-pill badge-primary">
-                  A
-                </span>
-              @endif
-            </td>
-            <td>
-              @if ($payment->medicalTest)
-                {{ $payment->medicalTest->date }}
-              @endif
-            </td>
-            <td>
-              {{ $payment->amount }}
-            </td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
-  </div>
+              <tr>
+                <td class="text-muted">
+                  <small>
+                    Opening
+                  </small>
+                </td>
+                <td>
+                  {{ $payment->agentLoan->agent->name  }}
+                </td>
+                <td>
+                  {{ $payment->amount }}
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    @endif
   @else
     <div class="text-info p-3">
       No dues received

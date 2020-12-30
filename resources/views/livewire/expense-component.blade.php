@@ -1,4 +1,4 @@
-<div class="card card-outline card-danger">
+<div class="card card-light">
   <div class="card-header">
     <h3 class="card-title">
       Expense
