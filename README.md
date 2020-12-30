@@ -1,8 +1,9 @@
-<p align="center">
+<p align="right">
 
-  <a href="https://oit.com.np"><img
-  src="https://cdn.pixabay.com/photo/2014/04/02/14/08/mouse-306274_960_720.png"
-  alt="OMed Logo OIT" width="40;">
+  <a href="https://oit.com.np">
+    <img
+    src="https://pixabay.com/vectors/first-aid-medical-medicine-doctor-2789562/"
+    alt="OMed Logo OIT" width="50;">
   </a>
 
 </p>
