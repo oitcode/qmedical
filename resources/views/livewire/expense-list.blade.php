@@ -69,8 +69,10 @@
         </table>
       </div>
     @else
-      <div class="px-3 text-info">
-        No expenses
+      <div class="px-3 text-muted">
+        <small>
+          No expenses
+        </small>
       </div>
     @endif
   </div>

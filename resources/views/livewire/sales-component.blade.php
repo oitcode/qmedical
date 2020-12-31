@@ -114,8 +114,10 @@
       </table>
     </div>
   @else
-    <div class="p-3 text-info">
-      No Cash Sales
+    <div class="p-3 text-muted">
+      <small>
+        No Cash Sales
+      </small>
     </div>
   @endif
 
@@ -173,8 +175,10 @@
       </table>
     </div>
   @else
-    <div class="p-3 text-info">
-      No Credit Sales
+    <div class="p-3 text-muted">
+      <small>
+        No Credit Sales
+      </small>
     </div>
   @endif
 
@@ -295,8 +299,10 @@
       </div>
     @endif
   @else
-    <div class="text-info p-3">
-      No dues received
+    <div class="text-muted p-3">
+      <small>
+        No dues received
+      </small>
     </div>
   @endif
 
