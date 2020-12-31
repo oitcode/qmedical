@@ -41,9 +41,10 @@
   </div>
   <div class="card-body p-0">
 
-    <div class="form-inline px-2">
+    <div class="form-inline p-2">
       <div class="form-row">
 
+        @if (false)
         <div class="col w-25">
           <input type="date" class="form-control mb-2 mr-sm-2" wire:model.defer="startDate">
         </div>
@@ -51,6 +52,7 @@
         <div class="col w-25">
           <input type="date" class="form-control mb-2 mr-sm-2" wire:model.defer="endDate">
         </div>
+        @endif
 
         <div class="col w-25 m-0">
           <div class="input-group mb-0 mx-0" style="margin:0 !important; padding: 0 !important;">
@@ -60,7 +62,7 @@
             </div>
             @endif
             <select class="custom-select mx-0" wire:model.defer="medicalTestTypeId">
-              <option selected>Choose...</option>
+              <option value="0" selected>Choose...</option>
               @foreach ($medicalTestTypes as $medicalTestType)
                 <option value="{{ $medicalTestType->medical_test_type_id }}">
                   {{ $medicalTestType->name }}
@@ -78,7 +80,7 @@
             </div>
             @endif
             <select class="custom-select" wire:model.defer="agentId">
-              <option selected>Choose...</option>
+              <option value="0" selected>Choose...</option>
               @foreach ($agents as $agent)
                 <option value="{{ $agent->agent_id }}">
                   {{ $agent->name }}
@@ -90,9 +92,10 @@
 
       </div>
     
-      <button type="submit" class="btn btn-sm btn-info mb-2" wire:click="search">Go</button>
+      <button type="submit" class="btn btn-sm btn-info mb-2 mx-2" wire:click="search">Go</button>
     </div>
 
+    @if (false)
     <div class="row text-dark mx-0">
       <div class="col-sm-3">
         Count
@@ -101,25 +104,33 @@
         {{ $pendingCount }}
       </div>
     </div>
+    @endif
 
-    <div class="row text-dark border-bottom mx-0 pb-2">
+    <div class="row text-dark border-bottom mx-0 p-3">
       <div class="col-sm-3">
-        Amount
+        Total
       </div>
       <div class="col-sm-6">
-        {{ $pendingAmountTotal }}
+        <strong>
+          {{ $pendingAmountTotal }}
+        </strong>
       </div>
     </div>
 
     @if (!empty($medicalTests) && count($medicalTests) > 0)
       <div class="table-responsive">
         <table class="table table-striped table-hover table-valign-middle">
-          @if (false)
+          @if (true)
           <thead>
             <tr class="text-secondary">
+              <th>Bill Date</th>
+              <th>Id</th>
               <th>Patient</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Test Type</th>
+              <th>Agent</th>
+              <th>Payment Status</th>
+              <th>Total Amount</th>
+              <th>Due Amount</th>
             </tr>
           </thead>
           @endif
@@ -141,7 +152,7 @@
                 </a>
               </td>
               <td>
-                <span class="text-muted ml-3 font-sm">
+                <span class="text-muted">
                   {{ $medicalTest->medicalTestType->name }}
                 </span>
               </td>
@@ -187,6 +198,10 @@
               @endif
 
               <td>
+                {{ $medicalTest->getActualPrice() }}
+              </td>
+
+              <td>
                 {{ $medicalTest->getPendingAmount() }}
               </td>
 
@@ -208,6 +223,70 @@
       <div class="text-info p-2"> 
         No office pending
       </div>
+    @endif
+
+    <!-- Loans -->
+    @if ($pendingAgentLoans != null && count($pendingAgentLoans) > 0)
+      <div class="clearfix text-right px-3 pt-2 border-top bg-light">
+        <div class="float-left">
+          <h4 class="h6">Agent carryover</h4>
+        </div>
+        <div class="float-right">
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-sm table-hover text-nowrap">
+          <thead>
+            <tr class="text-muted">
+              <th>Agent</th>
+              <th>Payment Status</th>
+              <th>Total</th>
+              <th>Due</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($pendingAgentLoans as $agentLoan)
+              <tr>
+                <td>
+                  {{ $agentLoan->agent->name }}
+                </td>
+                <td>
+                  @if ($agentLoan->payment_status === 'paid')
+                    <span class="badge badge-pill badge-success">
+                      {{ $agentLoan->payment_status }}
+                    </span>
+                  @elseif ($agentLoan->payment_status === 'partially_paid')
+                    <span class="badge badge-pill badge-warning">
+                      {{ $agentLoan->payment_status }}
+                    </span>
+                  @elseif ($agentLoan->payment_status === 'pending')
+                    <span class="badge badge-pill badge-danger">
+                      {{ $agentLoan->payment_status }}
+                    </span>
+                  @else
+                    {{-- TODO: is this needeed? --}}
+                  @endif
+                </td>
+                <td>
+                  {{ $agentLoan->amount }}
+                </td>
+                <td>
+                  <span class="text-dark">
+                    {{ $agentLoan->getPendingAmount() }}
+                  </span>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    @else
+      @if (false)
+      <div class="p-2 text-info">
+        No loans
+      </div>
+      @endif
     @endif
   </div>
 </div>

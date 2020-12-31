@@ -32,16 +32,7 @@
       @livewire('expense-component')
       @endif
 
-      @if (true)
-        @livewire('pending-bill-list-component')
-      @endif
-
-      @livewire('agent-component')
       @livewire('counter-cash-component')
-
-      @can ('view-user-component')
-        @livewire('user-component')
-      @endcan
 
       @if ($displayingComponent !== null)
         {{--
@@ -52,4 +43,22 @@
       @endif
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      @livewire('agent-component')
+    </div>
+    <div class="col-md-6">
+      @can ('view-user-component')
+        @livewire('user-component')
+      @endcan
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      @livewire('pending-bill-list-component')
+    </div>
+  </div>
+
 </div>

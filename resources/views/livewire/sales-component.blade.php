@@ -18,12 +18,16 @@
     </button>
   @endif
 
-  <button class="btn btn-info btn-sm border rounded-circle" wire:click.prevent="previousDay">
+  <button class="btn btn-outline-info btn-sm border rounded-circle" wire:click.prevent="previousDay">
     <i class="fas fa-arrow-left"></i>
   </button>
 
-  <button class="btn btn-info btn-sm border rounded-circle" wire:click.prevent="nextDay">
+  <button class="btn btn-outline-info btn-sm border rounded-circle" wire:click.prevent="nextDay">
     <i class="fas fa-arrow-right"></i>
+  </button>
+
+  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+    <i class="fas fa-minus"></i>
   </button>
 
   @if (false)

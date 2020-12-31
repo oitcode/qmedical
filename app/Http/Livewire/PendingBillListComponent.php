@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Agent;
 use App\MedicalTestType;
 use App\MedicalTest;
+use App\AgentLoan;
 
 class PendingBillListComponent extends Component
 {
@@ -23,6 +24,7 @@ class PendingBillListComponent extends Component
     public $medicalTests = null;
     public $pendingCount; 
     public $pendingAmountTotal; 
+    public $pendingAgentLoans = null;
 
     public function render()
     {
@@ -36,8 +38,11 @@ class PendingBillListComponent extends Component
 
     public function search()
     {
-        $medicalTests = MedicalTest::whereIn('payment_status', ['partially_paid', 'pending',]);
+        /*
+         * Pending Medical Tests
+         */
 
+        $medicalTests = MedicalTest::whereIn('payment_status', ['partially_paid', 'pending',]);
 
         /* Filter for dates */
 
@@ -66,9 +71,28 @@ class PendingBillListComponent extends Component
 
         $this->medicalTests = $medicalTests->get();
 
+
+        /*
+         * Pending Agent Loans
+         */
+
+        if (!$this->medicalTestTypeId) {
+            $pendingAgentLoans = AgentLoan::whereIn('payment_status', ['partially_paid', 'pending',]);
+
+            /* Filter for agent */
+            if ($this->agentId) {
+                $pendingAgentLoans = $pendingAgentLoans->where('agent_id', $this->agentId);
+            }
+
+            $this->pendingAgentLoans = $pendingAgentLoans->get();
+        } else {
+            $this->pendingAgentLoans = null;;
+        }
+
         /* Update count and total */
         $this->pendingCount = $this->medicalTests->count();
-        $this->pendingAmountTotal = $this->getPendingAmountTotal($this->medicalTests);
+        $this->pendingAmountTotal = $this->getPendingAmountTotal($this->medicalTests)
+            + $this->getAgentLoanPendingAmountTotal($this->pendingAgentLoans);
     }
 
     public function getPendingAmountTotal($bills)
@@ -97,4 +121,20 @@ class PendingBillListComponent extends Component
 
         return $pendingAmount;
     }
+
+    public function getAgentLoanPendingAmountTotal($agentLoans)
+    {
+        $total = 0;
+
+        if ($agentLoans === null) {
+            return $total;
+        }
+
+        foreach ($agentLoans as $agentLoan) {
+            $total += $agentLoan->getPendingAmount();
+        }
+
+        return $total;
+    }
+
 }

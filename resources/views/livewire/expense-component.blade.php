@@ -14,13 +14,17 @@
         </button>
       @endcan
 
-      <button class="btn btn-info btn-sm border rounded-circle" wire:click.prevent="previousDay">
+      <button class="btn btn-outline-info btn-sm border rounded-circle" wire:click.prevent="previousDay">
         <i class="fas fa-arrow-left"></i>
       </button>
 
-      <span class="btn btn-info btn-sm border rounded-circle" wire:click.prevent="nextDay">
+      <span class="btn btn-outline-info btn-sm border rounded-circle" wire:click.prevent="nextDay">
         <i class="fas fa-arrow-right"></i>
       </span>
+
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
 
     </div>
   </div>
