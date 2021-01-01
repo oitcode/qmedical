@@ -23,6 +23,7 @@ class CreateAgentLoanTable extends Migration
             $table->foreign('agent_id', 'fk_agent_loan_agent')
                 ->references('agent_id')->on('agent');
 
+            $table->date('date');
             $table->integer('amount');
             $table->string('payment_status');
 

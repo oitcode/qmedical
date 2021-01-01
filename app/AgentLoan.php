@@ -22,7 +22,7 @@ class AgentLoan extends Model
     protected $primaryKey = 'agent_loan_id';
 
     protected $fillable = [
-         'agent_id', 'amount', 'payment_status',
+         'agent_id', 'date', 'amount', 'payment_status',
     ];
 
     /*-------------------------------------------------------------------------

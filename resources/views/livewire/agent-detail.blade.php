@@ -307,6 +307,7 @@
               <thead>
                 <tr class="text-muted">
                   <th>Payment Status</th>
+                  <th>Comment</th>
                   <th>Total</th>
                   <th>Due</th>
                 </tr>
@@ -330,6 +331,9 @@
                       @else
                         {{-- TODO: is this needeed? --}}
                       @endif
+                    </td>
+                    <td>
+                      {{ $agentLoan->comment }}
                     </td>
                     <td>
                       {{ $agentLoan->amount }}

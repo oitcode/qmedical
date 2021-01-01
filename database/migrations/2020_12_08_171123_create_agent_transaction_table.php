@@ -30,6 +30,7 @@ class CreateAgentTransactionTable extends Migration
             $table->foreign('medical_test_id', 'fk_agent_transaction_medical_test')
                 ->references('medical_test_id')->on('medical_test');
 
+            $table->date('date');
             $table->integer('amount');
             $table->string('direction');
 

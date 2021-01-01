@@ -55,9 +55,9 @@ class AgentTransactionCreate extends Component
             if (strtolower($this->direction) === 'out') {
                 if ($this->amount > $oldBalance) {
                     if ($oldBalance <= 0) {
-                        $this->createAgentLoan($this->amount);
+                        $this->createAgentLoan($this->amount, $validatedData);
                     } else {
-                        $this->createAgentLoan($this->amount - $oldBalance);
+                        $this->createAgentLoan($this->amount - $oldBalance, $validatedData);
                     }
                 }
             }
@@ -164,13 +164,15 @@ class AgentTransactionCreate extends Component
         return $amount;
     }
 
-    public function createAgentLoan($amount)
+    public function createAgentLoan($amount, $validatedData)
     {
         $agentLoan = new AgentLoan;
 
         $agentLoan->agent_id = $this->agent->agent_id; 
+        $agentLoan->date = $validatedData['date']; 
         $agentLoan->amount = $amount; 
         $agentLoan->payment_status = 'pending'; 
+        $agentLoan->comment = $validatedData['comment']; 
 
         $agentLoan->save();
     }
