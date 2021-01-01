@@ -26,6 +26,8 @@ class PendingBillListComponent extends Component
     public $pendingAmountTotal; 
     public $pendingAgentLoans = null;
 
+    public $fullScreenTrue = false;
+
     public function render()
     {
         $this->agents = Agent::all();
@@ -135,6 +137,21 @@ class PendingBillListComponent extends Component
         }
 
         return $total;
+    }
+
+    public function goFullScreen()
+    {
+        $this->fullScreenTrue = true;
+    }
+
+    public function exitFullScreen()
+    {
+        $this->fullScreenTrue = false;
+    }
+
+    public function toggleFullScreen()
+    {
+        $this->fullScreenTrue = !$this->fullScreenTrue;
     }
 
 }

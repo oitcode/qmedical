@@ -1,4 +1,16 @@
-<div class="card card-light">
+<div class="card card-light"
+  @if($fullScreenTrue)
+    style="
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 100000 !important;
+    "
+  @endif
+  >
   <div class="card-header">
     <div class="card-title">
       <h2 class="h5">Office Pending</h2>
@@ -33,6 +45,10 @@
           </button>
       </span>
       @endif
+
+      <button type="button" class="btn btn-tool" wire:click="toggleFullScreen">
+        <i class="fas fa-expand"></i>
+      </button>
 
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
         <i class="fas fa-minus"></i>
