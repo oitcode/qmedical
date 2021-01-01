@@ -51,7 +51,7 @@ class AgentLoan extends Model
 
     /* methods */
 
-    public function receivePayment($amount)
+    public function receivePayment($amount, $triggerPayment=null)
     {
         $topup = $amount;
 
@@ -74,6 +74,11 @@ class AgentLoan extends Model
             }
 
             $payment->type = 'loan';
+
+            if ($triggerPayment) {
+                $payment->tg_payment_id = $triggerPayment->payment_id;
+            }
+
             $payment->save();
 
             $this->save();

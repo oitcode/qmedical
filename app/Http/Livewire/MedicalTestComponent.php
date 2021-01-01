@@ -95,6 +95,19 @@ class MedicalTestComponent extends Component
 
         /* Delete payments if any */
         if ($medicalTest->payments) {
+          foreach ($medicalTest->payments as $payment) {
+              /* Delete triggered payment if necessary */
+              if ($payment->triggeredPayments) {
+                  foreach ($payment->triggeredPayments as $triggeredPayment) {
+                      $triggeredPayment->deleteAndUpdatePaymentStatus();
+                  }
+              }
+          }
+          $medicalTest->payments()->delete();
+        }
+
+        /* Delete triggerred payments if any */
+        if ($medicalTest->payments) {
           $medicalTest->payments()->delete();
         }
 

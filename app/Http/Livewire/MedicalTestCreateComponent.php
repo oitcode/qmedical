@@ -327,7 +327,7 @@ class MedicalTestCreateComponent extends Component
             /* Clear any pending payment if possible */
             if ($balanceTopup === true) {
                 if ($this->hasOfficialDue($this->selectedAgent)) {
-                    $this->clearOfficialDues($this->selectedAgent, $topupAmount);
+                    $this->clearOfficialDues($this->selectedAgent, $topupAmount, $payment);
                 }
             }
         
@@ -381,7 +381,7 @@ class MedicalTestCreateComponent extends Component
         return false;
     }
 
-    public function clearOfficialDues(Agent $agent, $topup)
+    public function clearOfficialDues(Agent $agent, $topup, $triggerPayment)
     {
         /* First try to clear loans. */
         $loans = $agent->agentLoans()
@@ -390,7 +390,7 @@ class MedicalTestCreateComponent extends Component
 
         foreach ($loans as $loan) {
             if ($topup > 0) {
-                $topup = $loan->receivePayment($topup);
+                $topup = $loan->receivePayment($topup, $triggerPayment);
             } else {
                 /* No more balance to pay. */
                 break;
@@ -404,7 +404,7 @@ class MedicalTestCreateComponent extends Component
 
         foreach ($dues as $medicalTest) {
             if ($topup > 0) {
-                $topup = $this->payDue($medicalTest, $topup);
+                $topup = $this->payDue($medicalTest, $topup, $triggerPayment);
             } else {
                 /* No more balance to pay. */
                 break;
@@ -412,7 +412,7 @@ class MedicalTestCreateComponent extends Component
         }
     }
 
-    public function payDue(MedicalTest $medicalTest, $topup)
+    public function payDue(MedicalTest $medicalTest, $topup, $triggerPayment)
     {
         if ($topup >= $this->getDueAmount($medicalTest)) {
             /* Create payment. */
@@ -421,6 +421,7 @@ class MedicalTestCreateComponent extends Component
             $payment->medical_test_id = $medicalTest->medical_test_id;
             $payment->amount = $this->getDueAmount($medicalTest);
             $payment->type = 'due';
+            $payment->tg_payment_id = $triggerPayment->payment_id;
             $payment->save();
 
             $medicalTest->payment_status = 'paid';
@@ -434,6 +435,7 @@ class MedicalTestCreateComponent extends Component
             $payment->medical_test_id = $medicalTest->medical_test_id;
             $payment->amount = $topup;
             $payment->type = 'due';
+            $payment->tg_payment_id = $triggerPayment->payment_id;
             $payment->save();
 
             $medicalTest->payment_status = 'partially_paid';

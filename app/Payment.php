@@ -47,4 +47,47 @@ class Payment extends Model
     {
         return $this->belongsTo('App\AgentLoan', 'agent_loan_id', 'agent_loan_id');
     }
+
+    public function triggerPayment()
+    {
+        return $this->belongsTo('App\Payment', 'tg_payment_id', 'payment_id');
+    }
+
+    public function triggeredPayments()
+    {
+        return $this->hasMany('App\Payment', 'tg_payment_id', 'payment_id');
+    }
+
+    public function deleteAndUpdatePaymentStatus()
+    {
+        if ($this->medicalTest) {
+            $medicalTest = $this->medicalTest;
+
+            if ($medicalTest->payments && count($medicalTest->payments) === 1) {
+                $medicalTest->payment_status = 'pending';
+            } else if ($medicalTest->payments && count($medicalTest->payments) > 1) {
+                $medicalTest->payment_status = 'partially_paid';
+            } else {
+                // TODO: Is this needed?
+            }
+
+            $medicalTest->save();
+        }
+
+        if ($this->agentLoan) {
+            $agentLoan = $this->agentLoan;
+
+            if ($agentLoan->payments && count($agentLoan->payments) === 1) {
+                $agentLoan->payment_status = 'pending';
+            } else if ($agentLoan->payments && count($agentLoan->payments) > 1) {
+                $agentLoan->payment_status = 'partially_paid';
+            } else {
+                // TODO: Is this needed?
+            }
+
+            $agentLoan->save();
+        }
+
+        $this->delete();
+    }
 }

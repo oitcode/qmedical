@@ -23,6 +23,21 @@ class AlterPaymentTable extends Migration
             $table->unsignedBigInteger('agent_loan_id')->nullable();
             $table->foreign('agent_loan_id', 'fk_payment_agent_loan')
                 ->references('agent_loan_id')->on('agent_loan');
+
+            /*
+             * Foreign key to itself.
+             *
+             * One payment can trigger another payment if there is 
+             * positive change in agent balance. If a payment was caused
+             * by another payment, then store the reference to that causing
+             * payment. In case the causing payment is cancelled/updated then this
+             * payment need to be cancelled/updated too.
+             *
+             */
+            $table->unsignedBigInteger('tg_payment_id')->nullable();
+            $table->foreign('tg_payment_id', 'fk_payment_payment')
+                ->references('payment_id')->on('payment');
+
         });
     }
 
@@ -42,6 +57,12 @@ class AlterPaymentTable extends Migration
              */
             $table->dropForeign('fk_payment_agent_loan');
             $table->dropColumn('agent_loan_id');
+
+            /*
+             * Remove Foreign key to itself.
+             */
+            $table->dropForeign('fk_payment_payment');
+            $table->dropColumn('tg_payment_id');
         });
     }
 }
