@@ -118,8 +118,8 @@ class MedicalTestCreateComponent extends Component
 
             /* Patient Info */
             'patientName' => 'required',
-            'patientSex' => 'required',
-            'patientDob' => 'required|date',
+            'patientSex' => 'nullable',
+            'patientDob' => 'nullable|date',
 
             'patientAddress' => 'nullable',
             'patientContactNumber' => 'nullable',
