@@ -36,7 +36,7 @@ class Patient extends Model
      * medical_test table
      *
      */
-    public function medicalTets()
+    public function medicalTests()
     {
         return $this->hasMany('App\MedicalTest', 'patient_id', 'patient_id');
     }

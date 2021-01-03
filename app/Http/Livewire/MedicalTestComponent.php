@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 use App\MedicalTest;
 
@@ -88,30 +89,41 @@ class MedicalTestComponent extends Component
     {
         $medicalTest = MedicalTest::findOrFail($id);
 
-        /* Delete agent transactions if any */
-        if ($medicalTest->agentTransaction) {
-          $medicalTest->agentTransaction->delete();
-        }
+        DB::beginTransaction();
 
-        /* Delete payments if any */
-        if ($medicalTest->payments) {
-          foreach ($medicalTest->payments as $payment) {
-              /* Delete triggered payment if necessary */
-              if ($payment->triggeredPayments) {
-                  foreach ($payment->triggeredPayments as $triggeredPayment) {
-                      $triggeredPayment->deleteAndUpdatePaymentStatus();
+        try {
+            /* Delete agent transactions if any */
+            /* Store patient info. Needed to delete it later if needed. */
+            $patient = $medicalTest->patient;
+
+            if ($medicalTest->agentTransaction) {
+              $medicalTest->agentTransaction->delete();
+            }
+
+            /* Delete payments if any */
+            if ($medicalTest->payments) {
+              foreach ($medicalTest->payments as $payment) {
+                  /* Delete triggered payment if necessary */
+                  if ($payment->triggeredPayments) {
+                      foreach ($payment->triggeredPayments as $triggeredPayment) {
+                          $triggeredPayment->deleteAndUpdatePaymentStatus();
+                      }
                   }
               }
-          }
-          $medicalTest->payments()->delete();
-        }
+              $medicalTest->payments()->delete();
+            }
 
-        /* Delete triggerred payments if any */
-        if ($medicalTest->payments) {
-          $medicalTest->payments()->delete();
-        }
+            $medicalTest->delete();
 
-        $medicalTest->delete();
+            /* Delete patient if necessary */
+            if (count($patient->medicalTests) === 0) {
+                $patient->delete();
+            }
+        
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
 
         $this->exitDeleteMode();
         $this->emit('updateList');
