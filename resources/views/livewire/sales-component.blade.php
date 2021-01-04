@@ -78,7 +78,7 @@
 
   @if (count($cashSales) > 0)
     <div class="table-responsive">
-      <table class="table table-sm table-striped table-hover table-valign-middle">
+      <table class="table table-sm table-hover table-valign-middle">
         <thead>
           <tr class="text-muted">
             <th>Id</th>
@@ -138,7 +138,7 @@
 
   @if (count($creditSales) > 0)
     <div class="table-responsive">
-      <table class="table table-sm table-striped table-hover table-valign-middle">
+      <table class="table table-sm table-hover table-valign-middle">
         <thead>
           <tr class="text-muted">
             <th>Id</th>
@@ -151,7 +151,7 @@
         </thead>
         <tbody>
             @foreach($creditSales as $medicalTest)
-            <tr >
+            <tr class="">
               <td>
                 {{ $medicalTest->medical_test_id }}
               </td>
@@ -222,7 +222,7 @@
 
     @if ($showDuePayment)
       <div class="table-responsive">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
           <thead>
             <tr class="text-muted">
               <th>Date</th>

@@ -1,9 +1,9 @@
 <div class="card shadow-none">
   <div class="card-body table-responsive p-0">
-    <table class="table table-striped table-hover table-valign-middle">
+    <table class="table table-sm table-hover table-valign-middle">
       <thead>
-      <tr class="sr-only">
-        <th>#</th>
+      <tr class="text-muted">
+        <th>Agent ID</th>
         <th>Name</th>
         <th>Balance</th>
         <th>Action</th>
