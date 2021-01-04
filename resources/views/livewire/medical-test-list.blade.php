@@ -13,11 +13,14 @@
 
     @if (!is_null($medicalTests) && count($medicalTests) > 0)
       <table class="table table-striped table-hover table-valign-middle">
-        @if (false)
+        @if (true)
         <thead>
           <tr class="text-secondary">
+            <th>ID</th>
             <th>Patient</th>
-            <th>Status</th>
+            <th>Agent</th>
+            <th>Payment</th>
+            <th>Result</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -40,7 +43,10 @@
 
             <td>
               @if ($medicalTest->agent)
-                <span class="badge badge-info badge-pill">
+                <small class="text-muted">
+                  {{ $medicalTest->agent->name }}
+                </small>
+                <span class="badge badge-info badge-pill mx-3">
                   A
                 </span>
               @endif
