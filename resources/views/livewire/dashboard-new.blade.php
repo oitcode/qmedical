@@ -25,12 +25,14 @@
 
   <div class="row">
     <div class="col-md-6">
+      @if (false)
       @livewire('sales-component')
+      @endif
+      @if (true)
+      @livewire('glance-component')
+      @endif
     </div>
     <div class="col-md-6">
-      @if (true)
-      @livewire('expense-component')
-      @endif
 
       @livewire('counter-cash-component')
 
@@ -46,18 +48,24 @@
 
   <div class="row">
     <div class="col-md-6">
+      @if (false)
       @livewire('agent-component')
+      @endif
     </div>
     <div class="col-md-6">
+      @if (false)
       @can ('view-user-component')
         @livewire('user-component')
       @endcan
+      @endif
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
+      @if (false)
       @livewire('pending-bill-list-component')
+      @endif
     </div>
   </div>
 

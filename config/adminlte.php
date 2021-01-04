@@ -283,6 +283,18 @@ return [
             'icon' => 'fas fa-fw fa-rupee-sign',
         ],
 
+        [
+            'text' => 'Pending',
+            'url'  => '/pending',
+            'icon' => 'fas fa-fw fa-exclamation-triangle',
+        ],
+
+        [
+            'text' => 'Users',
+            'url'  => '/user',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
 
         /*---------------------------------------------------------------------
          * DONT NEED THIS - FOR NOW
