@@ -1,4 +1,4 @@
-<div class="card card-light"
+<div class="card card-light" wire:ignore.self
   @if($fullScreenTrue)
     style="
       position: fixed !important;
@@ -46,10 +46,15 @@
       </span>
       @endif
 
+      @if (false)
       <button type="button" class="btn btn-tool" wire:click="toggleFullScreen">
         <i class="fas fa-expand"></i>
       </button>
+      @endif
 
+      <button type="button" class="btn btn-tool" data-card-widget="maximize">
+        <i class="fas fa-expand"></i>
+      </button>
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
         <i class="fas fa-minus"></i>
       </button>
