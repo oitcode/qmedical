@@ -93,7 +93,7 @@ class CounterCashComponent extends Component
     {
         $total = 0;
 
-        $todayCreditSales = MedicalTest::whereDate('date', Carbon::today())
+        $todayCreditSales = MedicalTest::whereDate('date', $this->searchDate)
             ->whereIn('payment_status', ['partially_paid', 'pending',])
             ->get();
 
