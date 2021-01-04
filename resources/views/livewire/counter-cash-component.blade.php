@@ -40,16 +40,25 @@
 
     <div class="row text-dark mx-0">
       <div class="col-sm-3">
-        Cash
+        Cash Sales
       </div>
       <div class="col-sm-6">
         {{ $todayPayment }}
       </div>
     </div>
 
+    <div class="row text-muted mx-0">
+      <div class="col-sm-3">
+        Credit Sales
+      </div>
+      <div class="col-sm-6">
+        {{ $todayCreditSalesTotal }}
+      </div>
+    </div>
+
     <div class="row text-dark mx-0">
       <div class="col-sm-3">
-        Due
+        Due Received
       </div>
       <div class="col-sm-6">
         {{ $duePayment }}

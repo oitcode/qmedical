@@ -6,6 +6,7 @@ use Livewire\Component;
 
 use App\Payment;
 use App\Expense;
+use App\MedicalTest;
 
 use Carbon\Carbon;
 
@@ -14,6 +15,7 @@ class CounterCashComponent extends Component
     public $counterCash = 0;
 
     public $todayPayment = 0;
+    public $todayCreditSalesTotal = 0;
     public $duePayment = 0;
     public $expense = 0;
     public $netBalance = 0;
@@ -36,6 +38,7 @@ class CounterCashComponent extends Component
         $this->duePayment = $this->getPayment('due');
         $this->expense = $this->getExpense();
         $this->netBalance = $this->todayPayment + $this->duePayment - $this->expense;
+        $this->todayCreditSalesTotal = $this->getTodayCreditSalesTotal();
 
         return view('livewire.counter-cash-component');
     }
@@ -84,5 +87,20 @@ class CounterCashComponent extends Component
     public function previousDay()
     {
         $this->searchDate = $this->searchDate->subDay();
+    }
+
+    public function getTodayCreditSalesTotal()
+    {
+        $total = 0;
+
+        $todayCreditSales = MedicalTest::whereDate('date', Carbon::today())
+            ->whereIn('payment_status', ['partially_paid', 'pending',])
+            ->get();
+
+        foreach ($todayCreditSales as $creditSale) {
+            $total += $creditSale->getActualPrice();
+        }
+
+        return $total;
     }
 }

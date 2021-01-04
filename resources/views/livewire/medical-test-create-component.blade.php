@@ -51,7 +51,7 @@
           <!-- /.Date and Test type -->
 
 
-          @include('partials.sleek-input', ['mName' => 'patientName', 'pName' => 'Patient Name',])
+          @include('partials.sleek-input', ['mName' => 'patientName', 'pName' => 'Patient Name', 'faIcon' => 'fas fa-user',])
 
 
           <!-- Biometric Detail -->
@@ -59,12 +59,12 @@
             <div class="input-group w-100">
               <div class="input-group-prepend w-25">
                 <div class="input-group-text w-100">
-                  Sex
+                  <i class="fas fa-venus-double"></i>
                 </div>
               </div>
 
               <select class="custom-select" wire:model.defer="patientSex">
-                <option>---</option>
+                <option>Sex</option>
                   <option value="m">Male</option>
                   <option value="f">Female</option>
               </select>
@@ -92,14 +92,14 @@
 
 
           <!-- Contact Detail -->
-          @include('partials.sleek-input', ['mName' => 'patientAddress', 'pName' => 'Address',])
-          @include('partials.sleek-input', ['mName' => 'patientContactNumber', 'pName' => 'Phone',])
-          @include('partials.sleek-input', ['mName' => 'patientEmail', 'pName' => 'Email',])
+          @include('partials.sleek-input', ['mName' => 'patientAddress', 'pName' => 'Address', 'faIcon' => 'fas fa-map-marker-alt',])
+          @include('partials.sleek-input', ['mName' => 'patientContactNumber', 'pName' => 'Phone', 'faIcon' => 'fas fa-phone',])
+          @include('partials.sleek-input', ['mName' => 'patientEmail', 'pName' => 'Email','faIcon' => 'fas fa-envelope', ])
 
-          @include('partials.sleek-input', ['mName' => 'patientPassportNumber', 'pName' => 'Passport Number',])
-          @include('partials.sleek-input', ['mName' => 'patientPassportExpiryDate', 'pName' => 'Passport Expiry Date',])
-          @include('partials.sleek-input', ['mName' => 'patientPassportIssuePlace', 'pName' => 'Passport Issued Place',])
-          @include('partials.sleek-input', ['mName' => 'patientNationality', 'pName' => 'Nationality',])
+          @include('partials.sleek-input', ['mName' => 'patientPassportNumber', 'pName' => 'Passport Number', 'faIcon' => 'fas fa-passport',])
+          @include('partials.sleek-input', ['mName' => 'patientPassportExpiryDate', 'pName' => 'Passport Expiry Date', 'faIcon' => 'fas fa-calendar',])
+          @include('partials.sleek-input', ['mName' => 'patientPassportIssuePlace', 'pName' => 'Passport Issued Place','faIcon' => 'fas fa-map-marker-alt', ])
+          @include('partials.sleek-input', ['mName' => 'patientNationality', 'pName' => 'Nationality', 'faIcon' => 'fas fa-flag', 'mValue' => 'Nepalese',])
           <!-- /.Contact Detail -->
 
 
@@ -179,7 +179,7 @@
               </div>
             @endif
 
-            @include('partials.sleek-input', ['mName' => 'agentCommission', 'pName' => 'Amount',])
+            @include('partials.sleek-input', ['mName' => 'agentCommission', 'pName' => 'Agent Commission', 'faIcon' => 'fas fa-rupee-sign',])
 
           @endif
 
@@ -214,9 +214,9 @@
           @endif
 
 
-          <div class="p-2">
-            <button wire:click.prevent="store()" class="btn btn-success">Save</button>
-            <button wire:click.prevent="$emit('toggleMedicalTestCreateModal')" class="btn btn-danger">Cancel</button>
+          <div class="mx-2 my-4">
+            <button wire:click.prevent="store()" class="btn btn-sm btn-success">Save</button>
+            <button wire:click.prevent="$emit('toggleMedicalTestCreateModal')" class="btn btn-sm btn-danger">Cancel</button>
           </div>
         </form>
 

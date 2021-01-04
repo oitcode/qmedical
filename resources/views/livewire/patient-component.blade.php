@@ -14,8 +14,6 @@
         <h3 class="card-title">Patient List</h3>
 
         <div class="card-tools">
-          <i class="fas fa-plus mr-3 text-success" wire:click="create"></i>
-          </button>
           <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
             <i class="fas fa-minus"></i></button>
           <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
@@ -26,8 +24,8 @@
       <div class="card-body p-0">
         <table class="table table-sm table-bordered table-hover">
             <thead>
-                <tr class="bg-primary text-white">
-                    <th>No.</th>
+                <tr class="text-muted">
+                    <th>Patient ID</th>
                     <th>Name</th>
                     <th>Sex</th>
                     <th>Contact Number</th>

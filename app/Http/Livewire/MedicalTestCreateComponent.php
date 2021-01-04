@@ -35,7 +35,7 @@ class MedicalTestCreateComponent extends Component
     public $patientPassportNumber = "";
     public $patientPassportExpiryDate = "";
     public $patientPassportIssuePlace = "";
-    public $patientNationality = "";
+    public $patientNationality = "Nepalese";
 
     public $medicalTestDate;
     public $medicalTestTypeId;
@@ -75,7 +75,7 @@ class MedicalTestCreateComponent extends Component
 
     public function render()
     {
-        $this->agents = Agent::all();
+        $this->agents = Agent::orderBy('name')->get();
         $this->medicalTestTypes = MedicalTestType::all();
 
         return view('livewire.medical-test-create-component');
