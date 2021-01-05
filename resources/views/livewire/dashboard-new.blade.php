@@ -29,7 +29,7 @@
       @livewire('sales-component')
       @endif
       @if (true)
-      @livewire('glance-component')
+      @livewire('expense-component')
       @endif
     </div>
     <div class="col-md-6">

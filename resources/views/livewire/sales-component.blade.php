@@ -18,6 +18,11 @@
     </button>
   @endif
 
+  <input type="date" wire:model.defer="searchDate" />
+  <button class="btn btn-sm btn-outline-info" wire:click="setSearchDate">
+    Go
+  </button>
+
   <button class="btn btn-outline-info btn-sm border rounded-circle" wire:click.prevent="previousDay">
     <i class="fas fa-arrow-left"></i>
   </button>

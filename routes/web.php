@@ -54,5 +54,8 @@ Route::get('/analytics/financial', 'Analytics\FinancialAnalyticsController@show'
 /* Pending */
 Route::get('/pending', 'PendingController@index')->name('pending');
 
+/* Daybook */
+Route::get('/daybook', 'DaybookController@index')->name('daybook');
+
 /* User */
 Route::get('/user', 'UserController@index')->name('user');

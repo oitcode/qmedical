@@ -90,7 +90,7 @@ class AgentTransactionCreate extends Component
 
         foreach ($loans as $loan) {
             if ($topup > 0) {
-                $topup = $loan->receivePayment($topup);
+                $topup = $loan->receivePayment($topup, $this->date);
             } else {
                 /* No more balance to pay. */
                 break;
@@ -135,6 +135,7 @@ class AgentTransactionCreate extends Component
         }
 
         $payment->type = 'due';
+        $payment->date = $this->date;
         $payment->save();
 
         $medicalTest->save();

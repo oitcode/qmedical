@@ -35,7 +35,7 @@ class SalesComponent extends Component
 
     public function render()
     {
-        $this->cashSales = Payment::whereDate('created_at', '=', $this->searchDate)
+        $this->cashSales = Payment::whereDate('date', '=', $this->searchDate)
             ->where('type', 'cash')
             ->get();
 
@@ -44,7 +44,7 @@ class SalesComponent extends Component
             ->get();
 
         $this->duesReceived = Payment::whereIn('type', ['due', 'loan',])
-            ->whereDate('created_at', $this->searchDate)
+            ->whereDate('date', $this->searchDate)
             ->get();
 
         $this->cashSalesTotal = $this->getTotalCashSales($this->cashSales);
@@ -111,5 +111,10 @@ class SalesComponent extends Component
         }
 
         return $total;
+    }
+
+    public function setSearchDate()
+    {
+        $this->searchDate = Carbon::create($this->searchDate);
     }
 }

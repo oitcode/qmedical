@@ -28,6 +28,10 @@
         </span>
       </div>
       <div class="float-right">
+        <input type="date" wire:model.defer="searchDate" />
+        <button class="btn btn-sm btn-outline-info" wire:click="setSearchDate">
+          Go
+        </button>
         <button class="btn btn-light btn-sm border text-info rounded-circle" wire:click.prevent="previousDay">
           <i class="fas fa-arrow-left"></i>
         </button>

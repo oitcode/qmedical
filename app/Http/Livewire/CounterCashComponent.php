@@ -48,11 +48,11 @@ class CounterCashComponent extends Component
         $total = 0;
 
         if  ($type === 'today') {
-            $todayPayments = Payment::whereDate('created_at', '=', $this->searchDate)
+            $todayPayments = Payment::whereDate('date', '=', $this->searchDate)
                 ->where('type', 'cash')
                 ->get();
         } else if ($type === 'due') {
-            $todayPayments = Payment::whereDate('created_at', '=', $this->searchDate)
+            $todayPayments = Payment::whereDate('date', '=', $this->searchDate)
                 ->whereIn('type', ['due', 'loan',])
                 ->get();
         } else {
@@ -102,5 +102,10 @@ class CounterCashComponent extends Component
         }
 
         return $total;
+    }
+
+    public function setSearchDate()
+    {
+        $this->searchDate = Carbon::create($this->searchDate);
     }
 }

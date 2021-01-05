@@ -288,6 +288,7 @@ class MedicalTestCreateComponent extends Component
             /* Save payment record. */
             if ($payment) {
                 $payment->medical_test_id = $medicalTest->medical_test_id;
+                $payment->date = $this->medicalTestDate;
                 $payment->save();
             }
 
@@ -391,7 +392,7 @@ class MedicalTestCreateComponent extends Component
 
         foreach ($loans as $loan) {
             if ($topup > 0) {
-                $topup = $loan->receivePayment($topup, $triggerPayment);
+                $topup = $loan->receivePayment($topup, $this->medicalTestDate, $triggerPayment);
             } else {
                 /* No more balance to pay. */
                 break;

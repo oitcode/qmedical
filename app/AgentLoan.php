@@ -51,7 +51,7 @@ class AgentLoan extends Model
 
     /* methods */
 
-    public function receivePayment($amount, $triggerPayment=null)
+    public function receivePayment($amount, $date, $triggerPayment=null)
     {
         $topup = $amount;
 
@@ -79,6 +79,7 @@ class AgentLoan extends Model
                 $payment->tg_payment_id = $triggerPayment->payment_id;
             }
 
+            $payment->date = $date;
             $payment->save();
 
             $this->save();

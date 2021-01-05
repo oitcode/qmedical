@@ -290,6 +290,12 @@ return [
         ],
 
         [
+            'text' => 'Daybook',
+            'url'  => '/daybook',
+            'icon' => 'fas fa-fw fa-book',
+        ],
+
+        [
             'text' => 'Users',
             'url'  => '/user',
             'icon' => 'fas fa-fw fa-user',
