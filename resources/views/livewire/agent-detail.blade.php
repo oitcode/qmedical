@@ -33,25 +33,6 @@
             </span>
           @endif
 
-
-          @if (false)
-          <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="">
-            <i class="fas fa-arrow-left"></i>
-          </a>
-
-          <a href="#" class="btn btn-tool btn-sm" wire:click.prevent="">
-            <i class="fas fa-arrow-right"></i>
-          </a>
-          @endif
-
-          @if (false)
-          <span class="">
-              <input type="text" wire:model.defer="" wire:keydown.enter="" class="">
-              <button class="btn btn-sm text-success text-bold" wire:click="">
-                Go
-              </button>
-          </span>
-          @endif
         </div>
 
 
@@ -80,86 +61,33 @@
           </ul>
         </div>
 
-
-
         @if ($agentTransactionMode)
             @livewire('agent-transaction-create', ['agent' => $agent,], key(rand() * $agent->agent_id))
         @endif
 
 
-
-        <!-- Recent transactions -->
-        @if (false)
-          <h3 class="h5 m-3">Transactions</h3>
-          @if (count($agentTransactions))
-            <div class="table-responsive text-muted">
-              <table class="table table-sm table-hover text-nowrap">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>In</th>
-                    <th>Out</th>
-                    <th>Comment</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($agentTransactions as $agentTransaction)
-                    @if($agentTransaction->medicalTest)
-                    <tr>
-                    @else
-                    <tr class="">
-                    @endif
-                      <td>
-                        {{ $agentTransaction->created_at->format('Y-d-m') }}
-                      </td>
-                      <td>
-                        @if ($agentTransaction->direction === 'in')
-                          <span class="text-success">
-                            {{ $agentTransaction->amount }}
-                          </span>
-                        @endif
-                      </td>
-                      <td>
-                        @if ($agentTransaction->direction === 'out')
-                          <span class="text-danger">
-                            {{ $agentTransaction->amount }}
-                          </span>
-                        @endif
-                      </td>
-                      <td>
-                        {{ $agentTransaction->comment }}
-                      </td>
-                      <td>
-                        @if ($agentTransaction->medicalTest)
-                          {{ $agentTransaction->medicalTest->patient->name }}
-                        @endif
-                      </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
-          @else
-            <p class="text-info m-3">
-              No Transactions
-            </p>
-          @endif
-        @endif
-
-        @if ($viewOfficialPendingsFalg && false)
-          <hr />
-          <h3 class="h5 m-3">Official Pending</h3>
-          @if (count($officialPendings) > 0)
+        <!-- All medical tests -->
+        <hr />
+        <div class="p-2">
+          <h2 class="h6">Medical Tests</h2>
+          @if (!is_null($medicalTests) && count($medicalTests) > 0)
             <div class="table-responsive">
               <table class="table table-sm table-hover text-nowrap">
                 <thead>
+                  <tr class="text-muted">
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Payment Status</th>
+                    <th>Total</th>
+                    <th>Due</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  @foreach ($officialPendings as $medicalTest)
+                  @foreach ($medicalTests as $medicalTest)
                     <tr>
                       <td>
-                        {{ $loop->iteration }}
+                        {{ $medicalTest->medical_test_id }}
                       </td>
                       <td>
                         {{ $medicalTest->date }}
@@ -168,29 +96,28 @@
                         {{ $medicalTest->patient->name }}
                       </td>
                       <td>
-                        <span class="badge badge-pill badge-danger">
-                          {{ $medicalTest->payment_status }}
-                        </span>
-                      </td>
-                      <td>
-
-                        <!-- If partially paid -->
-                        @if ($medicalTest->payments)
-                          @php
-                            $pendingAmount = $medicalTest->price;
-                          @endphp
-                          @foreach ($medicalTest->payments as $payment)
-                            @php
-                              $pendingAmount -= $payment->amount;
-                            @endphp
-                          @endforeach
-                          @php
-                            $pendingAmount -= $medicalTest->agent_commission;
-                          @endphp
-
-                          {{ $pendingAmount }}
+                        @if ($medicalTest->payment_status === 'paid')
+                          <span class="badge badge-pill badge-success">
+                            {{ $medicalTest->payment_status }}
+                          </span>
                         @else
-                          {{ $medicalTest->price - $medicalTest->agent_commission }}
+                          <span class="badge badge-pill badge-danger">
+                            {{ $medicalTest->payment_status }}
+                          </span>
+                        @endif
+                      </td>
+
+                      <td>
+                        {{ $medicalTest->getActualPrice() }}
+                      </td>
+
+                      <td>
+                        @if ($medicalTest->getPendingAmount() > 0)
+                          <span class="text-danger">
+                            {{ $medicalTest->getPendingAmount() }}
+                          </span>
+                        @else
+                          {{ $medicalTest->getPendingAmount() }}
                         @endif
                       </td>
                     </tr>
@@ -199,163 +126,232 @@
               </table>
             </div>
           @else
-            <div class="text-info p-3">
-              No official pending
-            </div>
+            <small class="text-muted">
+              No records to display
+            </small>
           @endif
-        @endif
-
+        </div>
 
         <!-- Pending bills (medical_tests) -->
-        <div class="clearfix text-right px-3 pt-2 border-top bg-light">
-          <div class="float-left">
-            <h4 class="h6">Medical Tests</h4>
-          </div>
-          <div class="float-right">
-            @if ($showOnlyPending === false)
-              <button class="btn btn-sm text-danger" wire:click="viewOnlyPendingMedicalTests">
-                <i class="fas fa-exclamation-circle"></i>
-                  Only Pending
-              </button>
-            @else
-              <button class="btn btn-sm text-info" wire:click="viewAllMedicalTests">
-                <i class="fas fa-ellipsis-h mr-2"></i>
-                  View All
-              </button>
-            @endif
-          </div>
+        <hr />
+        <div class="p-2">
+          <h2 class="h6">Pending Bills</h2>
+
+          @if (count($agentPendingMedicalTests) > 0)
+            <div class="table-responsive">
+              <table class="table table-sm table-hover text-nowrap">
+                <thead>
+                  <tr class="text-muted">
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Payment Status</th>
+                    <th>Total</th>
+                    <th>Due</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($agentPendingMedicalTests as $medicalTest)
+                    <tr>
+                      <td>
+                        {{ $medicalTest->medical_test_id }}
+                      </td>
+                      <td>
+                        {{ $medicalTest->date }}
+                      </td>
+                      <td>
+                        {{ $medicalTest->patient->name }}
+                      </td>
+                      <td>
+                        @if ($medicalTest->payment_status === 'paid')
+                          <span class="badge badge-pill badge-success">
+                            {{ $medicalTest->payment_status }}
+                          </span>
+                        @else
+                          <span class="badge badge-pill badge-danger">
+                            {{ $medicalTest->payment_status }}
+                          </span>
+                        @endif
+                      </td>
+
+                      <td>
+                        {{ $medicalTest->getActualPrice() }}
+                      </td>
+
+                      <td>
+                        @if ($medicalTest->getPendingAmount() > 0)
+                          <span class="text-danger">
+                            {{ $medicalTest->getPendingAmount() }}
+                          </span>
+                        @else
+                          {{ $medicalTest->getPendingAmount() }}
+                        @endif
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          @else
+            <small class="text-muted">
+              No records to display
+            </small>
+          @endif
         </div>
 
-        <div class="table-responsive">
-          <table class="table table-sm table-hover text-nowrap">
-            <thead>
-              <tr class="text-muted">
-                <th>Id</th>
-                <th>Date</th>
-                <th>Patient</th>
-                <th>Payment Status</th>
-                <th>Total</th>
-                <th>Due</th>
-              </tr>
-            </thead>
-            <tbody>
-              @if ($showOnlyPending)
-                @php
-                  $tests = $agentPendingMedicalTests;
-                @endphp
-              @else
-                @php
-                  $tests = $agentMedicalTests;
-                @endphp
-              @endif
-
-              @foreach ($tests as $medicalTest)
-                <tr>
-                  <td>
-                    {{ $medicalTest->medical_test_id }}
-                  </td>
-                  <td>
-                    {{ $medicalTest->date }}
-                  </td>
-                  <td>
-                    {{ $medicalTest->patient->name }}
-                  </td>
-                  <td>
-                    @if ($medicalTest->payment_status === 'paid')
-                      <span class="badge badge-pill badge-success">
-                        {{ $medicalTest->payment_status }}
-                      </span>
-                    @else
-                      <span class="badge badge-pill badge-danger">
-                        {{ $medicalTest->payment_status }}
-                      </span>
-                    @endif
-                  </td>
-
-                  <td>
-                    {{ $medicalTest->getActualPrice() }}
-                  </td>
-
-                  <td>
-                    @if ($medicalTest->getPendingAmount() > 0)
-                      <span class="text-danger">
-                        {{ $medicalTest->getPendingAmount() }}
-                      </span>
-                    @else
-                      {{ $medicalTest->getPendingAmount() }}
-                    @endif
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
 
 
         <!-- Loans -->
-        @if ($agentLoans !== null && count($agentLoans) > 0)
-          <div class="clearfix text-right px-3 pt-2 border-top bg-light">
-            <div class="float-left">
-              <h4 class="h6">Opening Remaining</h4>
-            </div>
-            <div class="float-right">
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-sm table-hover text-nowrap">
-              <thead>
-                <tr class="text-muted">
-                  <th>Payment Status</th>
-                  <th>Comment</th>
-                  <th>Total</th>
-                  <th>Due</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($agentLoans as $agentLoan)
-                  <tr>
-                    <td>
-                      @if ($agentLoan->payment_status === 'paid')
-                        <span class="badge badge-pill badge-success">
-                          {{ $agentLoan->payment_status }}
-                        </span>
-                      @elseif ($agentLoan->payment_status === 'partially_paid')
-                        <span class="badge badge-pill badge-warning">
-                          {{ $agentLoan->payment_status }}
-                        </span>
-                      @elseif ($agentLoan->payment_status === 'pending')
-                        <span class="badge badge-pill badge-danger">
-                          {{ $agentLoan->payment_status }}
-                        </span>
-                      @else
-                        {{-- TODO: is this needeed? --}}
-                      @endif
-                    </td>
-                    <td>
-                      {{ $agentLoan->comment }}
-                    </td>
-                    <td>
-                      {{ $agentLoan->amount }}
-                    </td>
-                    <td>
-                      <span class="text-danger">
-                        {{ $agentLoan->getPendingAmount() }}
-                      </span>
-                    </td>
+        <hr />
+        <div class="p-2">
+          <h2 class="h6">Loan</h2>
+          @if ($agentLoans !== null && count($agentLoans) > 0)
+            <div class="table-responsive">
+              <table class="table table-sm table-hover text-nowrap">
+                <thead>
+                  <tr class="text-muted">
+                    <th>Payment Status</th>
+                    <th>Comment</th>
+                    <th>Total</th>
+                    <th>Due</th>
                   </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
-        @else
-          {{-- TODO --}}
-          @if (false)
-          <div class="p-2 text-info">
-            No loans
-          </div>
+                </thead>
+                <tbody>
+                  @foreach ($agentLoans as $agentLoan)
+                    <tr>
+                      <td>
+                        @if ($agentLoan->payment_status === 'paid')
+                          <span class="badge badge-pill badge-success">
+                            {{ $agentLoan->payment_status }}
+                          </span>
+                        @elseif ($agentLoan->payment_status === 'partially_paid')
+                          <span class="badge badge-pill badge-warning">
+                            {{ $agentLoan->payment_status }}
+                          </span>
+                        @elseif ($agentLoan->payment_status === 'pending')
+                          <span class="badge badge-pill badge-danger">
+                            {{ $agentLoan->payment_status }}
+                          </span>
+                        @else
+                          {{-- TODO: is this needeed? --}}
+                        @endif
+                      </td>
+                      <td>
+                        {{ $agentLoan->comment }}
+                      </td>
+                      <td>
+                        {{ $agentLoan->amount }}
+                      </td>
+                      <td>
+                        <span class="text-danger">
+                          {{ $agentLoan->getPendingAmount() }}
+                        </span>
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          @else
+            @if (true)
+            <div class="p-2 text-info">
+              <small>
+                No loans
+              </small>
+            </div>
+            @endif
           @endif
-        @endif
+        </div>
+
+        <!-- Deposit -->
+        <hr />
+        <div class="p-2">
+          <h2 class="h6">Deposit</h2>
+          @if (!is_null($deposits) && count($deposits) > 0)
+            <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr class="text-muted">
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($deposits as $deposit)
+                    <tr>
+                      <td>
+                        {{ $deposit->date }}
+                      </td>
+                      <td>
+                        {{ $deposit->amount }}
+                      </td>
+                      <td>
+                        <span class="btn btn-tool btn-sm" wire:click="">
+                          <i class="fas fa-pencil-alt text-primary mr-3"></i>
+                        </span>
+                        @can ('delete-models')
+                          <span class="btn btn-tool btn-sm">
+                            <i class="fas fa-trash text-danger mr-3" wire:click=""></i>
+                          </span>
+                        @endcan
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          @else
+            <small class="text-muted">
+              No deposits
+            </small>
+          @endif
+        </div>
+
+        <!-- Withdrawl -->
+        <hr />
+        <div class="p-2">
+          <h2 class="h6">Withdrawl</h2>
+          @if (!is_null($withdrawls) && count($withdrawls) > 0)
+            <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr class="text-muted">
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($withdrawls as $withdrawl)
+                    <tr>
+                      <td>
+                        {{ $withdrawl->date }}
+                      </td>
+                      <td>
+                        {{ $withdrawl->amount }}
+                      </td>
+                      <td>
+                        <span class="btn btn-tool btn-sm" wire:click="">
+                          <i class="fas fa-pencil-alt text-primary mr-3"></i>
+                        </span>
+                        @can ('delete-models')
+                          <span class="btn btn-tool btn-sm">
+                            <i class="fas fa-trash text-danger mr-3" wire:click=""></i>
+                          </span>
+                        @endcan
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          @else
+            <small class="text-muted">
+              No withdrawls
+            </small>
+          @endif
+        </div>
 
 
 

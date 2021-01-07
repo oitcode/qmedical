@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
+use App\AgentTransaction;
+
 class AgentDetail extends Component
 {
     public $agent;
@@ -35,11 +37,14 @@ class AgentDetail extends Component
 
     public $agentCommissions = null;
 
-    public $agentMedicalTests = null;
+    public $medicalTests = null;
     public $agentPendingMedicalTests = null;
     public $showOnlyPending = true;
 
     public $agentLoans = null;
+
+    public $deposits = null;
+    public $withdrawls = null;
 
     protected $listeners = [
         'closeAgentSettlement' => 'closeSettlementComponent',
@@ -47,24 +52,9 @@ class AgentDetail extends Component
     ];
 
 
-    public function renderBak()
-    {
-        $this->agentTransactions = $this->agent->agentTransactions;
-        $this->getLastSettlementInfo();
-
-
-        $this->amountToPay = $this->calculateAmountToPay();
-        $this->amountToReceive = $this->calculateAmountToReceive();
-        $this->setRecentMedicalTests();
-
-        $this->calculateNetBalane();
-
-        return view('livewire.agent-detail');
-    }
-
     public function render()
     {
-        $this->agentMedicalTests = $this->agent->medicalTests;
+        $this->medicalTests = $this->agent->medicalTests;
 
         $this->agentPendingMedicalTests = $this->agent->medicalTests()
             ->whereIn('payment_status', ['pending', 'partially_paid',])
@@ -76,8 +66,19 @@ class AgentDetail extends Component
             ->get();
 
         $this->agentLoans = $this->agent->agentLoans()
-            ->whereIn('payment_status', ['pending', 'partially_paid',])
+            //->whereIn('payment_status', ['pending', 'partially_paid',])
             ->get();
+
+        $this->deposits = AgentTransaction::where('agent_id', $this->agent->agent_id)
+            ->where('direction', 'in')
+            ->whereNull('medical_test_id')
+            ->get();
+
+        $this->withdrawls = AgentTransaction::where('agent_id', $this->agent->agent_id)
+            ->where('direction', 'out')
+            ->whereNull('medical_test_id')
+            ->get();
+
 
         return view('livewire.agent-detail');
     }
