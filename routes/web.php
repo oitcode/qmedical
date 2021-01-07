@@ -59,3 +59,6 @@ Route::get('/daybook', 'DaybookController@index')->name('daybook');
 
 /* User */
 Route::get('/user', 'UserController@index')->name('user');
+
+/* Medicl Form Print */
+Route::get('/medicalformprint/{id}', 'MedicalFormPrintController@index')->name('medicalformprint');

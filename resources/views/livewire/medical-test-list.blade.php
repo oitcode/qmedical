@@ -7,6 +7,7 @@
         <thead>
           <tr class="text-secondary">
             <th>ID</th>
+            <th>Date</th>
             <th>Patient</th>
             <th>Agent</th>
             <th>Payment</th>
@@ -23,6 +24,9 @@
                  {{ $medicalTest->medical_test_id }}
             </td>
             <td>
+                 {{ $medicalTest->date }}
+            </td>
+            <td>
               <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
                  {{ $medicalTest->patient->name }}
               </a>
@@ -36,9 +40,6 @@
                 <small class="text-muted">
                   {{ $medicalTest->agent->name }}
                 </small>
-                <span class="badge badge-info badge-pill mx-3">
-                  A
-                </span>
               @else
                 <span class="text-muted">
                   <small>
@@ -92,6 +93,13 @@
                 <i class="fas fa-trash text-danger"></i>
               </span>
               @endcan
+              @if (false)
+              <span class="btn btn-tool btn-sm" wire:click="">
+                <a href="{{ route('medicalformprint', $medicalTest->medical_test_id) }}" target="_blank">
+                  <i class="fas fa-print text-info"></i>
+                </a>
+              </span>
+              @endif
             </td>
           </tr>
           @endforeach
