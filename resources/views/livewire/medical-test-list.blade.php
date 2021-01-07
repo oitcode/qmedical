@@ -9,6 +9,7 @@
             <th>ID</th>
             <th>Date</th>
             <th>Patient</th>
+            <th>Test Type</th>
             <th>Agent</th>
             <th>Payment</th>
             <th>Result</th>
@@ -30,6 +31,9 @@
               <a href="" wire:click.prevent="$emit('displayMedicalTest', {{ $medicalTest }})" class="text-dark">
                  {{ $medicalTest->patient->name }}
               </a>
+            </td>
+
+            <td>
               <span class="text-muted ml-3 font-sm">
                 {{ $medicalTest->medicalTestType->name }}
               </span>
