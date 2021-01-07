@@ -24,7 +24,7 @@
   </div>
 
 
-  <div class="card-bpdy p-0">
+  <div class="card-body p-0">
     @if ($createMode)
       @livewire('medical-test-create-component')
     @endif

@@ -1,15 +1,5 @@
 <div class="card shadow-none">
   <div class="card-body p-0">
-    <div>
-      @if (session()->has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          {{ session('message') }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true" class="text-white">&times;</span>
-          </button>
-        </div>
-      @endif
-    </div>
 
     @if (!is_null($medicalTests) && count($medicalTests) > 0)
       <table class="table table-sm  table-hover table-valign-middle">
@@ -48,6 +38,12 @@
                 </small>
                 <span class="badge badge-info badge-pill mx-3">
                   A
+                </span>
+              @else
+                <span class="text-muted">
+                  <small>
+                    N/A
+                  </small>
                 </span>
               @endif
             </td>
@@ -101,6 +97,12 @@
           @endforeach
         </tbody>
       </table>
+    @else
+      <div class="px-3 mt-2 text-muted">
+        <small>
+          No records to display.
+        </small>
+      </div>
     @endif
   </div>
   @if ($createMode)
