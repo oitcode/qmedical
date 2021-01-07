@@ -35,6 +35,26 @@
         @if(config('adminlte.right_sidebar'))
             @include('adminlte::partials.navbar.menu-item-right-sidebar-toggler')
         @endif
+
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="fas fa-plus"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <a href="#" class="dropdown-item">
+              Medical Test
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              Expense
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              Agent
+            </a>
+          </div>
+        </li>
     </ul>
 
 </nav>
