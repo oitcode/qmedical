@@ -22,13 +22,12 @@ class MedicalTestList extends Component
 
     public function mount()
     {
-        $this->medicalTests = MedicalTest::all()->sortByDesc('medical_test_id');
+        $this->medicalTests = MedicalTest::orderBy('date', 'desc')->limit(20)->get();
     }
 
     public function render()
     {
-        return view('livewire.medical-test-list')
-          ->with('medicalTests', MedicalTest::orderBy('medical_test_id', 'desc')->paginate(5));
+        return view('livewire.medical-test-list');
     }
 
     public function searchByPatientName($patientSearchName)
