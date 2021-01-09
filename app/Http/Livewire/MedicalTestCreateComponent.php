@@ -424,6 +424,7 @@ class MedicalTestCreateComponent extends Component
             $payment->amount = $this->getDueAmount($medicalTest);
             $payment->type = 'due';
             $payment->tg_payment_id = $triggerPayment->payment_id;
+            $payment->date = $triggerPayment->date;
             $payment->save();
 
             $medicalTest->payment_status = 'paid';
@@ -438,6 +439,7 @@ class MedicalTestCreateComponent extends Component
             $payment->amount = $topup;
             $payment->type = 'due';
             $payment->tg_payment_id = $triggerPayment->payment_id;
+            $payment->date = $triggerPayment->date;
             $payment->save();
 
             $medicalTest->payment_status = 'partially_paid';

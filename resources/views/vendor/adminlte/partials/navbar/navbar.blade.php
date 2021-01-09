@@ -37,6 +37,7 @@
         @endif
 
         <!-- Notifications Dropdown Menu -->
+        @if (false)
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="fas fa-plus"></i>
@@ -55,6 +56,7 @@
             </a>
           </div>
         </li>
+        @endif
     </ul>
 
 </nav>
