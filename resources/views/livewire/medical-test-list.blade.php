@@ -1,11 +1,118 @@
 <div class="card shadow-none">
   <div class="card-body p-0">
 
+    @if ($searchToolBoxShow)
+      <!-- Search Tool box -->
+      <div class="row bg-light p-0 border" style="margin: auto;">
+
+        <div class="col-md-1 p-0 bg-info-x border text-muted">
+          <div>
+            <div class="mx-2">
+              ID
+            </div>
+            <div>
+              <input type="text" class="form-control" placeholder="ID" wire:model.defer="searchData.id" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 p-0 bg-info-x border text-muted">
+          <div>
+            <div class="mx-2">
+              Start Date
+            </div>
+            <div>
+              <input type="date" class="form-control" wire:model.defer="searchData.startDate" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 p-0 bg-info-x border text-muted">
+          <div>
+            <div class="mx-2">
+              End Date
+            </div>
+            <div>
+              <input type="date" class="form-control" wire:model.defer="searchData.endDate" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 p-0 bg-info-x border text-muted">
+          <div>
+            <div class="mx-2">
+              Patient Name
+            </div>
+            <div>
+              <input type="text" class="form-control" placeholder="Patient Name" wire:model.defer="searchData.patientName" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 p-0 bg-info-x border text-muted">
+          <div>
+            <div class="mx-2">
+              Agent
+            </div>
+            <div>
+              <select class="form-control" wire:model.defer="searchData.agentId">
+                <option>---</option>
+                @foreach ($agents as $agent)
+                  <option value="{{ $agent->agent_id }}">
+                    {{ $agent->name }}
+                  </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 p-0 bg-info-x border text-muted">
+          <div>
+            <div class="mx-2">
+              Payment
+            </div>
+            <div>
+              <select class="form-control" wire:model.defer="searchData.paymentStatus">
+                <option>---</option>
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>
+                <option value="partially_paid">Partially Paid</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-1 px-2">
+          <div>
+            <div>
+              &nbsp;
+            </div>
+            <div>
+              <button class="btn btn-info" wire:click="search">
+                Go
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <!-- Search Tool box -->
+    @else
+      <div class="p-2">
+        <button class="btn btn-sm btn-outline-info border-0" wire:click="toggleSearchToolBox">
+          Search
+        </button>
+      </div>
+    @endif
+
     @if (!is_null($medicalTests) && count($medicalTests) > 0)
       <table class="table table-sm  table-hover table-valign-middle">
         @if (true)
         <thead>
-          <tr class="text-secondary">
+          <tr class="text-secondary border-top">
             <th>ID</th>
             <th>Date</th>
             <th>Patient</th>

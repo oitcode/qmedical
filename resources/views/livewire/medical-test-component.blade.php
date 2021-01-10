@@ -3,7 +3,7 @@
     <h3 class="card-title mt-1">
       Medical
     </h3>
-    <div class="card-tools">
+    <div class="card-tools mx-3">
       <button class="btn btn-sm btn-outline-info px-3" wire:click="create">
         <i class="fas fa-plus"></i>
       </button>
@@ -14,12 +14,14 @@
         </button>
       @endcan
 
+      @if (false)
       <span class="">
           <input type="text" wire:model.defer="patientSearchName" wire:keydown.enter="search" class="">
           <button class="btn btn-sm text-info text-bold" wire:click="search">
             Go
           </button>
       </span>
+      @endif
     </div>
   </div>
 
