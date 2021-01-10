@@ -77,7 +77,10 @@ class MedicalTestList extends Component
         }
 
         if ($emptySearch) {
-            $this->medicalTests = $medicalTests->get();
+            $this->medicalTests = $medicalTests->orderBy('date', 'desc')
+            ->orderBy('medical_test_id', 'desc')
+            ->get();
+
             return;
         } 
 
