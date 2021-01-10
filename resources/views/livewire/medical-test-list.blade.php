@@ -3,8 +3,8 @@
 
     <div wire:loading class="p-2 text-info">
       Loading ...
-      <div class="spinner-grow spinner-grow-sm" role="status">
       {{--
+      <div class="spinner-grow spinner-grow-sm" role="status">
         <span class="sr-only">Loading...</span>
        </div>
       --}}
