@@ -2,12 +2,12 @@
   <div class="card-body p-0">
 
     <div wire:loading class="p-2 text-info">
-      {{--
       Loading ...
-      --}}
       <div class="spinner-grow spinner-grow-sm" role="status">
+      {{--
         <span class="sr-only">Loading...</span>
        </div>
+      --}}
     </div>
 
     @if ($searchToolBoxShow)
