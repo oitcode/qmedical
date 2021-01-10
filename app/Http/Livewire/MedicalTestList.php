@@ -40,7 +40,7 @@ class MedicalTestList extends Component
     {
         $this->medicalTests = MedicalTest::orderBy('date', 'desc')
             ->orderBy('medical_test_id', 'desc')
-            ->limit(10)
+            ->limit(5)
             ->get();
 
         $this->agents = Agent::all();
