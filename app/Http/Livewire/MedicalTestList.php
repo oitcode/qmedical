@@ -38,7 +38,11 @@ class MedicalTestList extends Component
 
     public function mount()
     {
-        $this->medicalTests = MedicalTest::orderBy('date', 'desc')->limit(10)->get();
+        $this->medicalTests = MedicalTest::orderBy('date', 'desc')
+            ->orderBy('medical_test_id', 'desc')
+            ->limit(10)
+            ->get();
+
         $this->agents = Agent::all();
     }
 
