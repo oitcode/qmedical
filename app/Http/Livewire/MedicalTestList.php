@@ -114,7 +114,10 @@ class MedicalTestList extends Component
             $medicalTests = $medicalTests->where('payment_status', $this->searchData['paymentStatus']);
         }
 
-        $this->medicalTests = $medicalTests->orderBy('date', 'desc')->get();
+        $this->medicalTests = $medicalTests
+            ->orderBy('date', 'desc')
+            ->orderBy('medical_test_id', 'desc')
+            ->get();
     }
 
     public function toggleSearchToolBox()
