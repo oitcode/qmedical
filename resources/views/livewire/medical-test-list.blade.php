@@ -1,6 +1,10 @@
 <div class="card shadow-none">
   <div class="card-body p-0">
 
+    <div wire:loading class="p-2 text-info">
+      Loading ...
+    </div>
+
     @if ($searchToolBoxShow)
       <!-- Search Tool box -->
       <div class="row bg-light p-0 border" style="margin: auto;">
