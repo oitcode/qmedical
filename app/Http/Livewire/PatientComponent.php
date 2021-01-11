@@ -13,7 +13,7 @@ class PatientComponent extends Component
 
     public function render()
     {
-        $this->patients = Patient::all();
+        $this->patients = Patient::orderBy('patient_id', 'desc')->get();
 
         return view('livewire.patient-component');
     }
