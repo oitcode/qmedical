@@ -31,6 +31,7 @@ class MedicalTestList extends Component
     public $testDisplayCount = 0;
 
 
+
     protected $listeners = [
         'dataAdded' => 'mount',
         'updateList' => 'mount',

@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
 use App\MedicalTest;
+use App\Agent;
 
 class MedicalTestComponent extends Component
 {
@@ -22,6 +23,9 @@ class MedicalTestComponent extends Component
 
     public $patientSearchName = "";
 
+    public $agentDisplayMode = false;
+    public $displayingAgent;
+
 
     protected $listeners = [
         'destroyCreate' => 'exitCreateMode',
@@ -37,6 +41,8 @@ class MedicalTestComponent extends Component
         'destroyMedicalTestUpdate' => 'exitUpdateMode',
         'medicalTestUpdated' => 'refreshList',
         'destroyMedicalTestTypeCreate' => 'exitMedicalTestTypeCreateMode',
+        'mtc_displayAgent' => 'displayAgent',
+        'destroyAgentDisplay' => 'exitAgentDisplayMode',
     ];
 
     public function render()
@@ -177,5 +183,22 @@ class MedicalTestComponent extends Component
     {
         $i = 1;
         $this->exitDeleteMode();
+    }
+
+    public function displayAgent($agentId)
+    {
+        $this->displayingAgent = Agent::findOrFail($agentId);
+        $this->enterAgentDisplayMode();
+    }
+
+    public function enterAgentDisplayMode()
+    {
+        $this->agentDisplayMode = true;
+    }
+
+    public function exitAgentDisplayMode()
+    {
+        $this->agentDisplayMode = false;
+        $this->displayingAgent = null;
     }
 }

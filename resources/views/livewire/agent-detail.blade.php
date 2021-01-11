@@ -379,5 +379,6 @@
 
     $('#agentDetailModal').on('hidden.bs.modal', function () {
         window.livewire.emit('destroyDisplay');
+        window.livewire.emit('destroyAgentDisplay');
     });
 </script>

@@ -171,7 +171,9 @@
             <td>
               @if ($medicalTest->agent)
                 <small class="text-muted">
-                  {{ $medicalTest->agent->name }}
+                  <a href="" wire:click.prevent="$emit('mtc_displayAgent', {{ $medicalTest->agent->agent_id }})" class="text-dark">
+                    {{ $medicalTest->agent->name }}
+                  </a>
                 </small>
               @else
                 <span class="text-muted">

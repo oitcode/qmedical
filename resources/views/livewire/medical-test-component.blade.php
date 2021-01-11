@@ -35,6 +35,10 @@
       @livewire('medical-test-detail', ['medicalTest' => $displayedMedicalTest])
     @endif
 
+    @if ($agentDisplayMode)
+      @livewire('agent-detail', ['agent' => $displayingAgent])
+    @endif
+
     @if ($updateMode)
       @livewire('medical-test-update', ['medicalTest' => $updatingMedicalTest])
     @endif
