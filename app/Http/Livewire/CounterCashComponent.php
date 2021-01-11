@@ -21,6 +21,8 @@ class CounterCashComponent extends Component
     public $netBalance = 0;
 
     public $searchDate;
+    public $searchStartDate = null;
+    public $searchEndDate = null;
 
     protected $listeners = [
         // TODO
@@ -29,7 +31,7 @@ class CounterCashComponent extends Component
 
     public function mount()
     {
-        $this->searchDate = Carbon::today();
+        $this->searchStartDate = Carbon::today()->toDateString();
     }
 
     public function render()
@@ -48,13 +50,28 @@ class CounterCashComponent extends Component
         $total = 0;
 
         if  ($type === 'today') {
-            $todayPayments = Payment::whereDate('date', '=', $this->searchDate)
-                ->where('type', 'cash')
-                ->get();
+            if ($this->searchEndDate !== null) {
+                $todayPayments = Payment::whereBetween('date', [$this->searchStartDate, $this->searchEndDate])
+                    ->where('type', 'cash')
+                    ->get();
+            
+            } else {
+                $todayPayments = Payment::where('date', $this->searchStartDate)
+                    ->where('type', 'cash')
+                    ->get();
+            
+            }
         } else if ($type === 'due') {
-            $todayPayments = Payment::whereDate('date', '=', $this->searchDate)
-                ->whereIn('type', ['due', 'loan',])
-                ->get();
+            if ($this->searchEndDate !== null) {
+                $todayPayments = Payment::whereBetween('date', [$this->searchStartDate, $this->searchEndDate])
+                    ->whereIn('type', ['due', 'loan',])
+                    ->get();
+            } else {
+                $todayPayments = Payment::where('date', $this->searchStartDate)
+                    ->whereIn('type', ['due', 'loan',])
+                    ->get();
+            
+            }
         } else {
             //
         }
@@ -70,7 +87,14 @@ class CounterCashComponent extends Component
     {
         $total = 0;
 
-        $expenses = Expense::whereDate('date', '=', $this->searchDate)->get();
+        if ($this->searchEndDate !== null) {
+            $expenses = Expense::whereBetween('date', [$this->searchStartDate, $this->searchEndDate,])
+                ->get();
+        } else {
+            $expenses = Expense::where('date', $this->searchStartDate)
+                ->get();
+        }
+
 
         foreach ($expenses as $expense) {
             $total += $expense->amount;
@@ -81,21 +105,27 @@ class CounterCashComponent extends Component
 
     public function nextDay()
     {
-        $this->searchDate = $this->searchDate->addDay();
+        $this->searchStartDate = Carbon::create($this->searchStartDate)->addDay()->toDateString();
     }
 
     public function previousDay()
     {
-        $this->searchDate = $this->searchDate->subDay();
+        $this->searchStartDate = Carbon::create($this->searchStartDate)->subDay()->toDateString();
     }
 
     public function getTodayCreditSalesTotal()
     {
         $total = 0;
 
-        $todayCreditSales = MedicalTest::whereDate('date', $this->searchDate)
-            ->whereIn('payment_status', ['partially_paid', 'pending',])
-            ->get();
+        if ($this->searchEndDate !== null) {
+            $todayCreditSales = MedicalTest::whereBetween('date', [$this->searchStartDate, $this->searchEndDate,])
+                ->whereIn('payment_status', ['partially_paid', 'pending',])
+                ->get();
+        } else {
+            $todayCreditSales = MedicalTest::where('date', $this->searchStartDate)
+                ->whereIn('payment_status', ['partially_paid', 'pending',])
+                ->get();
+        }
 
         foreach ($todayCreditSales as $creditSale) {
             $total += $creditSale->getActualPrice();
@@ -106,6 +136,6 @@ class CounterCashComponent extends Component
 
     public function setSearchDate()
     {
-        $this->searchDate = Carbon::create($this->searchDate);
+        //
     }
 }
