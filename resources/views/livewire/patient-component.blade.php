@@ -22,13 +22,16 @@
       </div>
 
       <div class="card-body p-0">
-        <table class="table table-sm table-bordered table-hover">
+        <table class="table table-sm table-hover">
             <thead>
                 <tr class="text-muted">
                     <th>Patient ID</th>
                     <th>Name</th>
+                    @if (false)
                     <th>Sex</th>
+                    @endif
                     <th>Contact Number</th>
+                    <th>Email</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -38,10 +41,36 @@
                 <tr>
                     <td>{{ $patient->patient_id }}</td>
                     <td>{{ $patient->name }}</td>
-                    <td>{{ $patient->sex }}</td>
-                    <td>{{ $patient->contact_number }}</td>
+                    @if (false)
                     <td>
-                      <i class="fas fa-folder text-info mr-3"></i>
+                      @if ($patient->sex)
+                        {{ $patient->sex }}
+                      @else
+                        <small class="text-muted">
+                          No Info
+                        </small>
+                      @endif
+                    </td>
+                    @endif
+                    <td>
+                      @if ($patient->contact_number)
+                        {{ $patient->contact_number }}
+                      @else
+                        <small class="text-muted">
+                          No Info
+                        </small>
+                      @endif
+                    </td>
+                    <td>
+                      @if ($patient->email)
+                        {{ $patient->email }}
+                      @else
+                        <small class="text-muted">
+                          No Info
+                        </small>
+                      @endif
+                    </td>
+                    <td>
                       <i class="fas fa-pencil-alt text-primary mr-3"></i>
                       <i class="fas fa-trash text-danger mr-3"></i>
                     </td>
