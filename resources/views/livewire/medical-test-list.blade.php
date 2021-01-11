@@ -117,6 +117,19 @@
       </div>
     @endif
 
+    <div class="clearfix p-2 bg-light border">
+      <div class="float-left mr-3">
+        <small>
+          Records: {{ $testCount }}
+        </small>
+      </div>
+      <div class="float-left mr-3">
+        <small>
+          Display: {{ $testDisplayCount }}
+        </small>
+      </div>
+    </div>
+
     @if (!is_null($medicalTests) && count($medicalTests) > 0)
       <table class="table table-sm  table-hover table-valign-middle">
         @if (true)

@@ -27,6 +27,10 @@ class MedicalTestList extends Component
 
     public $agents = null;
 
+    public $testCount = 0;
+    public $testDisplayCount = 0;
+
+
     protected $listeners = [
         'dataAdded' => 'mount',
         'updateList' => 'mount',
@@ -44,6 +48,9 @@ class MedicalTestList extends Component
             ->get();
 
         $this->agents = Agent::all();
+
+        $this->testCount = MedicalTest::count();
+        $this->testDisplayCount = 5;
     }
 
     public function render()
@@ -125,6 +132,9 @@ class MedicalTestList extends Component
             ->orderBy('date', 'desc')
             ->orderBy('medical_test_id', 'desc')
             ->get();
+
+        $this->testCount = $this->medicalTests->count();
+        $this->testDisplayCount = $this->medicalTests->count();
     }
 
     public function toggleSearchToolBox()

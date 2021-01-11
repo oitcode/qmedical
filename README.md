@@ -41,6 +41,5 @@ us via [support@omed.oit.com.np](mailto:taylor@laravel.com). All issue will be a
 
 ## License
 
-OMed uses Laravel framework which is open-sourced software licensed under the
-[MIT license](https://opensource.org/licenses/MIT). As such this project uses
-MIT Liscence as well.
+MIT
+[MIT license](https://opensource.org/licenses/MIT)
