@@ -88,6 +88,9 @@ class MedicalTestList extends Component
             ->orderBy('medical_test_id', 'desc')
             ->get();
 
+            $this->testCount = MedicalTest::count();
+            $this->testDisplayCount = $this->testCount;
+
             return;
         } 
 
