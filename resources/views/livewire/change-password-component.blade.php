@@ -5,6 +5,13 @@
     </div>
 
     <div class="card-body">
+
+        @if (session()->has('passwordChangeMessage'))
+          <div class="text-success text-center mb-3">
+            {{ session('passwordChangeMessage') }}
+          </div>
+        @endif
+
         @error('currentPassword')
           <div class="text-danger">
             <small>

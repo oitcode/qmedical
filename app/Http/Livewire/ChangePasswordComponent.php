@@ -36,5 +36,16 @@ class ChangePasswordComponent extends Component
 
         $user->password = Hash::make($this->newPassword);
         $user->save();
+
+        $this->resetInput();
+        session()->flash('passwordChangeMessage', 'Password Changed');
+    }
+
+    public function resetInput()
+    {
+        $this->currentPassword = '';
+        $this->newPassword = '';
+        $this->newPasswordConfirm = '';
+        $this->currentPassword = '';
     }
 }
