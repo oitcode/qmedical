@@ -29,14 +29,6 @@
             @else
                 @include('adminlte::partials.navbar.menu-item-logout-link')
             @endif
-
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('changepassword') }}">
-                <span class="badge badge-primary">
-                    Change Password
-                </span>
-              </a>
-            </li>
         @endif
 
         {{-- Right sidebar toggler link --}}

@@ -5,7 +5,13 @@
     </div>
 
     <div class="card-body">
-      <form>
+        @error('currentPassword')
+          <div class="text-danger">
+            <small>
+              {{ $message }}
+            </small>
+          </div>
+        @enderror
         <div class="form-group">
           <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -13,9 +19,17 @@
                 <i class="fas fa-lock"></i>
               </div>
             </div>
-            <input type="password" class="form-control" placeholder="Current Password">
+            <input type="password" class="form-control" placeholder="Current Password" wire:model.defer="currentPassword">
           </div>
         </div>
+
+        @error('newPassword')
+          <div class="text-danger">
+            <small>
+              {{ $message }}
+            </small>
+          </div>
+        @enderror
         <div class="form-group">
           <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -23,10 +37,17 @@
                 <i class="fas fa-lock"></i>
               </div>
             </div>
-            <input type="password" class="form-control" placeholder="New Password">
+            <input type="password" class="form-control" placeholder="New Password" wire:model.defer="newPassword">
           </div>
         </div>
   
+        @error('newPasswordConfirm')
+          <div class="text-danger">
+            <small>
+              {{ $message }}
+            </small>
+          </div>
+        @enderror
         <div class="form-group">
           <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -34,15 +55,14 @@
                 <i class="fas fa-lock"></i>
               </div>
             </div>
-            <input type="password" class="form-control" placeholder="New Password Confirm">
+            <input type="password" class="form-control" placeholder="New Password Confirm" wire:model.defer="newPasswordConfirm">
           </div>
         </div>
   
-        <button type="submit" class="btn btn-primary form-control rounded-0">
+        <button type="submit" class="btn btn-primary form-control rounded-0" wire:click="change">
           <i class="fas fa-sign-in-alt"></i>
           Submit
         </button>
-      </form>
     </div>
 
   </div>
