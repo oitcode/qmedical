@@ -60,5 +60,8 @@ Route::get('/daybook', 'DaybookController@index')->name('daybook');
 /* User */
 Route::get('/user', 'UserController@index')->name('user');
 
-/* Medicl Form Print */
+/* Medical Form Print */
 Route::get('/medicalformprint/{id}', 'MedicalFormPrintController@index')->name('medicalformprint');
+
+/* Change Password */
+Route::get('/changepassword', 'ChangePasswordController@index')->name('changepassword');
